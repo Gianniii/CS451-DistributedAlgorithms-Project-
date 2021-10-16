@@ -1,34 +1,43 @@
 package cs451;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.Socket;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.lang.IllegalArgumentException;
+import cs451.Links.PerfectLink;
+import java.io.File;
+import java.io.FileWriter;
+import cs451.Links.*;
+
 
 public class Main {
 
-    private static void handleSignal() {
+    private static void handleSignal(PerfectLink pLink, String filePath) {
+        //TODO does this method handle SIGINT SIGTERM?????
         //immediately stop network packet processing
         System.out.println("Immediately stopping network packet processing.");
-
+        
         //write/flush output file if necessary
         System.out.println("Writing output.");
+        writeLogToFile(filePath, pLink.getLogs());
     }
 
-    private static void initSignalHandlers() {
+    private static void initSignalHandlers(PerfectLink pLink, String filePath) {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                handleSignal();
+                handleSignal(pLink, filePath);
             }
         });
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, UnknownHostException, SocketException{
         Parser parser = new Parser(args);
         parser.parse();
-
-        initSignalHandlers();
 
         // example
         long pid = ProcessHandle.current().pid();
@@ -55,14 +64,61 @@ public class Main {
         System.out.println(parser.config() + "\n");
 
         System.out.println("Doing some initialization\n");
+       
+        PerfectLink perfectLink = new PerfectLink(parser);
+        StubbornLinkWithAck stubbornLink = perfectLink.getStubbornLink();
+        
+      
+        initSignalHandlers(perfectLink, parser.output());
+
+        int dstId = parser.getDestination();
+        Host dstHost = parser.getHost(dstId);
+        if(dstHost == null) {
+            throw new IllegalArgumentException("Null host");
+        }
+
+        Receiver receiver = new Receiver(parser.myHost().getPort(), stubbornLink);
+        receiver.start();
 
         System.out.println("Broadcasting and delivering messages...\n");
+        //TODO CHANGE THIS ?? check how others do it
+        if (parser.myId() != dstId) {
+            ExecutorService executor = Executors.newFixedThreadPool(5); //why 5 ??? 
+            for (int i = 0; i < parser.getMessageNumber(); i++) {
+                String msg_uid = Helper.createUniqueMsgUid(Integer.toString(parser.myId()), 
+                    Integer.toString(i));
+                Sender obj = new Sender(InetAddress.getByName(dstHost.getIp()), dstHost.getPort(),
+                    perfectLink, msg_uid, String.valueOf(i) 
+                    );
+                
+                executor.execute(obj);
+            }
+        }
 
         // After a process finishes broadcasting,
         // it waits forever for the delivery of messages.
         while (true) {
             // Sleep for 1 hour
             Thread.sleep(60 * 60 * 1000);
+        }
+    }
+
+
+    private static void writeLogToFile(String outPath, ConcurrentLinkedQueue<String> log) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String l: log) {
+            stringBuilder.append(l).append("\n");
+        }
+
+        try {
+            File file = new File(outPath);
+            FileWriter fileWriter = new FileWriter(file);
+            int len = stringBuilder.length() <= 0 ? 0 : stringBuilder.length()-1;
+            fileWriter.write(stringBuilder.substring(0,len));
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

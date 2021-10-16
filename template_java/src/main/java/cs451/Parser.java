@@ -1,6 +1,9 @@
 package cs451;
 
 import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class Parser {
 
@@ -54,6 +57,9 @@ public class Parser {
         System.exit(1);
     }
 
+    public Host myHost() {
+        return getHost(myId());
+    }
     public int myId() {
         return idParser.getId();
     }
@@ -70,4 +76,44 @@ public class Parser {
         return configParser.getPath();
     }
 
+    //TODO change all this 
+    public int getMessageNumber() {
+        File configFile = new File(config());
+        int messageNumber = 0;
+        try {
+            Scanner reader = new Scanner(configFile);
+            String data = reader.nextLine().split(" ")[0];
+            messageNumber = Integer.parseInt(data);
+            reader.close();
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+        return messageNumber;
+    }
+
+    public int getDestination() {
+        File configFile = new File(config());
+        int destination = -1;
+        try {
+            Scanner reader = new Scanner(configFile);
+            String data = reader.nextLine().split(" ")[1];
+            destination = Integer.parseInt(data);
+            reader.close();
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+        return destination;
+    }
+  
+    public Host getHost(int hostId) {
+        Host host = null;
+        for(Host h: hosts()){
+            if(h.getId() == hostId){
+                host = h;
+            }
+        }
+        return host;
+    }
 }
