@@ -82,6 +82,8 @@ public class Main {
 
         System.out.println("Broadcasting and delivering messages...\n");
         //TODO CHANGE THIS ?? check how others do it
+        //TODO SHOULD I USE CONCURENT DATASTRUCTURES FOR EVERYTHING I.E EX: QUEUE IN STUBBONLINK
+        //TODO run the stress.py ect... LOOK at slides for tips on testing ect...
         if (parser.myId() != dstId) {
             ExecutorService executor = Executors.newFixedThreadPool(5); //why 5 ??? 
             for (int i = 0; i < parser.getMessageNumber(); i++) {
@@ -113,8 +115,7 @@ public class Main {
         try {
             File file = new File(outPath);
             FileWriter fileWriter = new FileWriter(file);
-            int len = stringBuilder.length() <= 0 ? 0 : stringBuilder.length()-1;
-            fileWriter.write(stringBuilder.substring(0,len));
+            fileWriter.write(stringBuilder.toString());
             fileWriter.flush();
             fileWriter.close();
         } catch (IOException e) {

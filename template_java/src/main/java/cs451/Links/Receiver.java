@@ -11,36 +11,26 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Receiver extends Thread {
 
-    private final byte[] buf;
-    private boolean running;
     private final DatagramSocket socket;
     private final StubbornLinkWithAck stubbornLinkWithAck;
     
     public Receiver(int hostPort, StubbornLinkWithAck stubbornLinkWithAck) throws SocketException {
         socket = new DatagramSocket(hostPort);
         this.stubbornLinkWithAck = stubbornLinkWithAck;
-        running = true;
-        buf = new byte[256];
     }
 
     @Override
     public void run(){
-        while (running){
-            DatagramPacket packet = new DatagramPacket(buf, buf.length);
-            try {
+        while (true){
+            try{
+                byte[] buf = new byte[2048];
+                DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String received = new String(packet.getData(), 0, packet.getLength());
-
-            try {
+                String received = new String(packet.getData(), 0, packet.getLength());
                 stubbornLinkWithAck.deliver(received);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        socket.close();
     }
 }

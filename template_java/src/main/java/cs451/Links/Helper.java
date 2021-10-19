@@ -11,7 +11,6 @@ public final class Helper {
 
     //TODO  could implement this within links, i.e each link is its own "layer" with its own information
     //TODO see what in here is shared with other layers !!
-    //Msg uid contains id of process that sent it
     public static String getMsgUid(String rawData){
         int iend = rawData.indexOf(",");
         return rawData.substring(0, iend);

@@ -41,7 +41,7 @@ public class StubbornLinkWithAck extends Link {
     public boolean send(InetAddress destIp, int port, String msg_uid, String msg) throws IOException{
         //send until message gets acked
         while(!ackedMuid.contains(msg_uid)) {
-            System.out.println("sending udp" + msg_uid);
+            //System.out.println("sending udp" + msg_uid);
             byte buf[] = Helper.appendMsg(msg_uid, msg).getBytes();
             sendUDP(destIp, port, buf); //UDP is used as a fair loss link
         }
