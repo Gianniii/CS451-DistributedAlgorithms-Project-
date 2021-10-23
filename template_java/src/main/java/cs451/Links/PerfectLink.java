@@ -30,11 +30,11 @@ public class PerfectLink extends Link{
     public boolean deliver(String rawData){
         //do not deliver same message more then once
         if(!deliveredUid.contains(Helper.getMsgUid(rawData))){
+            //add msgUid to delivered messages set 
+            deliveredUid.add(Helper.getMsgUid(rawData)); 
             //update log
             log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
                 + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
-            //add msgUid to delivered messages set 
-            deliveredUid.add(Helper.getMsgUid(rawData)); 
             return true;
 
         }

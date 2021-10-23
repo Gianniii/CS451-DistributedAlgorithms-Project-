@@ -81,7 +81,7 @@ public class Main {
 
         System.out.println("Broadcasting and delivering messages...\n");
         
-        ExecutorService executor = Executors.newFixedThreadPool(4);
+        ExecutorService executor = Executors.newFixedThreadPool(10);
         if (parser.myId() != dstId) {
             for (int i = 0; i < parser.getMessageNumber(); i++) {
                 String msg_uid = Helper.createUniqueMsgUid(Integer.toString(parser.myId()), Integer.toString(i));
