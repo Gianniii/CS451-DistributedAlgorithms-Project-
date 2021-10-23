@@ -3,25 +3,22 @@ package cs451.Links;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.util.concurrent.ConcurrentHashMap;
-
-/** code based on https://www.baeldung.com/udp-in-java **/
+import cs451.Links.StubbornLinkWithAck;
 
 public class Receiver extends Thread {
 
     private final DatagramSocket socket;
     private final StubbornLinkWithAck stubbornLinkWithAck;
+    private boolean running = true;
     
-    public Receiver(int hostPort, StubbornLinkWithAck stubbornLinkWithAck) throws SocketException {
-        socket = new DatagramSocket(hostPort);
+    public Receiver(DatagramSocket socket, StubbornLinkWithAck stubbornLinkWithAck) {
+        this.socket = socket;
         this.stubbornLinkWithAck = stubbornLinkWithAck;
     }
 
     @Override
     public void run(){
-        while (true){
+        while (running){
             try{
                 byte[] buf = new byte[2048];
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -31,6 +28,14 @@ public class Receiver extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        } 
+        
+        socket.close();
+        
+
+    }
+
+    public void close() {
+        running = false;
     }
 }

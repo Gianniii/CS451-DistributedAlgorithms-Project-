@@ -1,16 +1,14 @@
 package cs451.Links;
 
-import java.net.InetAddress;
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.sql.Timestamp;
+import java.net.InetAddress;
+import java.io.IOException;
+
 
 public final class Helper {
     
-
-    //TODO  could implement this within links, i.e each link is its own "layer" with its own information
-    //TODO see what in here is shared with other layers !!
     public static String getMsgUid(String rawData){
         int iend = rawData.indexOf(",");
         return rawData.substring(0, iend);

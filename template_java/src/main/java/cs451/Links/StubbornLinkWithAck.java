@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collections;
 
 //implement a stubborn link that stops sending a message once it receives an ack for it
 public class StubbornLinkWithAck extends Link {
@@ -32,8 +34,7 @@ public class StubbornLinkWithAck extends Link {
         else {
             throw new IllegalArgumentException("caller is null");
         }
-        ackedMuid = new HashSet<String>();
-        
+        ackedMuid = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
     }
 
 
@@ -41,7 +42,6 @@ public class StubbornLinkWithAck extends Link {
     public boolean send(InetAddress destIp, int port, String msg_uid, String msg) throws IOException{
         //send until message gets acked
         while(!ackedMuid.contains(msg_uid)) {
-            //System.out.println("sending udp" + msg_uid);
             byte buf[] = Helper.appendMsg(msg_uid, msg).getBytes();
             sendUDP(destIp, port, buf); //UDP is used as a fair loss link
         }
@@ -53,7 +53,7 @@ public class StubbornLinkWithAck extends Link {
         String msg = Helper.getMsg(rawData);
         String msg_uid = Helper.getMsgUid(rawData);
 
-        //if received message is an ack then set value of msg_uid in hashmap to true
+        //if received message is an ack then add msg_uid to set of acked messages
         //so that this process will stop resending the same message
         if(msg.equals(ACK)) {
             ackedMuid.add(msg_uid);
