@@ -28,11 +28,8 @@ public class Receiver extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } 
-        
+        }
         socket.close();
-        
-
     }
 
     public void close() {

@@ -17,21 +17,22 @@ import cs451.Links.*;
 
 public class Main {
 
-    private static void handleSignal(PerfectLink pLink, String filePath, Receiver receiver, ExecutorService executor) {
+    private static void handleSignal(PerfectLink pLink, String filePath, Receiver receiver, Sender sender) {
         //immediately stop network packet processing
         System.out.println("Immediately stopping network packet processing.");
         receiver.close();
-        executor.shutdownNow();
+        receiver.interrupt();
+        sender.interrupt();
         //write/flush output file if necessary
         System.out.println("Writing output.");
         writeLogToFile(filePath, pLink.getLogs());
     }
 
-    private static void initSignalHandlers(PerfectLink pLink, String filePath, Receiver receiver, ExecutorService executor) {
+    private static void initSignalHandlers(PerfectLink pLink, String filePath, Receiver receiver, Sender sender) {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                handleSignal(pLink, filePath, receiver, executor);
+                handleSignal(pLink, filePath, receiver, sender);
             }
         });
     }
@@ -81,17 +82,12 @@ public class Main {
 
         System.out.println("Broadcasting and delivering messages...\n");
         
-        ExecutorService executor = Executors.newFixedThreadPool(10);
-        if (parser.myId() != dstId) {
-            for (int i = 0; i < parser.getMessageNumber(); i++) {
-                String msg_uid = Helper.createUniqueMsgUid(Integer.toString(parser.myId()), Integer.toString(i));
-                executor.execute(new Sender(InetAddress.getByName(dstHost.getIp()), dstHost.getPort(),
-                perfectLink, msg_uid, String.valueOf(i)));
-            }
-        }
+        Sender sender = new Sender(InetAddress.getByName(dstHost.getIp()), dstHost.getPort(), perfectLink, parser);
+        //send all messages
+        sender.start();
 
 
-        initSignalHandlers(perfectLink, parser.output(), receiver, executor);
+        initSignalHandlers(perfectLink, parser.output(), receiver, sender);
 
         // After a process finishes broadcasting,
         // it waits forever for the delivery of messages.

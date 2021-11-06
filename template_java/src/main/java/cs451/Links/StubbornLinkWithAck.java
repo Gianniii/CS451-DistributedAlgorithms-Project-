@@ -38,13 +38,11 @@ public class StubbornLinkWithAck extends Link {
         ackedMuid = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
     }
 
-
-    //maybe can pack all into DATA JUST SEND "DATA" instead of uid seperateÿ
     public boolean send(InetAddress destIp, int port, String msg_uid, String msg) throws IOException{
         //send until message gets acked
         Random rand = new Random();
         while(!ackedMuid.contains(msg_uid)) {
-            System.out.println(Helper.getProcIdFromMessageUid(msg_uid) + "retransmitting" + msg_uid);
+            //System.out.println(Helper.getProcIdFromMessageUid(msg_uid) + "retransmitting" + msg_uid);
             byte buf[] = Helper.appendMsg(msg_uid, msg).getBytes();
             sendUDP(destIp, port, buf); //UDP is used as a fair loss link
             try {
