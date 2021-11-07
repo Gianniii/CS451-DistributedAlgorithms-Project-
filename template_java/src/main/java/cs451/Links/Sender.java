@@ -3,33 +3,33 @@ package cs451.Links;
 import java.io.IOException;
 import java.net.InetAddress;
 import cs451.Parser;
+import cs451.Broadcasts.Broadcast;
+import cs451.Broadcasts.UniformReliableBroadcast;
 
 public class Sender extends Thread {
 
     Link perfectLink;
-    String msg_uid;
-    String msg;
-    InetAddress destIp;
-    int destPort;
     Parser parser;
+    Broadcast uniformReliableBroadcast;
 
-    public Sender(InetAddress destIp, int destPort, PerfectLink perfectLink, Parser parser) {
-        this.perfectLink = perfectLink;
-        this.destIp = destIp;
-        this.destPort = destPort;
+    public Sender(UniformReliableBroadcast uniformReliableBroadcast, Parser parser) {
+        this.uniformReliableBroadcast = uniformReliableBroadcast;
         this.parser = parser;
     }
 
     @Override
     public void run() {
-        if (parser.myId() != parser.getDestination()) {
-            for (int i = 0; i < parser.getMessageNumber(); i++) {
-                try {
-                    String msg_uid = Helper.createUniqueMsgUid(Integer.toString(parser.myId()), Integer.toString(i));
-                    perfectLink.send(destIp, destPort, msg_uid, String.valueOf(i));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        //TODO THE LOGIC IS WAY DIFF NOW CUZ WE HAD 1 GUY RECEIVING AND ALL OTHERS SENDING SO COULD JUST SEND AND MOVE ON...
+        //NOW WE CAN ALSO RECEIVE... DO I NEED TO CHANGE THE LOGIC HERE?? MIGHT HAVE TO CHANGE WHAT I DO UPON A RECEIVE NOT SURE..
+
+        //will here will change perfectLink for uniformRelieableBroacast and uniformRealiableBroadcast will
+        for (int i = 0; i < parser.getMessageNumber(); i++) {
+            try {
+                //TODO: could create message_uid within uniform reliable broadcast
+                String msg_uid = Helper.createUniqueMsgUid(Integer.toString(parser.myId()), Integer.toString(i));
+                uniformReliableBroadcast.broadcast(msg_uid, String.valueOf(i)); 
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

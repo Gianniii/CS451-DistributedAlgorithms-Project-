@@ -12,12 +12,14 @@ import cs451.Links.PerfectLink;
 import java.io.File;
 import java.io.FileWriter;
 import java.net.DatagramSocket;
+
+import cs451.Broadcasts.UniformReliableBroadcast;
 import cs451.Links.*;
 
 
 public class Main {
 
-    private static void handleSignal(PerfectLink pLink, String filePath, Receiver receiver, Sender sender) {
+    private static void handleSignal(UniformReliableBroadcast URB, String filePath, Receiver receiver, Sender sender) {
         //immediately stop network packet processing
         System.out.println("Immediately stopping network packet processing.");
         receiver.close();
@@ -25,14 +27,14 @@ public class Main {
         sender.interrupt();
         //write/flush output file if necessary
         System.out.println("Writing output.");
-        writeLogToFile(filePath, pLink.getLogs());
+        writeLogToFile(filePath, URB.getLogs());
     }
 
-    private static void initSignalHandlers(PerfectLink pLink, String filePath, Receiver receiver, Sender sender) {
+    private static void initSignalHandlers(UniformReliableBroadcast URB, String filePath, Receiver receiver, Sender sender) {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                handleSignal(pLink, filePath, receiver, sender);
+                handleSignal(URB, filePath, receiver, sender);
             }
         });
     }
@@ -67,27 +69,24 @@ public class Main {
 
         System.out.println("Doing some initialization\n");
        
-        PerfectLink perfectLink = new PerfectLink(parser);
+    
+        UniformReliableBroadcast URB = new UniformReliableBroadcast(parser);
+        PerfectLink perfectLink = URB.getBestEffortBroadcast().getPerfectLink();
         StubbornLinkWithAck stubbornLink = perfectLink.getStubbornLink();
+        
+        //Now probably need do processes = parser.getProcesses() or something like that.. can do this within
 
-        int dstId = parser.getDestination();
-        Host dstHost = parser.getHost(dstId);
-        if(dstHost == null) {
-            throw new IllegalArgumentException("Null host");
-        }
-
+        //sender and receiver need to be threads, so that we can send and receive in parallel
         DatagramSocket socket= new DatagramSocket(parser.myHost().getPort());
         Receiver receiver = new Receiver(socket, stubbornLink);
+        Sender sender = new Sender(URB, parser);
         receiver.start();
-
         System.out.println("Broadcasting and delivering messages...\n");
-        
-        Sender sender = new Sender(InetAddress.getByName(dstHost.getIp()), dstHost.getPort(), perfectLink, parser);
-        //send all messages
         sender.start();
+    
 
 
-        initSignalHandlers(perfectLink, parser.output(), receiver, sender);
+        initSignalHandlers(URB, parser.output(), receiver, sender);
 
         // After a process finishes broadcasting,
         // it waits forever for the delivery of messages.

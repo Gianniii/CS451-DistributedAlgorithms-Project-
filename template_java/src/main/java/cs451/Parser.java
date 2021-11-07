@@ -91,21 +91,6 @@ public class Parser {
         }
         return messageNumber;
     }
-
-    public int getDestination() {
-        File configFile = new File(config());
-        int destination = -1;
-        try {
-            Scanner reader = new Scanner(configFile);
-            String data = reader.nextLine().split(" ")[1];
-            destination = Integer.parseInt(data);
-            reader.close();
-        }
-        catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
-        return destination;
-    }
   
     public Host getHost(int hostId) {
         Host host = null;

@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.net.InetAddress;
 import java.io.IOException;
 
+//rawData format: [proc_id + "." + seq_num + ":" + timestamp + "," + msg]
 
 public final class Helper {
     
