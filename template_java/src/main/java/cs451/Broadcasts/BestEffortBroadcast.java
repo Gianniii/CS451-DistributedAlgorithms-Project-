@@ -19,29 +19,31 @@ public class BestEffortBroadcast extends Broadcast {
     UniformReliableBroadcast uniformReliableBroadcast;
     //TODO pass params for perfect link
     public BestEffortBroadcast(Parser parser, UniformReliableBroadcast caller) {
+        log =  new ConcurrentLinkedQueue<String>();
         hosts = parser.hosts();
         perfectLink = new PerfectLink(parser, this);
         this.parser = parser;
-        if(caller != null)
-            uniformReliableBroadcast = caller;
-        else {
-            throw new IllegalArgumentException("caller is null");
-        }
+        uniformReliableBroadcast = caller;
     }
 
     public boolean broadcast(String msg_uid, String msg) throws IOException {
-        //log.add("beb b" + Helper.getSeqNumFromMessageUid(msg_uid));
+        log.add("beb b" + Helper.getSeqNumFromMessageUid(msg_uid));
         System.out.println("BEB broadcast: " + msg_uid);
-        for(Host h : hosts) {     
-            perfectLink.send(InetAddress.getByName(h.getIp()), h.getPort(), msg_uid, msg);
+        System.out.println("num hosts: " + hosts.size());
+        //ideally beb uses one different perfectlink per host... but how does receiver know where to send after... =(
+        for(Host h : hosts) {      
+            System.out.println("sending to host IP: " + h.getIp() + "sending to port :" + h.getPort());
+            perfectLink.send(h, msg_uid, msg);
         }
         return true;
     }
     public boolean deliver(String rawData) throws IOException {
         System.out.println("BEB deliver: " + Helper.getMsg(rawData));
-        uniformReliableBroadcast.deliver(rawData);
-        //log.add("beb d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
-        //             + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
+        if(uniformReliableBroadcast != null) {
+            uniformReliableBroadcast.deliver(rawData);
+        }
+        log.add("beb d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
+                 + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
         return true;
     }
 
@@ -50,6 +52,6 @@ public class BestEffortBroadcast extends Broadcast {
     }
 
     public ConcurrentLinkedQueue<String> getLogs() {
-        return null;
+        return log;
     }
 }

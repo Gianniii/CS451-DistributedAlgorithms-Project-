@@ -1,4 +1,4 @@
-package cs451.Links;
+package cs451;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -24,6 +24,7 @@ public class Receiver extends Thread {
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
                 String received = new String(packet.getData(), 0, packet.getLength());
+                System.out.println("received packet: " + received);
                 stubbornLinkWithAck.deliver(received);
             } catch (IOException e) {
                 e.printStackTrace();

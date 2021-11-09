@@ -2,6 +2,8 @@ package cs451.Links;
 import java.net.InetAddress;
 import java.io.IOException;
 import java.util.Set;
+
+import cs451.Host;
 import cs451.Parser;
 import cs451.Broadcasts.BestEffortBroadcast;
 import cs451.Broadcasts.Broadcast;
@@ -19,6 +21,7 @@ public class PerfectLink extends Link{
     Set<String> deliveredUid;
     ConcurrentLinkedQueue<String> log;
     Broadcast caller;
+    Host dst;
 
     public PerfectLink(Parser parser, BestEffortBroadcast caller) {
         stubbornLinkWithAck = new StubbornLinkWithAck(this, parser);
@@ -27,8 +30,8 @@ public class PerfectLink extends Link{
         this.caller = caller;
     }
 
-    public boolean send(InetAddress destIp, int port, String msg_uid, String msg) throws IOException {
-        stubbornLinkWithAck.send(destIp, port, msg_uid, msg);
+    public boolean send(Host h, String msg_uid, String msg) throws IOException {
+        stubbornLinkWithAck.send(h, msg_uid, msg);
         //log.add("b " + Helper.getSeqNumFromMessageUid(msg_uid));
         return true;
     }
@@ -36,6 +39,7 @@ public class PerfectLink extends Link{
     public boolean deliver(String rawData) throws IOException{
         //TODO: DELIVER TO ABOVE CHANNEL implement other channels
         //do not deliver same message more then once
+        System.out.println("perfect link deliver: " + rawData);
         if(!deliveredUid.contains(Helper.getMsgUid(rawData))){
             //add msgUid to delivered messages set 
             deliveredUid.add(Helper.getMsgUid(rawData)); 

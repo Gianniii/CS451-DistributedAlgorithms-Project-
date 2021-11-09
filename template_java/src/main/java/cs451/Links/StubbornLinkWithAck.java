@@ -38,59 +38,66 @@ public class StubbornLinkWithAck extends Link {
         ackedMuid = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
     }
 
-    public boolean send(InetAddress destIp, int port, String msg_uid, String msg) throws IOException{
+    public boolean send(Host h, String msgUid, String msg) throws IOException{
         //send until message gets acked
         Random rand = new Random();
-        while(!ackedMuid.contains(msg_uid)) {
+        //Block until the message is acked
+        String myIdWithMsgUid = Helper.extendWithSenderId(h.getId(), msgUid);
+        System.out.println("Stubborn Send :"+ "waiting for " + myIdWithMsgUid);
+        while(!ackedMuid.contains(myIdWithMsgUid)) { 
             //System.out.println(Helper.getProcIdFromMessageUid(msg_uid) + "retransmitting" + msg_uid);
-            byte buf[] = Helper.appendMsg(msg_uid, msg).getBytes();
-            sendUDP(destIp, port, buf); //UDP is used as a fair loss link
+            String rawData = Helper.addSenderIdAndMsgUidToMsg(parser.myId(), msgUid, msg);
+            byte buf[] = rawData.getBytes();
+            System.out.println("Stubborn sending raw: " + rawData + "to port :" + h.getPort());
+            sendUDP(h, buf); //UDP is used as a fair loss link
             try {
                 int sleepTime = rand.nextInt(500);
                 Thread.sleep(sleepTime);
             } catch (InterruptedException e) {
                 System.out.println("Sleep interrupted.");
+                //return false;
             }
             
         }
-        
         return true;
     }
     
     public boolean deliver(String rawData) throws IOException {
         String msg = Helper.getMsg(rawData);
         String msg_uid = Helper.getMsgUid(rawData);
-
+        System.out.println("Stubborn Deliver raw data: " + rawData);
         //if received message is an ack then add msg_uid to set of acked messages
         //so that this process will stop resending the same message
         if(msg.equals(ACK)) {
-            ackedMuid.add(msg_uid);
+            String senderIdAndMsgUid = Helper.extendWithSenderId(Integer.parseInt(Helper.getSenderId(rawData)), msg_uid);
+            ackedMuid.add(senderIdAndMsgUid);
             return true;
         } 
 
         //deliver and ack
         perfectLink.deliver(rawData);
-        ackMsg(msg_uid);
+        ackMsg(rawData);
         
         return true;
     }
  
-    public boolean ackMsg(String msg_uid) throws IOException{
+    public boolean ackMsg(String rawData) throws IOException{
 
-        int hostUid = Integer.parseInt(Helper.getProcIdFromMessageUid(msg_uid));
+        int senderId = Integer.parseInt(Helper.getSenderId(rawData));
 
-        Host host = parser.getHost(hostUid);
+        Host host = parser.getHost(senderId);
         if(host == null) {
             return false;
         }
-        String msg = Helper.appendMsg(msg_uid, ACK);
+        String msg_uid = Helper.getMsgUid(rawData);
+        String msg = Helper.extendWithSenderId(parser.myId(), Helper.appendMsg(msg_uid, ACK));
         byte buf[] = msg.getBytes();
-        sendUDP(InetAddress.getByName(host.getIp()), host.getPort(), buf);
+        sendUDP(host, buf);
         return true;
     }
 
-    private Boolean sendUDP(InetAddress destIp, int port, byte buf[]) throws IOException {
-        DatagramPacket DpSend = new DatagramPacket(buf, buf.length, destIp, port);
+    private Boolean sendUDP(Host dstH, byte buf[]) throws IOException {
+        DatagramPacket DpSend = new DatagramPacket(buf, buf.length, InetAddress.getByName(dstH.getIp()), dstH.getPort());
         DatagramSocket ds = new DatagramSocket();
         ds.send(DpSend);
         ds.close();

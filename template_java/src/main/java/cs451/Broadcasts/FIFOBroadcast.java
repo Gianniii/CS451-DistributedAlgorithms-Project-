@@ -31,8 +31,9 @@ public class FIFOBroadcast extends Broadcast{
     }
 
     public boolean broadcast(String msg_uid, String msg) throws IOException {
-        uniformReliableBroadcast.broadcast(msg_uid, msg);
+        System.out.println("FIFO Broadcast: " + msg_uid);
         log.add("b " + Helper.getSeqNumFromMessageUid(msg_uid));
+        uniformReliableBroadcast.broadcast(msg_uid, msg);
         return true;
 
     }

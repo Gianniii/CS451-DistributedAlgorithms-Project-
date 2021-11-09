@@ -6,19 +6,25 @@ import java.sql.Timestamp;
 import java.net.InetAddress;
 import java.io.IOException;
 
-//rawData format: [proc_id + "." + seq_num + ":" + timestamp + "," + msg]
+//rawData format: [senderId + "_" + proc_id + "." + seq_num + ":" + timestamp + "," + msg] // 
 
 public final class Helper {
     
     public static String getMsgUid(String rawData){
-        int iend = rawData.indexOf(",");
-        return rawData.substring(0, iend);
+        int index2 = rawData.indexOf(",");
+        int index1 = rawData.indexOf("_");
+        return rawData.substring(index1+1, index2);
     }
 
-    //seperate unique message uid and msg
+    //seperate unique message uid and msg msg_uid = [proc_id + "." + sec_num + ":" + timestamp]
     public static String getMsg(String rawData){
         int index = rawData.indexOf(",");
         return rawData.substring(index+1);
+    }
+
+    public static String getSenderId(String rawData) {
+        int index = rawData.indexOf("_");
+        return rawData.substring(0, index);
     }
 
     public static String getProcIdFromMessageUid(String msg_uid) {
@@ -38,5 +44,13 @@ public final class Helper {
 
     public static String appendMsg(String data,String msg){
         return data + "," + msg;
+    }
+
+    public static String extendWithSenderId(int senderId,String data){
+        return String.valueOf(senderId) + "_" + data;
+    }
+
+    public static String addSenderIdAndMsgUidToMsg(int senderId, String msgUid, String data) {
+        return extendWithSenderId(senderId, appendMsg(msgUid, data));
     }
 }

@@ -1,6 +1,6 @@
-My PID: 27414
+My PID: 2833
 
-From a new terminal type `kill -SIGINT 27414` or `kill -SIGTERM 27414` to stop processing packets
+From a new terminal type `kill -SIGINT 2833` or `kill -SIGTERM 2833` to stop processing packets
 
 My ID: 1
 
@@ -21,7 +21,7 @@ Human-readable Port: 11003
 
 Path to output:
 ===============
-/home/dcl/Desktop/CS451_DistributedAlgorithms/example/fifo/proc01.output
+/home/dcl/Desktop/reponew/CS451_DistributedAlgorithms/example/fifo/proc01.output
 
 Path to config:
 ===============
@@ -31,8 +31,128 @@ Doing some initialization
 
 Broadcasting and delivering messages...
 
-BEB deliver: 0
-BEB broadcast: 1.0:1636456239486
+1-URB broadcast: 1.1:1636490671760
+received packet: 2_2.1:1636490671734,1
+Stubborn Deliver raw data: 2_2.1:1636490671734,1
+perfect link deliver: 2_2.1:1636490671734,1
+BEB deliver: 1
+URB deliver: for raw data2_2.1:1636490671734,1
+URB: acksForMsgUid: [2]
+BEB broadcast: 2.1:1636490671734
+num hosts: 3
+deliver if can/ acksformsguid :  0for raw: 1.1:1636490671760,1
+BEB broadcast: 1.1:1636490671760
+num hosts: 3
+sending to host IP: 127.0.0.1sending to port :11001
+sending to host IP: 127.0.0.1sending to port :11001
+Stubborn Send :waiting for 1_2.1:1636490671734
+Stubborn Send :waiting for 1_1.1:1636490671760
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
 Immediately stopping network packet processing.
 Sleep interrupted.
+Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Sleep interrupted.
+Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
 Writing output.

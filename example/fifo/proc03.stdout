@@ -1,6 +1,6 @@
-My PID: 27416
+My PID: 2835
 
-From a new terminal type `kill -SIGINT 27416` or `kill -SIGTERM 27416` to stop processing packets
+From a new terminal type `kill -SIGINT 2835` or `kill -SIGTERM 2835` to stop processing packets
 
 My ID: 3
 
@@ -21,7 +21,7 @@ Human-readable Port: 11003
 
 Path to output:
 ===============
-/home/dcl/Desktop/CS451_DistributedAlgorithms/example/fifo/proc03.output
+/home/dcl/Desktop/reponew/CS451_DistributedAlgorithms/example/fifo/proc03.output
 
 Path to config:
 ===============
@@ -31,7 +31,55 @@ Doing some initialization
 
 Broadcasting and delivering messages...
 
-BEB broadcast: 3.0:1636456238880
+1-URB broadcast: 3.1:1636490671755
+deliver if can/ acksformsguid :  0for raw: 3.1:1636490671755,1
+BEB broadcast: 3.1:1636490671755
+num hosts: 3
+sending to host IP: 127.0.0.1sending to port :11001
+Stubborn Send :waiting for 1_3.1:1636490671755
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
 Immediately stopping network packet processing.
-Writing output.
 Sleep interrupted.
+Stubborn sending raw: 3_3.1:1636490671755,1to port :11001
+Writing output.

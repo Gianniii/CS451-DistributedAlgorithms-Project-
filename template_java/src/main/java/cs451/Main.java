@@ -8,8 +8,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.net.DatagramSocket;
 
+import cs451.Broadcasts.BestEffortBroadcast;
 import cs451.Broadcasts.Broadcast;
 import cs451.Broadcasts.FIFOBroadcast;
+import cs451.Broadcasts.UniformReliableBroadcast;
 import cs451.Links.*;
 
 
@@ -66,10 +68,13 @@ public class Main {
         System.out.println("Doing some initialization\n");
        
     
-        FIFOBroadcast FIFO = new FIFOBroadcast(parser);
-        StubbornLinkWithAck stubbornLink = FIFO.getUniformReliableBroadcast().getBestEffortBroadcast()
-                                            .getPerfectLink().getStubbornLink();
-
+        //FIFOBroadcast FIFO = new FIFOBroadcast(parser);
+        UniformReliableBroadcast FIFO = new UniformReliableBroadcast(parser, null);
+        //BestEffortBroadcast FIFO = new BestEffortBroadcast(parser, null);
+        //StubbornLinkWithAck stubbornLink = FIFO.getUniformReliableBroadcast().getBestEffortBroadcast()
+        //                                    .getPerfectLink().getStubbornLink();
+        //StubbornLinkWithAck stubbornLink = FIFO.getPerfectLink().getStubbornLink();
+        StubbornLinkWithAck stubbornLink = FIFO.getBestEffortBroadcast().getPerfectLink().getStubbornLink();
         //sender and receiver need to be threads, so that we can send and receive in parallel
         DatagramSocket socket= new DatagramSocket(parser.myHost().getPort());
         Receiver receiver = new Receiver(socket, stubbornLink);

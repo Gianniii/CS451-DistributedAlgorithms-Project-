@@ -1,11 +1,10 @@
-package cs451.Links;
+package cs451;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import cs451.Parser;
-import cs451.Broadcasts.Broadcast;
-import cs451.Broadcasts.FIFOBroadcast;
 
+import cs451.Broadcasts.*;
+import cs451.Links.*;
 
 public class Sender extends Thread {
 
@@ -24,7 +23,7 @@ public class Sender extends Thread {
         //NOW WE CAN ALSO RECEIVE... DO I NEED TO CHANGE THE LOGIC HERE?? MIGHT HAVE TO CHANGE WHAT I DO UPON A RECEIVE NOT SURE..
 
         //will here will change perfectLink for uniformRelieableBroacast and uniformRealiableBroadcast will
-        for (int i = 0; i < parser.getMessageNumber(); i++) {
+        for (int i = 1; i < parser.getMessageNumber()+1; i++) {
             try {
                 //TODO: could create message_uid within uniform reliable broadcast
                 String msg_uid = Helper.createUniqueMsgUid(Integer.toString(parser.myId()), Integer.toString(i));

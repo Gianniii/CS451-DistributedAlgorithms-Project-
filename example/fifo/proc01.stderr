@@ -1,6 +1,0 @@
-Exception in thread "Thread-0" java.lang.NullPointerException
-	at cs451.Broadcasts.UniformReliableBroadcast.deliver(UniformReliableBroadcast.java:50)
-	at cs451.Broadcasts.BestEffortBroadcast.deliver(BestEffortBroadcast.java:42)
-	at cs451.Links.PerfectLink.deliver(PerfectLink.java:45)
-	at cs451.Links.StubbornLinkWithAck.deliver(StubbornLinkWithAck.java:72)
-	at cs451.Links.Receiver.run(Receiver.java:27)
