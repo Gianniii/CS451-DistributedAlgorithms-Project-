@@ -62,7 +62,7 @@ public class UniformReliableBroadcast extends Broadcast {
         for(String rawData : forward) {
             String msg_uid = Helper.getMsgUid(rawData);
             Set<Integer> acksForMsgUid = ackedMuid.get(msg_uid);
-            if(acksForMsgUid.size() > hosts.size()/2 && !deliveredUid.contains(msg_uid)){
+            if(acksForMsgUid!= null && acksForMsgUid.size() > hosts.size()/2 && !deliveredUid.contains(msg_uid)){
                 actuallyDeliver(rawData);
             }
         }

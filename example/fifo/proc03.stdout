@@ -1,0 +1,37 @@
+My PID: 27416
+
+From a new terminal type `kill -SIGINT 27416` or `kill -SIGTERM 27416` to stop processing packets
+
+My ID: 3
+
+List of resolved hosts is:
+==========================
+1
+Human-readable IP: 127.0.0.1
+Human-readable Port: 11001
+
+2
+Human-readable IP: 127.0.0.1
+Human-readable Port: 11002
+
+3
+Human-readable IP: 127.0.0.1
+Human-readable Port: 11003
+
+
+Path to output:
+===============
+/home/dcl/Desktop/CS451_DistributedAlgorithms/example/fifo/proc03.output
+
+Path to config:
+===============
+../example/fifo/config
+
+Doing some initialization
+
+Broadcasting and delivering messages...
+
+BEB broadcast: 3.0:1636456238880
+Immediately stopping network packet processing.
+Writing output.
+Sleep interrupted.

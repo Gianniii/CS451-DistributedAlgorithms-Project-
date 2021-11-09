@@ -1,26 +1,21 @@
 package cs451;
 
 import java.io.IOException;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
-import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.lang.IllegalArgumentException;
-import cs451.Links.PerfectLink;
 import java.io.File;
 import java.io.FileWriter;
 import java.net.DatagramSocket;
 
+import cs451.Broadcasts.Broadcast;
 import cs451.Broadcasts.FIFOBroadcast;
-import cs451.Broadcasts.UniformReliableBroadcast;
 import cs451.Links.*;
 
 
 public class Main {
 
-    private static void handleSignal(UniformReliableBroadcast URB, String filePath, Receiver receiver, Sender sender) {
+    private static void handleSignal(Broadcast broadcaster, String filePath, Receiver receiver, Sender sender) {
         //immediately stop network packet processing
         System.out.println("Immediately stopping network packet processing.");
         receiver.close();
@@ -28,14 +23,14 @@ public class Main {
         sender.interrupt();
         //write/flush output file if necessary
         System.out.println("Writing output.");
-        writeLogToFile(filePath, URB.getLogs());
+        writeLogToFile(filePath, broadcaster.getLogs());
     }
 
-    private static void initSignalHandlers(UniformReliableBroadcast URB, String filePath, Receiver receiver, Sender sender) {
+    private static void initSignalHandlers(Broadcast broadcaster, String filePath, Receiver receiver, Sender sender) {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                handleSignal(URB, filePath, receiver, sender);
+                handleSignal(broadcaster, filePath, receiver, sender);
             }
         });
     }
@@ -72,11 +67,8 @@ public class Main {
        
     
         FIFOBroadcast FIFO = new FIFOBroadcast(parser);
-        UniformReliableBroadcast URB = new UniformReliableBroadcast(parser, FIFO);
-        PerfectLink perfectLink = URB.getBestEffortBroadcast().getPerfectLink();
-        StubbornLinkWithAck stubbornLink = perfectLink.getStubbornLink();
-        
-        //Now probably need do processes = parser.getProcesses() or something like that.. can do this within
+        StubbornLinkWithAck stubbornLink = FIFO.getUniformReliableBroadcast().getBestEffortBroadcast()
+                                            .getPerfectLink().getStubbornLink();
 
         //sender and receiver need to be threads, so that we can send and receive in parallel
         DatagramSocket socket= new DatagramSocket(parser.myHost().getPort());
@@ -85,10 +77,8 @@ public class Main {
         receiver.start();
         System.out.println("Broadcasting and delivering messages...\n");
         sender.start();
-    
 
-
-        initSignalHandlers(URB, parser.output(), receiver, sender);
+        initSignalHandlers(FIFO, parser.output(), receiver, sender);
 
         // After a process finishes broadcasting,
         // it waits forever for the delivery of messages.
