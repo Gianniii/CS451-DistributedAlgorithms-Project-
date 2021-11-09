@@ -27,7 +27,7 @@ public class FIFOBroadcast extends Broadcast{
         hosts = parser.hosts();
         deliveredUid = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
         pending = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
-        next = new int[parser.hosts().size()];
+        next = new int[parser.hosts().size()+1]; //there is no Host with id 0, so the first elt will not be used
     }
 
     public boolean broadcast(String msg_uid, String msg) throws IOException {
@@ -47,12 +47,12 @@ public class FIFOBroadcast extends Broadcast{
         while(iterateAgain){
         iterateAgain = false;
             for(String rData: pending) {
-                String msgUid = Helper.getMsg(rData);
-                int srcId = Integer.parseInt(Helper.getProcIdFromMessageUid(msgUid));
+                String msgUid = Helper.getMsgUid(rawData);
+                int originalSrcId = Integer.parseInt(Helper.getProcIdFromMessageUid(msgUid));
                 String seqNum = Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData));
-                if(next[srcId] == Integer.parseInt(seqNum)) {
+                if(next[originalSrcId]+1 == Integer.parseInt(seqNum)) {
                     pending.remove(rData);
-                    next[srcId]++;
+                    next[originalSrcId]++;
                     iterateAgain = true; //check if can send another
                     //FIFODeliver
                     log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
