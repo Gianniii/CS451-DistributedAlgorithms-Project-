@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.net.DatagramSocket;
 
+import cs451.Broadcasts.FIFOBroadcast;
 import cs451.Broadcasts.UniformReliableBroadcast;
 import cs451.Links.*;
 
@@ -70,7 +71,8 @@ public class Main {
         System.out.println("Doing some initialization\n");
        
     
-        UniformReliableBroadcast URB = new UniformReliableBroadcast(parser);
+        FIFOBroadcast FIFO = new FIFOBroadcast(parser);
+        UniformReliableBroadcast URB = new UniformReliableBroadcast(parser, FIFO);
         PerfectLink perfectLink = URB.getBestEffortBroadcast().getPerfectLink();
         StubbornLinkWithAck stubbornLink = perfectLink.getStubbornLink();
         
@@ -79,7 +81,7 @@ public class Main {
         //sender and receiver need to be threads, so that we can send and receive in parallel
         DatagramSocket socket= new DatagramSocket(parser.myHost().getPort());
         Receiver receiver = new Receiver(socket, stubbornLink);
-        Sender sender = new Sender(URB, parser);
+        Sender sender = new Sender(FIFO, parser);
         receiver.start();
         System.out.println("Broadcasting and delivering messages...\n");
         sender.start();

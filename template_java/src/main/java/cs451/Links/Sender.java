@@ -4,16 +4,17 @@ import java.io.IOException;
 import java.net.InetAddress;
 import cs451.Parser;
 import cs451.Broadcasts.Broadcast;
-import cs451.Broadcasts.UniformReliableBroadcast;
+import cs451.Broadcasts.FIFOBroadcast;
+
 
 public class Sender extends Thread {
 
     Link perfectLink;
     Parser parser;
-    Broadcast uniformReliableBroadcast;
+    Broadcast broadcastProtocol;
 
-    public Sender(UniformReliableBroadcast uniformReliableBroadcast, Parser parser) {
-        this.uniformReliableBroadcast = uniformReliableBroadcast;
+    public Sender(Broadcast FIFO, Parser parser) {
+        this.broadcastProtocol = FIFO;
         this.parser = parser;
     }
 
@@ -27,7 +28,7 @@ public class Sender extends Thread {
             try {
                 //TODO: could create message_uid within uniform reliable broadcast
                 String msg_uid = Helper.createUniqueMsgUid(Integer.toString(parser.myId()), Integer.toString(i));
-                uniformReliableBroadcast.broadcast(msg_uid, String.valueOf(i)); 
+                broadcastProtocol.broadcast(msg_uid, String.valueOf(i)); 
             } catch (IOException e) {
                 e.printStackTrace();
             }
