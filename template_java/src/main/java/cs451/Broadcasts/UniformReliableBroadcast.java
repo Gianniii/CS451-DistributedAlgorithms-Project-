@@ -29,7 +29,7 @@ public class UniformReliableBroadcast extends Broadcast {
         hosts = parser.hosts();
         //TODO could think a better datastructure instead of using three sets.
         //TODO implement cleanup of the sets.(garbage collection)
-        ackedMuid = new ConcurrentHashMap<String, Set<Integer>>(); 
+        ackedMuid = new ConcurrentHashMap<String, Set<Integer>>(); //PROBLEM COULD BE WITH THIS DATASTRUCTURE!!
         deliveredUid = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
         forward = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
     }
@@ -37,6 +37,7 @@ public class UniformReliableBroadcast extends Broadcast {
     public boolean broadcast(String msg_uid, String msg) throws IOException {
         String rawData = Helper.appendMsg(msg_uid, msg);
         forward.add(rawData); //add message to pending
+        ackedMuid.put(msg_uid,  Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>()));
         deliverIfCan(); //check if can deliver message (TODO check if this is usefull)
         bestEffortBroadcast.broadcast(msg_uid, msg);
         //log.add("b " + Helper.getSeqNumFromMessageUid(msg_uid));
@@ -62,7 +63,7 @@ public class UniformReliableBroadcast extends Broadcast {
         for(String rawData : forward) {
             String msg_uid = Helper.getMsgUid(rawData);
             Set<Integer> acksForMsgUid = ackedMuid.get(msg_uid);
-            if(acksForMsgUid!= null && acksForMsgUid.size() > hosts.size()/2 && !deliveredUid.contains(msg_uid)){
+            if(acksForMsgUid.size() > hosts.size()/2 && !deliveredUid.contains(msg_uid)){
                 actuallyDeliver(rawData);
             }
         }
