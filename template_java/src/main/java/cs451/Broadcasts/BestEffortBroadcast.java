@@ -32,13 +32,12 @@ public class BestEffortBroadcast extends Broadcast {
         System.out.println("num hosts: " + hosts.size());
         //ideally beb uses one different perfectlink per host... but how does receiver know where to send after... =(
         for(Host h : hosts) {      
-            System.out.println("sending to host IP: " + h.getIp() + "sending to port :" + h.getPort());
             perfectLink.send(h, msg_uid, msg);
         }
         return true;
     }
     public boolean deliver(String rawData) throws IOException {
-        System.out.println("BEB deliver: " + Helper.getMsg(rawData));
+        System.out.println("BEB deliver: " + rawData);;
         if(uniformReliableBroadcast != null) {
             uniformReliableBroadcast.deliver(rawData);
         }

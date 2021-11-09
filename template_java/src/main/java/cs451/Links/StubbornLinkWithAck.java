@@ -48,7 +48,7 @@ public class StubbornLinkWithAck extends Link {
             //System.out.println(Helper.getProcIdFromMessageUid(msg_uid) + "retransmitting" + msg_uid);
             String rawData = Helper.addSenderIdAndMsgUidToMsg(parser.myId(), msgUid, msg);
             byte buf[] = rawData.getBytes();
-            System.out.println("Stubborn sending raw: " + rawData + "to port :" + h.getPort());
+            //System.out.println("Stubborn sending raw: " + rawData + "to port :" + h.getPort());
             sendUDP(h, buf); //UDP is used as a fair loss link
             try {
                 int sleepTime = rand.nextInt(500);
@@ -65,7 +65,7 @@ public class StubbornLinkWithAck extends Link {
     public boolean deliver(String rawData) throws IOException {
         String msg = Helper.getMsg(rawData);
         String msg_uid = Helper.getMsgUid(rawData);
-        System.out.println("Stubborn Deliver raw data: " + rawData);
+        //System.out.println("Stubborn Deliver raw data: " + rawData);
         //if received message is an ack then add msg_uid to set of acked messages
         //so that this process will stop resending the same message
         if(msg.equals(ACK)) {

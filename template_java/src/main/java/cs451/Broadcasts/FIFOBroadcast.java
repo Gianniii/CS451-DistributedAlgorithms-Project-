@@ -39,7 +39,7 @@ public class FIFOBroadcast extends Broadcast{
     }
     public boolean deliver(String rawData) throws IOException {
         //TODO think about how what datastructure to use for pending
-        pending.add(rawData);
+        pending.add(Helper.getMsgUid(rawData) + Helper.getMsg(rawData));
         boolean iterateAgain = true;
         
         //TODO use better datastructure for pending, where store rawData by procId so only need to check if i can deliver messages
@@ -48,11 +48,11 @@ public class FIFOBroadcast extends Broadcast{
         iterateAgain = false;
             for(String rData: pending) {
                 String msgUid = Helper.getMsg(rData);
-                int procId = Integer.parseInt(Helper.getProcIdFromMessageUid(msgUid));
+                int srcId = Integer.parseInt(Helper.getProcIdFromMessageUid(msgUid));
                 String seqNum = Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData));
-                if(next[procId] == Integer.parseInt(seqNum)) {
+                if(next[srcId] == Integer.parseInt(seqNum)) {
                     pending.remove(rData);
-                    next[procId]++;
+                    next[srcId]++;
                     iterateAgain = true; //check if can send another
                     //FIFODeliver
                     log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 

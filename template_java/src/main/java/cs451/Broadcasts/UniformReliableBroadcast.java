@@ -40,7 +40,8 @@ public class UniformReliableBroadcast extends Broadcast {
 
     public boolean broadcast(String msg_uid, String msg) throws IOException {
         System.out.println("1-URB broadcast: " + msg_uid);
-        String rawData = Helper.appendMsg(msg_uid, msg);
+        String rawData = Helper.addSenderIdAndMsgUidToMsg(parser.myId(), msg_uid, msg);
+        
         forward.add(rawData); //add message to pending
         ackedMuid.put(msg_uid,  Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>()));
         deliverIfCan(); //check if can deliver message (TODO check if this is usefull)
@@ -54,14 +55,14 @@ public class UniformReliableBroadcast extends Broadcast {
         //increment ack count in ackedMuid for Helper.getMsgUid(rawData)
         System.out.println("URB deliver: for raw data" + rawData);
         String msg_uid = Helper.getMsgUid(rawData);
-        String proc_id = Helper.getProcIdFromMessageUid(msg_uid);
         if(ackedMuid.get(msg_uid)==null) {
             ackedMuid.put(msg_uid, Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>()));
         }
-        ackedMuid.get(msg_uid).add(Integer.parseInt(proc_id)); 
+        ackedMuid.get(msg_uid).add(Integer.parseInt(Helper.getSenderId(rawData))); 
         System.out.println("URB: acksForMsgUid: " + ackedMuid.get(msg_uid));
         if(!forward.contains(rawData)){ //forward everything only once PB RAW DATA NOW CONTAINS SRC !! 
             forward.add(rawData);
+            //BestEffortBroadcast bestEffortBroadcast2 = new BestEffortBroadcast(parser,  this);
             bestEffortBroadcast.broadcast(Helper.getMsgUid(rawData), Helper.getMsg(rawData)); //ONLY PROBLEM IS CANT DO 2 BEB SIMULTANEOUSLY ...
         }
         deliverIfCan();
@@ -73,7 +74,7 @@ public class UniformReliableBroadcast extends Broadcast {
         //and who have not been delivered before
         for(String rawData : forward) {
             String msgUid = Helper.getMsgUid(rawData);
-            System.out.println("deliver if can/ acksformsguid :  " + ackedMuid.get(msgUid).size() + "for raw: " + rawData);
+            System.out.println("deliver if can/ acksformsguid :  " + ackedMuid.get(msgUid) + "for raw: " + rawData);
             Set<Integer> acksForMsgUid = ackedMuid.get(msgUid);
             if(acksForMsgUid.size() > hosts.size()/2. && !deliveredUid.contains(msgUid)){
                 actuallyDeliver(rawData);

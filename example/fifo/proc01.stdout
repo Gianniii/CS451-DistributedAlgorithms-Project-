@@ -1,6 +1,6 @@
-My PID: 2833
+My PID: 13815
 
-From a new terminal type `kill -SIGINT 2833` or `kill -SIGTERM 2833` to stop processing packets
+From a new terminal type `kill -SIGINT 13815` or `kill -SIGTERM 13815` to stop processing packets
 
 My ID: 1
 
@@ -31,128 +31,429 @@ Doing some initialization
 
 Broadcasting and delivering messages...
 
-1-URB broadcast: 1.1:1636490671760
-received packet: 2_2.1:1636490671734,1
-Stubborn Deliver raw data: 2_2.1:1636490671734,1
-perfect link deliver: 2_2.1:1636490671734,1
-BEB deliver: 1
-URB deliver: for raw data2_2.1:1636490671734,1
+FIFO Broadcast: 1.1:1636498462006
+1-URB broadcast: 1.1:1636498462006
+received packet: 2_2.1:1636498462008,1
+received packet: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  []for raw: 1_1.1:1636498462006,1
+BEB broadcast: 1.1:1636498462006
+num hosts: 3
+Stubborn Send :waiting for 1_1.1:1636498462006
+received packet: 1_1.1:1636498462006,1
+BEB deliver: 2_2.1:1636498462008,1
+BEB deliver: 3_3.1:1636498462009,1
+URB deliver: for raw data3_3.1:1636498462009,1
+URB: acksForMsgUid: [3]
+URB deliver: for raw data2_2.1:1636498462008,1
 URB: acksForMsgUid: [2]
-BEB broadcast: 2.1:1636490671734
+BEB broadcast: 3.1:1636498462009
 num hosts: 3
-deliver if can/ acksformsguid :  0for raw: 1.1:1636490671760,1
-BEB broadcast: 1.1:1636490671760
+Stubborn Send :waiting for 1_3.1:1636498462009
+BEB broadcast: 2.1:1636498462008
 num hosts: 3
-sending to host IP: 127.0.0.1sending to port :11001
-sending to host IP: 127.0.0.1sending to port :11001
-Stubborn Send :waiting for 1_2.1:1636490671734
-Stubborn Send :waiting for 1_1.1:1636490671760
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
+Stubborn Send :waiting for 1_2.1:1636498462008
+received packet: 1_3.1:1636498462009,1
+BEB deliver: 1_1.1:1636498462006,1
+URB deliver: for raw data1_1.1:1636498462006,1
+URB: acksForMsgUid: [1]
+deliver if can/ acksformsguid :  [3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [2]for raw: 2_2.1:1636498462008,1
+received packet: 1_2.1:1636498462008,1
+BEB deliver: 1_3.1:1636498462009,1
+URB deliver: for raw data1_3.1:1636498462009,1
+URB: acksForMsgUid: [1, 3]
+BEB broadcast: 3.1:1636498462009
+num hosts: 3
+Stubborn Send :waiting for 1_3.1:1636498462009
+received packet: 1_1.1:1636498462006,ACK
+BEB deliver: 1_2.1:1636498462008,1
+URB deliver: for raw data1_2.1:1636498462008,1
+URB: acksForMsgUid: [1, 2]
+BEB broadcast: 2.1:1636498462008
+num hosts: 3
+Stubborn Send :waiting for 1_2.1:1636498462008
+received packet: 1_3.1:1636498462009,1
+received packet: 1_2.1:1636498462008,1
+received packet: 1_3.1:1636498462009,ACK
+received packet: 3_3.1:1636498462009,1
+received packet: 1_2.1:1636498462008,ACK
+received packet: 2_3.1:1636498462009,1
+BEB deliver: 2_3.1:1636498462009,1
+URB deliver: for raw data2_3.1:1636498462009,1
+URB: acksForMsgUid: [1, 2, 3]
+BEB broadcast: 3.1:1636498462009
+num hosts: 3
+Stubborn Send :waiting for 1_3.1:1636498462009
+Stubborn Send :waiting for 2_3.1:1636498462009
+received packet: 2_3.1:1636498462009,1
+Stubborn Send :waiting for 2_1.1:1636498462006
+received packet: 2_1.1:1636498462006,1
+BEB deliver: 2_1.1:1636498462006,1
+URB deliver: for raw data2_1.1:1636498462006,1
+URB: acksForMsgUid: [1, 2]
+BEB broadcast: 1.1:1636498462006
+num hosts: 3
+Stubborn Send :waiting for 1_1.1:1636498462006
+Stubborn Send :waiting for 2_1.1:1636498462006
+received packet: 2_1.1:1636498462006,ACK
+Stubborn Send :waiting for 2_2.1:1636498462008
+received packet: 2_2.1:1636498462008,1
+Stubborn Send :waiting for 3_1.1:1636498462006
+Stubborn Send :waiting for 2_2.1:1636498462008
+received packet: 2_2.1:1636498462008,ACK
+received packet: 3_1.1:1636498462006,1
+BEB deliver: 3_1.1:1636498462006,1
+URB deliver: for raw data3_1.1:1636498462006,1
+URB: acksForMsgUid: [1, 2, 3]
+BEB broadcast: 1.1:1636498462006
+num hosts: 3
+Stubborn Send :waiting for 1_1.1:1636498462006
+Stubborn Send :waiting for 2_1.1:1636498462006
+Stubborn Send :waiting for 3_1.1:1636498462006
+received packet: 3_1.1:1636498462006,ACK
+received packet: 2_1.1:1636498462006,1
+received packet: 2_3.1:1636498462009,ACK
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+Stubborn Send :waiting for 2_3.1:1636498462009
+Stubborn Send :waiting for 3_3.1:1636498462009
+Stubborn Send :waiting for 2_3.1:1636498462009
+Stubborn Send :waiting for 3_3.1:1636498462009
+received packet: 3_3.1:1636498462009,ACK
+Stubborn Send :waiting for 3_2.1:1636498462008
+received packet: 3_2.1:1636498462008,1
+BEB deliver: 3_2.1:1636498462008,1
+URB deliver: for raw data3_2.1:1636498462008,1
+URB: acksForMsgUid: [1, 2, 3]
+BEB broadcast: 2.1:1636498462008
+num hosts: 3
+Stubborn Send :waiting for 1_2.1:1636498462008
+Stubborn Send :waiting for 2_2.1:1636498462008
+Stubborn Send :waiting for 3_2.1:1636498462008
+received packet: 3_2.1:1636498462008,ACK
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+Stubborn Send :waiting for 3_1.1:1636498462006
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.1:1636498462008,1
+Stubborn Send :waiting for 3_3.1:1636498462009
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.1:1636498462008,1
+received packet: 3_1.1:1636498462006,1
+received packet: 2_1.1:1636498462006,ACK
+received packet: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.1:1636498462008,1
+2-URB broadcast: 1.1:1636498462006
+FIFO Broadcast: 1.2:1636498462818
+1-URB broadcast: 1.2:1636498462818
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  []for raw: 1_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.1:1636498462008,1
+BEB broadcast: 1.2:1636498462818
+num hosts: 3
+Stubborn Send :waiting for 1_1.2:1636498462818
+received packet: 1_1.2:1636498462818,2
+BEB deliver: 1_1.2:1636498462818,2
+URB deliver: for raw data1_1.2:1636498462818,2
+URB: acksForMsgUid: [1]
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1]for raw: 1_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.1:1636498462008,1
+received packet: 1_1.2:1636498462818,ACK
+Stubborn Send :waiting for 2_1.2:1636498462818
+received packet: 2_1.2:1636498462818,2
+BEB deliver: 2_1.2:1636498462818,2
+URB deliver: for raw data2_1.2:1636498462818,2
+URB: acksForMsgUid: [1, 2]
+BEB broadcast: 1.2:1636498462818
+num hosts: 3
+Stubborn Send :waiting for 1_1.2:1636498462818
+Stubborn Send :waiting for 2_1.2:1636498462818
+received packet: 2_1.2:1636498462818,ACK
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2]for raw: 2_1.2:1636498462818,2
+received packet: 2_2.1:1636498462008,ACK
+received packet: 2_2.2:1636498462851,2
+BEB deliver: 2_2.2:1636498462851,2
+URB deliver: for raw data2_2.2:1636498462851,2
+URB: acksForMsgUid: [2]
+BEB broadcast: 2.2:1636498462851
+num hosts: 3
+Stubborn Send :waiting for 1_2.2:1636498462851
+received packet: 1_2.2:1636498462851,2
+BEB deliver: 1_2.2:1636498462851,2
+URB deliver: for raw data1_2.2:1636498462851,2
+URB: acksForMsgUid: [1, 2]
+BEB broadcast: 2.2:1636498462851
+num hosts: 3
+Stubborn Send :waiting for 1_2.2:1636498462851
+received packet: 1_2.2:1636498462851,2
+received packet: 1_2.2:1636498462851,ACK
+Stubborn Send :waiting for 3_1.2:1636498462818
+received packet: 3_1.2:1636498462818,2
+BEB deliver: 3_1.2:1636498462818,2
+URB deliver: for raw data3_1.2:1636498462818,2
+URB: acksForMsgUid: [1, 2, 3]
+BEB broadcast: 1.2:1636498462818
+num hosts: 3
+Stubborn Send :waiting for 1_1.2:1636498462818
+Stubborn Send :waiting for 2_1.2:1636498462818
+Stubborn Send :waiting for 3_1.2:1636498462818
+received packet: 3_1.2:1636498462818,ACK
+Stubborn Send :waiting for 2_2.2:1636498462851
+received packet: 2_2.2:1636498462851,2
+received packet: 3_3.1:1636498462009,ACK
+Stubborn Send :waiting for 3_2.1:1636498462008
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2]for raw: 2_2.2:1636498462851,2
+received packet: 2_1.2:1636498462818,2
+Stubborn Send :waiting for 2_2.2:1636498462851
+received packet: 2_2.2:1636498462851,ACK
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2]for raw: 2_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2]for raw: 1_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2]for raw: 2_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2]for raw: 1_2.2:1636498462851,2
+received packet: 2_3.1:1636498462009,ACK
+received packet: 3_2.1:1636498462008,ACK
+received packet: 3_1.1:1636498462006,ACK
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2]for raw: 2_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2]for raw: 1_2.2:1636498462851,2
+Stubborn Send :waiting for 3_1.2:1636498462818
+2-URB broadcast: 1.2:1636498462818
+FIFO Broadcast: 1.3:1636498463176
+1-URB broadcast: 1.3:1636498463176
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.2:1636498462818,2
+deliver if can/ acksformsguid :  []for raw: 1_1.3:1636498463176,3
+deliver if can/ acksformsguid :  [1, 2]for raw: 2_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2]for raw: 1_2.2:1636498462851,2
+BEB broadcast: 1.3:1636498463176
+num hosts: 3
+Stubborn Send :waiting for 1_1.3:1636498463176
+received packet: 1_1.3:1636498463176,3
+BEB deliver: 1_1.3:1636498463176,3
+URB deliver: for raw data1_1.3:1636498463176,3
+URB: acksForMsgUid: [1]
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1]for raw: 1_1.3:1636498463176,3
+deliver if can/ acksformsguid :  [1, 2]for raw: 2_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2]for raw: 1_2.2:1636498462851,2
+received packet: 1_1.3:1636498463176,ACK
+Stubborn Send :waiting for 3_2.2:1636498462851
+received packet: 3_2.2:1636498462851,2
+BEB deliver: 3_2.2:1636498462851,2
+URB deliver: for raw data3_2.2:1636498462851,2
+URB: acksForMsgUid: [1, 2, 3]
+BEB broadcast: 2.2:1636498462851
+num hosts: 3
+Stubborn Send :waiting for 1_2.2:1636498462851
+Stubborn Send :waiting for 2_2.2:1636498462851
+Stubborn Send :waiting for 3_2.2:1636498462851
+received packet: 3_2.2:1636498462851,ACK
+Stubborn Send :waiting for 3_2.2:1636498462851
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1]for raw: 1_1.3:1636498463176,3
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.2:1636498462851,2
+received packet: 3_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1]for raw: 1_1.3:1636498463176,3
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.2:1636498462851,2
+received packet: 1_2.2:1636498462851,ACK
+Stubborn Send :waiting for 2_1.3:1636498463176
+received packet: 2_1.3:1636498463176,3
+BEB deliver: 2_1.3:1636498463176,3
+URB deliver: for raw data2_1.3:1636498463176,3
+URB: acksForMsgUid: [1, 2]
+BEB broadcast: 1.3:1636498463176
+num hosts: 3
+Stubborn Send :waiting for 1_1.3:1636498463176
+Stubborn Send :waiting for 2_1.3:1636498463176
+received packet: 2_1.3:1636498463176,ACK
+Stubborn Send :waiting for 3_1.3:1636498463176
+received packet: 3_1.3:1636498463176,3
+BEB deliver: 3_1.3:1636498463176,3
+URB deliver: for raw data3_1.3:1636498463176,3
+URB: acksForMsgUid: [1, 2, 3]
+BEB broadcast: 1.3:1636498463176
+num hosts: 3
+Stubborn Send :waiting for 1_1.3:1636498463176
+Stubborn Send :waiting for 2_1.3:1636498463176
+Stubborn Send :waiting for 3_1.3:1636498463176
+received packet: 3_1.3:1636498463176,ACK
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.3:1636498463176,3
+Stubborn Send :waiting for 3_1.3:1636498463176
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.3:1636498463176,3
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.3:1636498463176,3
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.3:1636498463176,3
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.2:1636498462851,2
+received packet: 2_2.2:1636498462851,ACK
+received packet: 3_1.3:1636498463176,3
+received packet: 3_2.2:1636498462851,ACK
+2-URB broadcast: 1.3:1636498463176
+received packet: 2_1.2:1636498462818,ACK
+received packet: 3_1.2:1636498462818,ACK
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.3:1636498463176,3
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.3:1636498463176,3
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.3:1636498463176,3
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.2:1636498462851,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_3.1:1636498462009,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 3_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.1:1636498462006,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_1.2:1636498462818,2
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 2_2.1:1636498462008,1
+deliver if can/ acksformsguid :  [1, 2, 3]for raw: 1_2.2:1636498462851,2
+received packet: 2_1.3:1636498463176,ACK
+received packet: 3_1.3:1636498463176,ACK
 Immediately stopping network packet processing.
-Sleep interrupted.
-Stubborn sending raw: 1_2.1:1636490671734,1to port :11001
-Sleep interrupted.
-Stubborn sending raw: 1_1.1:1636490671760,1to port :11001
 Writing output.
