@@ -27,6 +27,10 @@ public final class Helper {
         return rawData.substring(0, index);
     }
 
+    public static String removeSenderId(String rawData) {
+        return "_" + appendMsg(getMsgUid(rawData), getMsg(rawData));
+    }
+
     public static String getProcIdFromMessageUid(String msg_uid) {
         int index = msg_uid.indexOf(".");
         return msg_uid.substring(0, index); 

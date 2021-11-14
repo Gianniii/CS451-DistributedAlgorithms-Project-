@@ -20,12 +20,13 @@ public class Main {
     private static void handleSignal(Broadcast broadcaster, String filePath, Receiver receiver, Sender sender) {
         //immediately stop network packet processing
         System.out.println("Immediately stopping network packet processing.");
-        receiver.close();
-        receiver.interrupt();
-        sender.interrupt();
+        broadcaster.getStubbornLink().stopReceivingAndSending(); //no longer send or process any received packets
+        receiver.close(); //stop running the receiver
+        sender.close(); //stop the sender from sending
         //write/flush output file if necessary
         System.out.println("Writing output.");
         writeLogToFile(filePath, broadcaster.getLogs());
+        //System.exit(0);
     }
 
     private static void initSignalHandlers(Broadcast broadcaster, String filePath, Receiver receiver, Sender sender) {
@@ -68,23 +69,16 @@ public class Main {
         System.out.println("Doing some initialization\n");
        
     
-        FIFOBroadcast FIFO = new FIFOBroadcast(parser);
-        //UniformReliableBroadcast FIFO = new UniformReliableBroadcast(parser, null);
-        //BestEffortBroadcast FIFO = new BestEffortBroadcast(parser, null);
-        StubbornLinkWithAck stubbornLink = FIFO.getUniformReliableBroadcast().getBestEffortBroadcast()
-                                            .getPerfectLink().getStubbornLink();
-        //StubbornLinkWithAck stubbornLink = FIFO.getPerfectLink().getStubbornLink();
-        //StubbornLinkWithAck stubbornLink = FIFO.getBestEffortBroadcast().getPerfectLink().getStubbornLink();
+        FIFOBroadcast broadcastProtocol = new FIFOBroadcast(parser); 
         //sender and receiver need to be threads, so that we can send and receive in parallel
         DatagramSocket socket= new DatagramSocket(parser.myHost().getPort());
-        Receiver receiver = new Receiver(socket, stubbornLink);
-        Sender sender = new Sender(FIFO, parser);
+        Receiver receiver = new Receiver(socket, broadcastProtocol.getStubbornLink());
+        Sender sender = new Sender(broadcastProtocol, parser);
         receiver.start();
         System.out.println("Broadcasting and delivering messages...\n");
         sender.start();
 
-        initSignalHandlers(FIFO, parser.output(), receiver, sender);
-
+        initSignalHandlers(broadcastProtocol, parser.output(), receiver, sender);
         // After a process finishes broadcasting,
         // it waits forever for the delivery of messages.
         while (true) {

@@ -22,8 +22,8 @@ public class PerfectLink extends Link{
     ConcurrentLinkedQueue<String> log;
     Broadcast caller;
     Host dst;
-    String msg;
-    String msg_uid;
+    boolean terminated;
+
     public PerfectLink(Parser parser, BestEffortBroadcast caller) {
         stubbornLinkWithAck = new StubbornLinkWithAck(this, parser);
         deliveredUid = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
@@ -33,41 +33,26 @@ public class PerfectLink extends Link{
 
     public boolean send(Host h, String msg_uid, String msg) throws IOException {
         dst = h;
-        this.msg_uid = msg_uid;
-        this.msg = msg;
         stubbornLinkWithAck.send(dst, msg_uid, msg);
-        //run();
         //log.add("b " + Helper.getSeqNumFromMessageUid(msg_uid));
         return true;
     }
 
-    /**@Override
-    public void run() {
-        try {
-            stubbornLinkWithAck.send(dst, msg_uid, msg);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }**/
-    
+
     public boolean deliver(String rawData) throws IOException{
-        //TODO: DELIVER TO ABOVE CHANNEL implement other channels
-        //do not deliver same message more then once
+        //do not deliver same message from same sender more then once
         //System.out.println("perfect link deliver: " + rawData);
         String msgUid = Helper.getMsgUid(rawData);
         String senderId = Helper.getSenderId(rawData);
+
         if(!deliveredUid.contains(senderId + msgUid)){
             //add msgUid to delivered messages set 
             deliveredUid.add(senderId + msgUid); 
-            //update log
-            //log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
-            //    + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
+            /**log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
+                + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));**/
             caller.deliver(rawData);
-            
-            return true;
-
         }
+
         return true;
     }
 
@@ -77,6 +62,11 @@ public class PerfectLink extends Link{
 
     public ConcurrentLinkedQueue<String> getLogs() {
         return log;
+    }
+
+    public boolean terminate() {
+        terminated = true; 
+        return stubbornLinkWithAck.terminate();
     }
     
 }

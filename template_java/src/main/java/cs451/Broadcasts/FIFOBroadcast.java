@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import cs451.Host;
 import cs451.Parser;
 import cs451.Links.Helper;
+import cs451.Links.StubbornLinkWithAck;
 
 public class FIFOBroadcast extends Broadcast{
     ConcurrentLinkedQueue<String> log;
@@ -19,6 +20,7 @@ public class FIFOBroadcast extends Broadcast{
     Set<String> pending; //msgs i have seen & bebBroadcast but not delivered yet, Strings contain rawData i.e (msg_uid + msg) 
     int[] next;
     Parser parser;
+    boolean terminated = false;
     
     public FIFOBroadcast(Parser parser) {
         this.parser = parser;
@@ -31,12 +33,14 @@ public class FIFOBroadcast extends Broadcast{
     }
 
     public boolean broadcast(String msg_uid, String msg) throws IOException {
-        System.out.println("FIFO Broadcast: " + msg_uid);
+        //System.out.println("FIFO Broadcast: " + msg_uid);
         log.add("b " + Helper.getSeqNumFromMessageUid(msg_uid));
         uniformReliableBroadcast.broadcast(msg_uid, msg);
         return true;
 
     }
+        
+    //Receives rawData of the form [msgUid+msg]
     public boolean deliver(String rawData) throws IOException {
         //TODO think about how what datastructure to use for pending
         pending.add(Helper.getMsgUid(rawData) + Helper.getMsg(rawData));
@@ -44,7 +48,7 @@ public class FIFOBroadcast extends Broadcast{
         
         //TODO use better datastructure for pending, where store rawData by procId so only need to check if i can deliver messages
         //of same procId as the rawData i received(only iterate over rData in pending[procId])
-        while(iterateAgain){
+        while(iterateAgain && !terminated){
         iterateAgain = false;
             for(String rData: pending) {
                 String msgUid = Helper.getMsgUid(rawData);
@@ -67,8 +71,17 @@ public class FIFOBroadcast extends Broadcast{
         return uniformReliableBroadcast;
     }
 
+    public StubbornLinkWithAck getStubbornLink() {
+        return uniformReliableBroadcast.getStubbornLink();
+    }
+
     public ConcurrentLinkedQueue<String> getLogs() {
         return log;
+    }
+
+    public boolean terminate() {
+        terminated = true; 
+        return uniformReliableBroadcast.terminate();
     }
     
 }

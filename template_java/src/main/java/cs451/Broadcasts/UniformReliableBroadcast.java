@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import cs451.Host;
 import cs451.Parser;
 import cs451.Links.Helper;
+import cs451.Links.StubbornLinkWithAck;
 
 public class UniformReliableBroadcast extends Broadcast {
     ConcurrentLinkedQueue<String> log;
@@ -19,6 +20,7 @@ public class UniformReliableBroadcast extends Broadcast {
     Parser parser;
     ConcurrentHashMap<String, Set<Integer>> ackedMuid; //(msg_uid, Set processes that acked/retransmit it) //probably need a map
     FIFOBroadcast fifoBroadcast;
+    boolean terminated = false;
 
 
     //BIG PROBLEM!!  ideally use diff reliable link for every host... cuz else have problems when trying to do 2 bebbroadcast simultanesouly....
@@ -38,31 +40,32 @@ public class UniformReliableBroadcast extends Broadcast {
         forward = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
     }
 
-    public boolean broadcast(String msg_uid, String msg) throws IOException {
-        System.out.println("1-URB broadcast: " + msg_uid);
-        String rawData = Helper.addSenderIdAndMsgUidToMsg(parser.myId(), msg_uid, msg);
+    public boolean broadcast(String msgUid, String msg) throws IOException {
         
-        forward.add(rawData); //add message to pending
-        ackedMuid.put(msg_uid,  Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>()));
+        forward.add("_" + Helper.appendMsg(msgUid, msg)); //add "_"+ msguid + msg to pending 
+        ackedMuid.put(msgUid,  Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>()));
         deliverIfCan(); //check if can deliver message (TODO check if this is usefull)
-        bestEffortBroadcast.broadcast(msg_uid, msg);  //NOW THE PROBLEM IS YOU CANT BEB HERE ANDDDD BELOW IDK WHYYY
-        System.out.println("2-URB broadcast: " + msg_uid);
-        log.add("b " + Helper.getSeqNumFromMessageUid(msg_uid));
+        bestEffortBroadcast.broadcast(msgUid, msg);  //NOW THE PROBLEM IS YOU CANT BEB HERE ANDDDD BELOW IDK WHYYY
+        //log.add("b " + Helper.getSeqNumFromMessageUid(msgUid));
         return true;
 
     }
+
+    //Receives rawData of the form [senderId+msgUid+msg]
     public boolean deliver(String rawData) throws IOException {
         //increment ack count in ackedMuid for Helper.getMsgUid(rawData)
-        System.out.println("URB deliver: for raw data" + rawData);
-        String msg_uid = Helper.getMsgUid(rawData);
-        if(ackedMuid.get(msg_uid)==null) {
-            ackedMuid.put(msg_uid, Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>()));
+        System.out.println("URB receives rawData: " + rawData);
+        String msgUid = Helper.getMsgUid(rawData);
+        if(ackedMuid.get(msgUid)==null) {
+            ackedMuid.put(msgUid, Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>()));
         }
-        ackedMuid.get(msg_uid).add(Integer.parseInt(Helper.getSenderId(rawData))); 
-        System.out.println("URB: acksForMsgUid: " + ackedMuid.get(msg_uid));
-        if(!forward.contains(rawData)){ //forward everything only once PB RAW DATA NOW CONTAINS SRC !! 
-            forward.add(rawData);
-            //BestEffortBroadcast bestEffortBroadcast2 = new BestEffortBroadcast(parser,  this);
+        //ack the msg 
+        ackedMuid.get(msgUid).add(Integer.parseInt(Helper.getSenderId(rawData))); 
+
+        //forward if this message was not forwarded yet (can remove senderID as per the algorithms seen in class)
+        String msgUidAndData = Helper.removeSenderId(rawData);
+        if(!forward.contains(msgUidAndData)){ //forward everything only once PB RAW DATA NOW CONTAINS SRC !! 
+            forward.add(msgUidAndData);
             bestEffortBroadcast.broadcast(Helper.getMsgUid(rawData), Helper.getMsg(rawData)); //ONLY PROBLEM IS CANT DO 2 BEB SIMULTANEOUSLY ...
         }
         deliverIfCan();
@@ -74,10 +77,11 @@ public class UniformReliableBroadcast extends Broadcast {
         //and who have not been delivered before
         for(String rawData : forward) {
             String msgUid = Helper.getMsgUid(rawData);
-            System.out.println("deliver if can/ acksformsguid :  " + ackedMuid.get(msgUid) + "for raw: " + rawData);
             Set<Integer> acksForMsgUid = ackedMuid.get(msgUid);
-            if(acksForMsgUid.size() > hosts.size()/2. && !deliveredUid.contains(msgUid)){
+            synchronized(this) {
+                if(acksForMsgUid.size() > hosts.size()/2. && !deliveredUid.contains(msgUid)){
                 actuallyDeliver(rawData);
+                }
             }
         }
         return true;
@@ -86,9 +90,9 @@ public class UniformReliableBroadcast extends Broadcast {
     public boolean actuallyDeliver(String rawData) throws IOException {
         //add msgUid to delivered messages set 
         deliveredUid.add(Helper.getMsgUid(rawData)); 
-        //update log//URB DELIVER
-        log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
-            + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
+        System.out.println("URB actuallyDelivers rawData: " + rawData);
+        /**log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
+            + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));**/
         if(fifoBroadcast != null){
             fifoBroadcast.deliver(rawData);
         }
@@ -100,7 +104,16 @@ public class UniformReliableBroadcast extends Broadcast {
         return bestEffortBroadcast;
     }
 
+    public StubbornLinkWithAck getStubbornLink() {
+        return bestEffortBroadcast.getStubbornLink();
+    }
+
     public ConcurrentLinkedQueue<String> getLogs() {
         return log;
+    }
+
+    public boolean terminate() {
+        terminated = true; 
+        return bestEffortBroadcast.terminate();
     }
 }

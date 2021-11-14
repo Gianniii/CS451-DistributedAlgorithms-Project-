@@ -24,20 +24,22 @@ public class Receiver extends Thread {
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
                 String received = new String(packet.getData(), 0, packet.getLength());
-                System.out.println("received packet: " + received);
-                Thread t1 = new Thread(new Runnable() {
-                    @Override //Tread received packet in new thread so i can continue listening 
-                    public void run() {
-                        try {
-                            stubbornLinkWithAck.deliver(received);
-                        } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-                });  
-                t1.start();
+                //System.out.println("received packet: " + received);
                 
+                if(running) {
+                    Thread t1 = new Thread(new Runnable() {
+                        @Override //Treat received packet in new thread so i can continue listening 
+                        public void run() {
+                            try {
+                                stubbornLinkWithAck.deliver(received);
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
+                    });  
+                    t1.start();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
