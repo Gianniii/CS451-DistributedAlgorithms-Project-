@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import cs451.Helper;
 import cs451.Host;
 import cs451.Parser;
-import cs451.Links.Helper;
 import cs451.Links.StubbornLinkWithAck;
 
 public class UniformReliableBroadcast extends Broadcast {
@@ -16,9 +16,9 @@ public class UniformReliableBroadcast extends Broadcast {
     BestEffortBroadcast bestEffortBroadcast;
     List<Host> hosts; //list of all processes
     Set<String> deliveredUid; // messages i have already delivered
-    Set<String> forward; //msgs i have seen & bebBroadcast but not delivered yet, Strings contain rawData i.e (msg_uid + msg) 
+    Set<String> forward; //msgs i have seen & bebBroadcast but not delivered yet, Strings contain ("_" + msg_uid + msg) 
     Parser parser;
-    ConcurrentHashMap<String, Set<Integer>> ackedMuid; //(msg_uid, Set processes that acked/retransmit it) //probably need a map
+    ConcurrentHashMap<String, Set<Integer>> ackedMuid; //(msg_uid, Set processes that acked/retransmit it) 
     FIFOBroadcast fifoBroadcast;
     boolean terminated = false;
 
@@ -37,7 +37,7 @@ public class UniformReliableBroadcast extends Broadcast {
 
     public boolean broadcast(String msgUid, String msg) throws IOException {
         
-        forward.add("_" + Helper.appendMsg(msgUid, msg)); //add "_"+ msguid + msg to pending 
+        forward.add("_" + Helper.appendMsg(msgUid, msg)); //add "_"+ msguid + msg to pending (add leading "_" to reuse Helper methods to unpack content)
         ackedMuid.put(msgUid,  Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>()));
         deliverIfCan(); 
         bestEffortBroadcast.broadcast(msgUid, msg);  

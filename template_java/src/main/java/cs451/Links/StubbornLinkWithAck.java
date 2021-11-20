@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.io.IOException;
 import java.lang.IllegalArgumentException;
 import cs451.Parser;
+import cs451.Helper;
 import cs451.Host;
 import java.lang.Integer;
 import java.util.HashSet;
@@ -52,7 +53,7 @@ public class StubbornLinkWithAck extends Link {
             //System.out.println("Stubborn sending raw: " + rawData + "to port :" + h.getPort());
             sendUDP(h, buf); //UDP is used as a fair loss link
             try {
-                int sleepTime = rand.nextInt(500); 
+                int sleepTime = rand.nextInt(50); //TODO could make the retransmission policy dynamic to increase performance
                 Thread.sleep(sleepTime);
             } catch (InterruptedException e) {}
             

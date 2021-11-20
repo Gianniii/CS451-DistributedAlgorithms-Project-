@@ -3,6 +3,7 @@ import java.net.InetAddress;
 import java.io.IOException;
 import java.util.Set;
 
+import cs451.Helper;
 import cs451.Host;
 import cs451.Parser;
 import cs451.Broadcasts.BestEffortBroadcast;
@@ -41,7 +42,6 @@ public class PerfectLink extends Link{
 
     public boolean deliver(String rawData) throws IOException{
         //do not deliver same message from same sender more then once
-        //System.out.println("perfect link deliver: " + rawData);
         String msgUid = Helper.getMsgUid(rawData);
         String senderId = Helper.getSenderId(rawData);
 

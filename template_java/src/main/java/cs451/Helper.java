@@ -1,4 +1,4 @@
-package cs451.Links;
+package cs451;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import java.io.IOException;
 
 //rawData format: [senderId + "_" + proc_id + "." + seq_num + ":" + timestamp + "," + msg] // 
-
+//The messageUID has format: [proc_id + "." + seq_num + ":" + timestamp]
 public final class Helper {
     
     public static String getMsgUid(String rawData){

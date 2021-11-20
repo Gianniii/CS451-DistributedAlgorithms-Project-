@@ -7,9 +7,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import cs451.Helper;
 import cs451.Host;
 import cs451.Parser;
-import cs451.Links.Helper;
 import cs451.Links.StubbornLinkWithAck;
 
 public class FIFOBroadcast extends Broadcast{
@@ -42,7 +42,6 @@ public class FIFOBroadcast extends Broadcast{
         
     //Receives rawData of the form [msgUid+msg]
     public boolean deliver(String rawData) throws IOException {
-        //TODO think about how what datastructure to use for pending
         pending.add(Helper.getMsgUid(rawData) + Helper.getMsg(rawData));
         boolean iterateAgain = true;
         

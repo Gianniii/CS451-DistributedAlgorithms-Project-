@@ -76,7 +76,6 @@ public class Parser {
         return configParser.getPath();
     }
 
-    //TODO change all this 
     public int getMessageNumber() {
         File configFile = new File(config());
         int messageNumber = 0;

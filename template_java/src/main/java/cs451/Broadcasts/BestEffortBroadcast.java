@@ -4,9 +4,9 @@ import java.net.InetAddress;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import cs451.Helper;
 import cs451.Host;
 import cs451.Parser;
-import cs451.Links.Helper;
 import cs451.Links.PerfectLink;
 import cs451.Links.StubbornLinkWithAck;
 
@@ -30,8 +30,6 @@ public class BestEffortBroadcast extends Broadcast {
 
     public boolean broadcast(String msg_uid, String msg) throws IOException {
         //log.add("beb b" + Helper.getSeqNumFromMessageUid(msg_uid));
-        //System.out.println("BEB broadcast: " + msg_uid);
-        //System.out.println("num hosts: " + hosts.size());
         //ideally beb uses one different perfectlink per host... but how does receiver know where to send after... =(
         for(Host h : hosts) {      
             perfectLink.send(h, msg_uid, msg);
@@ -39,7 +37,6 @@ public class BestEffortBroadcast extends Broadcast {
         return true;
     }
     public boolean deliver(String rawData) throws IOException {
-        //System.out.println("BEB deliver: " + rawData);;
         if(uniformReliableBroadcast != null) {
             uniformReliableBroadcast.deliver(rawData);
         }

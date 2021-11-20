@@ -23,6 +23,8 @@ public class Main {
         broadcaster.getStubbornLink().stopReceivingAndSending(); //no longer send or process any received packets
         receiver.close(); //stop running the receiver
         sender.close(); //stop the sender from sending
+        receiver.interrupt();
+        sender.interrupt();
         //write/flush output file if necessary
         System.out.println("Writing output.");
         writeLogToFile(filePath, broadcaster.getLogs());
