@@ -1,0 +1,4 @@
+Exception in thread "Thread-1" java.util.NoSuchElementException: No line found
+	at java.base/java.util.Scanner.nextLine(Scanner.java:1651)
+	at cs451.Parser.getMessageNumber(Parser.java:84)
+	at cs451.Sender.run(Sender.java:22)

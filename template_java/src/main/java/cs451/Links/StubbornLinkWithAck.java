@@ -43,7 +43,8 @@ public class StubbornLinkWithAck extends Link {
     public boolean send(Host h, String msgUid, String msg) throws IOException{
         //send until message gets acked
         Random rand = new Random();
-        //Block until the message is acked
+        int numProcs = parser.hosts().size();
+        int maxRetransmitTime = getMaxRetransmitTime(numProcs);
         String myIdWithMsgUid = Helper.extendWithSenderId(h.getId(), msgUid);
         //System.out.println("Stubborn Send :"+ "waiting for " + myIdWithMsgUid);
         while(!ackedMuid.contains(myIdWithMsgUid) && !terminated) { 
@@ -53,7 +54,7 @@ public class StubbornLinkWithAck extends Link {
             //System.out.println("Stubborn sending raw: " + rawData + "to port :" + h.getPort());
             sendUDP(h, buf); //UDP is used as a fair loss link
             try {
-                int sleepTime = rand.nextInt(50); //TODO could make the retransmission policy dynamic to increase performance
+                int sleepTime = rand.nextInt(maxRetransmitTime);
                 Thread.sleep(sleepTime);
             } catch (InterruptedException e) {}
             
@@ -114,5 +115,9 @@ public class StubbornLinkWithAck extends Link {
 
     public boolean terminate() {
        return stopReceivingAndSending();
+    }
+
+    public int getMaxRetransmitTime(int numProcs){
+        return numProcs*7; //in our project the traffic depends solely on the number of processes
     }
 }

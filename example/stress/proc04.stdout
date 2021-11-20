@@ -1,8 +1,8 @@
-My PID: 16432
+My PID: 20786
 
-From a new terminal type `kill -SIGINT 16432` or `kill -SIGTERM 16432` to stop processing packets
+From a new terminal type `kill -SIGINT 20786` or `kill -SIGTERM 20786` to stop processing packets
 
-My ID: 1
+My ID: 4
 
 List of resolved hosts is:
 ==========================
@@ -45,7 +45,7 @@ Human-readable Port: 11009
 
 Path to output:
 ===============
-/home/dcl/Desktop/MostUpToDate/CS451_DistributedAlgorithms/example/stress/proc01.output
+/home/dcl/Desktop/MostUpToDate/CS451_DistributedAlgorithms/example/stress/proc04.output
 
 Path to config:
 ===============
