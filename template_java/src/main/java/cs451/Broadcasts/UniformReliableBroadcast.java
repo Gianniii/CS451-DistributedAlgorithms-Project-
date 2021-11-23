@@ -19,13 +19,13 @@ public class UniformReliableBroadcast extends Broadcast {
     Set<String> forward; //msgs i have seen & bebBroadcast but not delivered yet, Strings contain ("_" + msg_uid + msg) 
     Parser parser;
     ConcurrentHashMap<String, Set<Integer>> ackedMuid; //(msg_uid, Set processes that acked/retransmit it) 
-    FIFOBroadcast fifoBroadcast;
+    Broadcast caller;
     boolean terminated = false;
 
 
-    public UniformReliableBroadcast(Parser parser, FIFOBroadcast caller) {
+    public UniformReliableBroadcast(Parser parser, Broadcast caller) {
         //init
-        this.fifoBroadcast = caller;
+        this.caller = caller;
         this.parser = parser;
         log =  new ConcurrentLinkedQueue<String>();
         bestEffortBroadcast = new BestEffortBroadcast(parser, this);
@@ -71,7 +71,7 @@ public class UniformReliableBroadcast extends Broadcast {
 
     /**
      * Delivers message if this message was acked my strictly 
-     * more then half the processes
+     * more then half the processess
      */
     public boolean deliverIfCan() throws IOException {
         //Look in list of forward(pending) messages and send those who have been acked by more then half the hosts
@@ -93,8 +93,8 @@ public class UniformReliableBroadcast extends Broadcast {
         deliveredUid.add(Helper.getMsgUid(rawData)); 
         /**log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
             + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));**/
-        if(fifoBroadcast != null){
-            fifoBroadcast.deliver(rawData);
+        if(caller != null){
+            caller.deliver(rawData);
         }
         return true;
     }

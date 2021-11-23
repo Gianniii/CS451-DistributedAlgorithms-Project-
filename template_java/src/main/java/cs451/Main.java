@@ -11,6 +11,7 @@ import java.net.DatagramSocket;
 import cs451.Broadcasts.BestEffortBroadcast;
 import cs451.Broadcasts.Broadcast;
 import cs451.Broadcasts.FIFOBroadcast;
+import cs451.Broadcasts.LocalizedCausalBroadcast;
 import cs451.Broadcasts.UniformReliableBroadcast;
 import cs451.Links.*;
 
@@ -72,8 +73,11 @@ public class Main {
        
         //TODO create a: EnableLogging() method to select
         //to include adding msgs to the log for that protocol!!
+
+        //Set broadcast protocol
+        LocalizedCausalBroadcast broadcastProtocol = new LocalizedCausalBroadcast(parser);
+        //FIFOBroadcast broadcastProtocol = new FIFOBroadcast(parser); 
         
-        FIFOBroadcast broadcastProtocol = new FIFOBroadcast(parser); 
         //sender and receiver need to be threads, so that we can send and receive in parallel
         DatagramSocket socket= new DatagramSocket(parser.myHost().getPort());
         Receiver receiver = new Receiver(socket, broadcastProtocol.getStubbornLink());
@@ -83,6 +87,7 @@ public class Main {
         sender.start();
 
         initSignalHandlers(broadcastProtocol, parser.output(), receiver, sender);
+        
         // After a process finishes broadcasting,
         // it waits forever for the delivery of messages.
         while (true) {
