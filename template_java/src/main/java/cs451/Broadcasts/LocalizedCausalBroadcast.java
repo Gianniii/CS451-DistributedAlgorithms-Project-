@@ -54,7 +54,7 @@ public class LocalizedCausalBroadcast extends Broadcast{
      */
     public boolean deliver(String rawData) throws IOException {
 
-
+        //KEEP IN MIND THAT LIKE FOR FIFO WILL HAVE TO LOOP AGAIN IF I SUCCESSFULLY DELIVERED SOMETHING!!
         //probably wont have to use FIFO deliver is implement correctly with vector clocks
         return FIFODeliver(rawData);
     }
