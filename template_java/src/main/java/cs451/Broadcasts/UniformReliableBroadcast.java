@@ -46,7 +46,10 @@ public class UniformReliableBroadcast extends Broadcast {
 
     }
 
-    //Receives rawData of the form [senderId+msgUid+msg]
+    /**
+     * Receives rawData of the form [senderId+msgUid+msg]
+     * and URB delivers
+     */
     public boolean deliver(String rawData) throws IOException {
         //increment ack count in ackedMuid for Helper.getMsgUid(rawData)
         String msgUid = Helper.getMsgUid(rawData);
@@ -66,6 +69,10 @@ public class UniformReliableBroadcast extends Broadcast {
         return true;
     }
 
+    /**
+     * Delivers message if this message was acked my strictly 
+     * more then half the processes
+     */
     public boolean deliverIfCan() throws IOException {
         //Look in list of forward(pending) messages and send those who have been acked by more then half the hosts
         //and who have not been delivered before

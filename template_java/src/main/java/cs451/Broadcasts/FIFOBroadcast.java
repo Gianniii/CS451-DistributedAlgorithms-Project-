@@ -32,6 +32,9 @@ public class FIFOBroadcast extends Broadcast{
         next = new int[parser.hosts().size()+1]; //there is no Host with id 0, so the first elt will not be used
     }
 
+    /**
+     * FIFO broadcast a message
+     */
     public boolean broadcast(String msg_uid, String msg) throws IOException {
         //System.out.println("FIFO Broadcast: " + msg_uid);
         log.add("b " + Helper.getSeqNumFromMessageUid(msg_uid));
@@ -39,8 +42,12 @@ public class FIFOBroadcast extends Broadcast{
         return true;
 
     }
-        
-    //Receives rawData of the form [msgUid+msg]
+    
+    /**
+     * Receives rawData of the form [msgUid+msg]
+     * adds rawData to pending and if can delivers message in 
+     * FIFO order
+     */
     public boolean deliver(String rawData) throws IOException {
         pending.add(Helper.getMsgUid(rawData) + Helper.getMsg(rawData));
         boolean iterateAgain = true;

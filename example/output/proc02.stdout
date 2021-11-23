@@ -1,0 +1,31 @@
+My PID: 6471
+
+From a new terminal type `kill -SIGINT 6471` or `kill -SIGTERM 6471` to stop processing packets
+
+My ID: 2
+
+List of resolved hosts is:
+==========================
+1
+Human-readable IP: 127.0.0.1
+Human-readable Port: 11001
+
+2
+Human-readable IP: 127.0.0.1
+Human-readable Port: 11002
+
+
+Path to output:
+===============
+/home/dcl/Desktop/MostUpToDate/CS451_DistributedAlgorithms/example/output/proc02.output
+
+Path to config:
+===============
+../example/output/config
+
+Doing some initialization
+
+Broadcasting and delivering messages...
+
+Immediately stopping network packet processing.
+Writing output.

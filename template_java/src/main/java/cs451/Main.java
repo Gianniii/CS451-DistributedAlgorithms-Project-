@@ -70,7 +70,9 @@ public class Main {
 
         System.out.println("Doing some initialization\n");
        
-    
+        //TODO create a: EnableLogging() method to select
+        //to include adding msgs to the log for that protocol!!
+        
         FIFOBroadcast broadcastProtocol = new FIFOBroadcast(parser); 
         //sender and receiver need to be threads, so that we can send and receive in parallel
         DatagramSocket socket= new DatagramSocket(parser.myHost().getPort());
