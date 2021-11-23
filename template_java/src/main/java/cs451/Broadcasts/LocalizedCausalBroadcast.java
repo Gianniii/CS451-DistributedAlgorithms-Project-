@@ -107,7 +107,7 @@ public class LocalizedCausalBroadcast extends Broadcast{
     //TODO modify algorithm to be LOCALIZED causal broadcast intstead of classic causal broadcast
         //Probably just means not setting and always leaving at 0 the values VC[pk] for all pk im not dependent on... i.e only using the VC for
         //processes im causaly affected by.
-        //PROBLEM then it wouldnt be FIFO... sol: for processes im not affected by only compate VC[msgOriginalSrc] > VCm[msgOriginalSrc] !! should work..
+        //PROBLEM then it wouldnt be FIFO... sol: for processes im not affected by only compare VC[msgOriginalSrc] > VCm[msgOriginalSrc] !! should work..
 
     /**
      * Builds string representing the VC of the form [0, p1,p2,...,pn] with n being the number of hosts
