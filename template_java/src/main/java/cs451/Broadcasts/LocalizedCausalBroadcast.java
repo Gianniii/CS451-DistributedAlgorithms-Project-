@@ -112,10 +112,10 @@ public class LocalizedCausalBroadcast extends Broadcast{
      * Implements deliver criteria for localizedCausalBroadcast
      * @return
      */
-    private boolean canDeliverForLocalizedCausalBroadcast(rawData){
+    private boolean canDeliverForLocalizedCausalBroadcast(String rawData){
         boolean canDeliver = true;
         int[] VCmsg = decodeVC(rawData);
-        
+
         for(int i = 1; i < hosts.size()+1; i ++){
             if(VC[i] < VCmsg[i]) {canDeliver = false;};
         }
