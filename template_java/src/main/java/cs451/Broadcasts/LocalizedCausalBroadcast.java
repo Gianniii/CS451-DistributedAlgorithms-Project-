@@ -78,7 +78,7 @@ public class LocalizedCausalBroadcast extends Broadcast{
         while(iterateAgain && !terminated){
             iterateAgain = false;
             for(String rawData : pending) {
-                if(canDeliver(rawData)) {
+                if(canDeliverCausalBroadcast(rawData)) {
                     pending.remove(rawData);
                     iterateAgain = true; 
                     //deliver
@@ -92,7 +92,12 @@ public class LocalizedCausalBroadcast extends Broadcast{
         return true;
     }
 
-    private boolean canDeliver(String rawData) {
+    /**
+     * Implements deliver criteria for standard causal broadcast
+     * @param rawData
+     * @return
+     */
+    private boolean canDeliverCausalBroadcast(String rawData) {
         boolean canDeliver = true;
         int[] VCmsg = decodeVC(rawData);
 
@@ -102,15 +107,27 @@ public class LocalizedCausalBroadcast extends Broadcast{
 
         return canDeliver;
     }
+
+    /**
+     * Implements deliver criteria for localizedCausalBroadcast
+     * @return
+     */
+    private boolean canDeliverForLocalizedCausalBroadcast(rawData){
+        boolean canDeliver = true;
+        int[] VCmsg = decodeVC(rawData);
+        
+        for(int i = 1; i < hosts.size()+1; i ++){
+            if(VC[i] < VCmsg[i]) {canDeliver = false;};
+        }
+
+        return canDeliver;
+
+    }
     
 
-    //I THINK WE ACTUALLY DONT CARE ABT SENDERID BUT ONLY THE SRCID!!!!!!!!! (ORIGINALSENDERID) ohh poggggggg 
-    //TODO implement methods for to manipulate vector clock
-    //TODO implement methods to read the new configs
+    //TODO implement methods to read the new configs (still gotta see if it works)
     //TODO modify algorithm to be LOCALIZED causal broadcast intstead of classic causal broadcast
-        //Probably just means not setting and always leaving at 0 the values VC[pk] for all pk im not dependent on... i.e only using the VC for
-        //processes im causaly affected by.
-        //PROBLEM then it wouldnt be FIFO... sol: for processes im not affected by only compare VC[msgOriginalSrc] > VCm[msgOriginalSrc] !! should work..
+      //for processes im not affected by only compare VC[msgOriginalSrc] > VCm[msgOriginalSrc] !! should work..
 
     /**
      * Builds string representing the VC of the form [0, p1,p2,...,pn] with n being the number of hosts
