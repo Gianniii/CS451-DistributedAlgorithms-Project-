@@ -50,6 +50,10 @@ public final class Helper {
         return data + "," + msg;
     }
 
+    public static String encodeVectorClockInMsg(String VC, String msg){
+        return VC+msg;
+    }
+
     public static String extendWithSenderId(int senderId,String data){
         return String.valueOf(senderId) + "_" + data;
     }
