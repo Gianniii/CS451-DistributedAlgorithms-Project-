@@ -35,6 +35,12 @@ public class UniformReliableBroadcast extends Broadcast {
         forward = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
     }
 
+    /**
+     * URB broadcast
+     * @param msgUid 
+     * @param msg
+     * @return always returns true
+     */
     public boolean broadcast(String msgUid, String msg) throws IOException {
         
         forward.add("_" + Helper.appendMsg(msgUid, msg)); //add "_"+ msguid + msg to pending (add leading "_" to reuse Helper methods to unpack content)
@@ -49,6 +55,8 @@ public class UniformReliableBroadcast extends Broadcast {
     /**
      * Receives rawData of the form [senderId+msgUid+msg]
      * and URB delivers
+     * @param rawData //data delivered from BEB
+     * @return boolean
      */
     public boolean deliver(String rawData) throws IOException {
         //increment ack count in ackedMuid for Helper.getMsgUid(rawData)
@@ -88,6 +96,12 @@ public class UniformReliableBroadcast extends Broadcast {
         return true;
     }
 
+    /**
+     * Delivers data to the caller of this (URB)
+     * @param rawData
+     * @return true
+     * @throws IOException
+     */
     public boolean actuallyDeliver(String rawData) throws IOException {
         //add msgUid to delivered messages set 
         deliveredUid.add(Helper.getMsgUid(rawData)); 
@@ -99,18 +113,34 @@ public class UniformReliableBroadcast extends Broadcast {
         return true;
     }
 
+    /**
+     * getted for the lower link, bestEffortBroadcast
+     * @return bestEffortBroadcast
+     */
     public BestEffortBroadcast getBestEffortBroadcast() {
         return bestEffortBroadcast;
     }
 
+    /**
+     * Getter for the lower link, in my case StubbornLink
+     * @return bestEffortBroadcast.getStubbornLink()
+     */
     public StubbornLinkWithAck getStubbornLink() {
         return bestEffortBroadcast.getStubbornLink();
     }
 
+    /**
+     * Getter for my logs
+     * @return log
+     */
     public ConcurrentLinkedQueue<String> getLogs() {
         return log;
     }
 
+    /**
+     * Sets terminated boolean to true and calls terminate on lower link
+     * @return bestEffortBroadcast.terminate()
+     */
     public boolean terminate() {
         terminated = true; 
         return bestEffortBroadcast.terminate();

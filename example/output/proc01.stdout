@@ -1,6 +1,6 @@
-My PID: 17320
+My PID: 24263
 
-From a new terminal type `kill -SIGINT 17320` or `kill -SIGTERM 17320` to stop processing packets
+From a new terminal type `kill -SIGINT 24263` or `kill -SIGTERM 24263` to stop processing packets
 
 My ID: 1
 
@@ -18,6 +18,30 @@ Human-readable Port: 11002
 Human-readable IP: 127.0.0.1
 Human-readable Port: 11003
 
+4
+Human-readable IP: 127.0.0.1
+Human-readable Port: 11004
+
+5
+Human-readable IP: 127.0.0.1
+Human-readable Port: 11005
+
+6
+Human-readable IP: 127.0.0.1
+Human-readable Port: 11006
+
+7
+Human-readable IP: 127.0.0.1
+Human-readable Port: 11007
+
+8
+Human-readable IP: 127.0.0.1
+Human-readable Port: 11008
+
+9
+Human-readable IP: 127.0.0.1
+Human-readable Port: 11009
+
 
 Path to output:
 ===============
@@ -29,78 +53,104 @@ Path to config:
 
 Doing some initialization
 
-myCausallyAffectingHosts: [2]
+myCausallyAffectingHosts: [3, 4, 6, 8]
 Broadcasting and delivering messages...
 
-CausalReceived: _3.1:1638021443706,[0,0,0,0]1
+CausalReceived: _9.1:1638027440401,[0,0,0,0,0,0,0,0,0,0]1
+OgSrcID : 9 myId: 1
+Delivers rawData: _9.1:1638027440401,[0,0,0,0,0,0,0,0,0,0]1
+finished Deliver
+CausalReceived: _7.1:1638027440067,[0,0,0,0,0,0,0,0,0,0]1
+OgSrcID : 7 myId: 1
+Delivers rawData: _7.1:1638027440067,[0,0,0,0,0,0,0,0,0,0]1
+finished Deliver
+CausalReceived: _5.1:1638027440388,[0,0,0,0,0,0,0,0,0,0]1
+OgSrcID : 5 myId: 1
+Delivers rawData: _5.1:1638027440388,[0,0,0,0,0,0,0,0,0,0]1
+finished Deliver
+CausalReceived: _8.1:1638027440276,[0,0,0,0,0,0,0,0,0,0]1
+OgSrcID : 8 myId: 1
+Goes in deliver for affecting hosts
+Delivers rawData: _8.1:1638027440276,[0,0,0,0,0,0,0,0,0,0]1
+finished Deliver
+CausalReceived: _6.1:1638027440464,[0,0,0,0,0,0,0,0,0,0]1
+OgSrcID : 6 myId: 1
+Goes in deliver for affecting hosts
+Delivers rawData: _6.1:1638027440464,[0,0,0,0,0,0,0,0,0,0]1
+finished Deliver
+CausalReceived: _4.1:1638027440037,[0,0,0,0,0,0,0,0,0,0]1
+OgSrcID : 4 myId: 1
+Goes in deliver for affecting hosts
+Delivers rawData: _4.1:1638027440037,[0,0,0,0,0,0,0,0,0,0]1
+finished Deliver
+CausalReceived: _3.1:1638027440340,[0,0,0,0,0,0,0,0,0,0]1
 OgSrcID : 3 myId: 1
-CausalReceived: _1.1:1638021443630,[0,0,0,0]1
-OgSrcID : 1 myId: 1
-skips this message
-CausalReceived: _3.2:1638021444067,[0,0,0,1]2
+Goes in deliver for affecting hosts
+Delivers rawData: _3.1:1638027440340,[0,0,0,0,0,0,0,0,0,0]1
+finished Deliver
+CausalReceived: _2.1:1638027440284,[0,0,0,0,0,0,0,0,0,0]1
+OgSrcID : 2 myId: 1
+Delivers rawData: _2.1:1638027440284,[0,0,0,0,0,0,0,0,0,0]1
+finished Deliver
+CausalReceived: _8.2:1638027442941,[0,0,0,0,0,0,0,0,1,0]2
+OgSrcID : 8 myId: 1
+Goes in deliver for affecting hosts
+Delivers rawData: _8.2:1638027442941,[0,0,0,0,0,0,0,0,1,0]2
+finished Deliver
+CausalReceived: _7.2:1638027443017,[0,0,0,0,0,0,0,1,0,0]2
+OgSrcID : 7 myId: 1
+Delivers rawData: _7.2:1638027443017,[0,0,0,0,0,0,0,1,0,0]2
+finished Deliver
+CausalReceived: _9.2:1638027442906,[0,0,0,0,0,0,0,0,0,1]2
+OgSrcID : 9 myId: 1
+Delivers rawData: _9.2:1638027442906,[0,0,0,0,0,0,0,0,0,1]2
+finished Deliver
+CausalReceived: _4.2:1638027443263,[0,0,0,0,1,0,0,0,0,0]2
+OgSrcID : 4 myId: 1
+Goes in deliver for affecting hosts
+Delivers rawData: _4.2:1638027443263,[0,0,0,0,1,0,0,0,0,0]2
+finished Deliver
+CausalReceived: _5.2:1638027443148,[0,0,0,0,0,1,0,0,0,0]2
+OgSrcID : 5 myId: 1
+Delivers rawData: _5.2:1638027443148,[0,0,0,0,0,1,0,0,0,0]2
+finished Deliver
+CausalReceived: _3.2:1638027443301,[0,0,0,1,0,0,0,0,0,0]2
 OgSrcID : 3 myId: 1
-CausalReceived: _2.1:1638021443842,[0,1,0,1]1
-OgSrcID : 2 myId: 1
-CausalReceived: _1.2:1638021444119,[0,1,0,2]2
+Goes in deliver for affecting hosts
+Delivers rawData: _3.2:1638027443301,[0,0,0,1,0,0,0,0,0,0]2
+finished Deliver
+CausalReceived: _1.1:1638027440296,[0,0,0,0,0,0,0,0,0,0]1
 OgSrcID : 1 myId: 1
-skips this message
-CausalReceived: _3.3:1638021444213,[0,1,0,2]3
-OgSrcID : 3 myId: 1
-CausalReceived: _2.2:1638021444300,[0,1,1,2]2
+CausalReceived: _6.2:1638027443181,[0,0,0,0,0,0,1,0,0,0]2
+OgSrcID : 6 myId: 1
+Goes in deliver for affecting hosts
+Delivers rawData: _6.2:1638027443181,[0,0,0,0,0,0,1,0,0,0]2
+finished Deliver
+CausalReceived: _4.3:1638027446731,[0,0,1,1,2,1,1,1,1,1]3
+OgSrcID : 4 myId: 1
+Goes in deliver for affecting hosts
+Delivers rawData: _4.3:1638027446731,[0,0,1,1,2,1,1,1,1,1]3
+finished Deliver
+CausalReceived: _9.3:1638027447202,[0,0,0,1,1,1,1,1,1,2]3
+OgSrcID : 9 myId: 1
+Delivers rawData: _9.3:1638027447202,[0,0,0,1,1,1,1,1,1,2]3
+finished Deliver
+CausalReceived: _7.3:1638027447241,[0,0,1,1,1,1,1,2,1,1]3
+OgSrcID : 7 myId: 1
+Delivers rawData: _7.3:1638027447241,[0,0,1,1,1,1,1,2,1,1]3
+finished Deliver
+CausalReceived: _5.3:1638027447411,[0,0,1,1,1,2,1,1,1,1]3
+OgSrcID : 5 myId: 1
+Delivers rawData: _5.3:1638027447411,[0,0,1,1,1,2,1,1,1,1]3
+finished Deliver
+CausalReceived: _2.2:1638027445927,[0,0,1,1,1,1,1,1,1,1]2
 OgSrcID : 2 myId: 1
-CausalReceived: _3.4:1638021444334,[0,1,1,3]4
-OgSrcID : 3 myId: 1
-CausalReceived: _2.3:1638021444416,[0,2,2,3]3
-OgSrcID : 2 myId: 1
-CausalReceived: _3.5:1638021444430,[0,2,1,4]5
-OgSrcID : 3 myId: 1
-CausalReceived: _1.3:1638021444425,[0,2,2,4]3
-OgSrcID : 1 myId: 1
-skips this message
-CausalReceived: _2.4:1638021444604,[0,2,3,4]4
-OgSrcID : 2 myId: 1
-CausalReceived: _3.6:1638021444635,[0,2,2,5]6
-OgSrcID : 3 myId: 1
-CausalReceived: _2.5:1638021444758,[0,3,4,5]5
-OgSrcID : 2 myId: 1
-CausalReceived: _3.7:1638021444827,[0,3,3,6]7
-OgSrcID : 3 myId: 1
-CausalReceived: _1.4:1638021444917,[0,3,4,6]4
-OgSrcID : 1 myId: 1
-skips this message
-CausalReceived: _2.6:1638021445005,[0,3,5,6]6
-OgSrcID : 2 myId: 1
-CausalReceived: _2.7:1638021445210,[0,4,6,7]7
-OgSrcID : 2 myId: 1
-CausalReceived: _1.5:1638021445195,[0,4,6,7]5
-OgSrcID : 1 myId: 1
-skips this message
-CausalReceived: _2.8:1638021445301,[0,5,7,7]8
-OgSrcID : 2 myId: 1
-CausalReceived: _3.8:1638021445307,[0,4,6,7]8
-OgSrcID : 3 myId: 1
-CausalReceived: _1.6:1638021445366,[0,5,7,8]6
-OgSrcID : 1 myId: 1
-skips this message
-CausalReceived: _2.9:1638021445402,[0,5,8,8]9
-OgSrcID : 2 myId: 1
-CausalReceived: _2.10:1638021445486,[0,6,9,8]10
-OgSrcID : 2 myId: 1
-CausalReceived: _1.7:1638021445477,[0,6,9,8]7
-OgSrcID : 1 myId: 1
-skips this message
-CausalReceived: _3.9:1638021445541,[0,5,9,8]9
-OgSrcID : 3 myId: 1
-CausalReceived: _1.8:1638021445546,[0,7,10,8]8
-OgSrcID : 1 myId: 1
-skips this message
-CausalReceived: _3.10:1638021445636,[0,8,10,9]10
-OgSrcID : 3 myId: 1
-CausalReceived: _1.9:1638021445629,[0,8,10,9]9
-OgSrcID : 1 myId: 1
-skips this message
-CausalReceived: _1.10:1638021445662,[0,9,10,10]10
-OgSrcID : 1 myId: 1
-skips this message
+Delivers rawData: _2.2:1638027445927,[0,0,1,1,1,1,1,1,1,1]2
+finished Deliver
+CausalReceived: _8.3:1638027447572,[0,0,1,1,1,1,1,1,2,1]3
+OgSrcID : 8 myId: 1
+Goes in deliver for affecting hosts
+Delivers rawData: _8.3:1638027447572,[0,0,1,1,1,1,1,1,2,1]3
+finished Deliver
 Immediately stopping network packet processing.
 Writing output.

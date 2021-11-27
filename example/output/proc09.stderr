@@ -2,3 +2,7 @@ Exception in thread "Thread-0" java.lang.OutOfMemoryError: unable to create nati
 	at java.base/java.lang.Thread.start0(Native Method)
 	at java.base/java.lang.Thread.start(Thread.java:803)
 	at cs451.Receiver.run(Receiver.java:41)
+Exception in thread "Thread-1" java.util.NoSuchElementException: No line found
+	at java.base/java.util.Scanner.nextLine(Scanner.java:1651)
+	at cs451.Parser.getMessageNumber(Parser.java:90)
+	at cs451.Sender.run(Sender.java:22)
