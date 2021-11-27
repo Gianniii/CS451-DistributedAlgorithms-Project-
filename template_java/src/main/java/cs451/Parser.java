@@ -1,5 +1,6 @@
 package cs451;
 
+import java.util.Collections;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Parser {
     private static final String SPACES_REGEX = "\\s+";
@@ -95,32 +98,40 @@ public class Parser {
     }
 
     /**
-     * @return line in config file containing the processes this process is affected by 
+     * @return a Set where each entry is a Host id of a host i am affected by.
      * (i.e a string of the form "myId pi pk" ect.. where pi,pk are processes i am affected by there could be 0 or many processes this process is affected by)
      */
     //TODO figure out best format to return the processes affecting me.
-    public String[] getProcessesAffectingMe() throws IOException {
+    public Set<String> getProcessesAffectingMe(){
         String[] splits = {};
         try(BufferedReader br = new BufferedReader(new FileReader(config()))) {
-            int lineNum = 1;
+            int lineNum = 0;
             //for(init something, boolean, increment something)
             for(String line; (line = br.readLine()) != null; lineNum++) {
+                if (line.isBlank()) {
+                    continue;
+                }
                 if (lineNum == 0) { //skip first line since it contains m
                     continue;
                 }
-                
                 splits = line.split(SPACES_REGEX);
-            
+                
                 if(Integer.valueOf(splits[0]) == myId()){
-                    return splits;
+                    Set<String> affectingHosts = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
+                    //skip first entry(as it just my contains my own ID)
+                    for(int i = 1; i < splits.length; i++){
+                        affectingHosts.add(splits[i]);
+                    }
+                    return affectingHosts;
                 }
+                lineNum++;
             }
         } catch (IOException e) {
             System.err.println("Problem with the hosts file!");
         }
 
 
-        return splits;
+        return null;
     }
   
     public Host getHost(int hostId) {

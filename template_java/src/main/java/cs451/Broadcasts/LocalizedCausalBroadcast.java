@@ -20,7 +20,7 @@ public class LocalizedCausalBroadcast extends Broadcast{
     int[] next;
     Parser parser;
     boolean terminated = false;
-    
+    Set<String> myCausallyAffectingHosts;
     int[] VC; //vector clock (of size hosts.size + 1), since host ID's start at 1.
     Set<String> pending; //msgs i have seen & broadcast but not delivered yet, String contain .. 
     
@@ -30,9 +30,10 @@ public class LocalizedCausalBroadcast extends Broadcast{
         uniformReliableBroadcast = new UniformReliableBroadcast(parser, this);
         hosts = parser.hosts();
         pending = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
-        //COULD REPRESENT MY VC LIKE I DID WITH NEXT!! WOULD JUST NEED TO ENCODE WHEN BROADCASTING AND DECODE WHEN RECEIVING!! IS IT WORTH IT ?
-        //COULD BE EASIER TO UPDATE VALUES 
-        VC = new int[hosts.size()+1]; //there is no Host with id 0, so the first elt will not be used
+        myCausallyAffectingHosts = parser.getProcessesAffectingMe();
+        System.out.println("myCausallyAffectingHosts: " + myCausallyAffectingHosts);
+        VC = new int[hosts.size()+1]; //Keeps track of how many msgs i have delivered from each host
+        //(there is no Host with id 0, so the first elt will not be used
     }
 
     /**
@@ -48,7 +49,6 @@ public class LocalizedCausalBroadcast extends Broadcast{
         String newMsg = Helper.encodeVectorClockInMsg(VCm, msg);
         uniformReliableBroadcast.broadcast(msgUid, newMsg);
       
-        System.out.println("myID: " + parser.myId());
         VC[parser.myId()]++;
 
         return true;
@@ -78,7 +78,7 @@ public class LocalizedCausalBroadcast extends Broadcast{
         while(iterateAgain && !terminated){
             iterateAgain = false;
             for(String rawData : pending) {
-                if(canDeliverCausalBroadcast(rawData)) {
+                if(canDeliverForLocalizedCausalBroadcast(rawData)) {
                     pending.remove(rawData);
                     iterateAgain = true; 
                     //deliver
@@ -115,19 +115,29 @@ public class LocalizedCausalBroadcast extends Broadcast{
     private boolean canDeliverForLocalizedCausalBroadcast(String rawData){
         boolean canDeliver = true;
         int[] VCmsg = decodeVC(rawData);
-
-        for(int i = 1; i < hosts.size()+1; i ++){
-            if(VC[i] < VCmsg[i]) {canDeliver = false;};
+        String originalSrcId = Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData));
+        int originalSrcIdInt = Integer.valueOf(originalSrcId);
+        //if i am causally affected by src host then check all the vector clocks
+        if(myCausallyAffectingHosts.contains(originalSrcId)) {
+            for(int i = 1; i < hosts.size()+1; i ++){
+                if(VC[i] < VCmsg[i]) {canDeliver = false;};
+            }
+        } 
+        //if i am not causally effected by the src host of the msg then only need to check VC[originalSenderId]
+        //to insure FIFO ordering
+        else if(VC[originalSrcIdInt] < VCmsg[originalSrcIdInt]) {
+            canDeliver = false;
         }
+        
 
         return canDeliver;
 
     }
     
 
-    //TODO implement methods to read the new configs (still gotta see if it works)
-    //TODO modify algorithm to be LOCALIZED causal broadcast intstead of classic causal broadcast
-      //for processes im not affected by only compare VC[msgOriginalSrc] > VCm[msgOriginalSrc] !! should work..
+    //TODO test that reading configs work when causally affected by several other hosts 
+    //TODO test localizedCausalOrderBroadcast!! try several dependencies and start/stopping to check..
+
 
     /**
      * Builds string representing the VC of the form [0, p1,p2,...,pn] with n being the number of hosts

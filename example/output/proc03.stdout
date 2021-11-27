@@ -1,8 +1,8 @@
-My PID: 17320
+My PID: 17322
 
-From a new terminal type `kill -SIGINT 17320` or `kill -SIGTERM 17320` to stop processing packets
+From a new terminal type `kill -SIGINT 17322` or `kill -SIGTERM 17322` to stop processing packets
 
-My ID: 1
+My ID: 3
 
 List of resolved hosts is:
 ==========================
@@ -21,7 +21,7 @@ Human-readable Port: 11003
 
 Path to output:
 ===============
-/home/dcl/Desktop/CS451_DistributedAlgorithms/example/output/proc01.output
+/home/dcl/Desktop/CS451_DistributedAlgorithms/example/output/proc03.output
 
 Path to config:
 ===============
@@ -29,78 +29,78 @@ Path to config:
 
 Doing some initialization
 
-myCausallyAffectingHosts: [2]
+myCausallyAffectingHosts: [1]
 Broadcasting and delivering messages...
 
 CausalReceived: _3.1:1638021443706,[0,0,0,0]1
-OgSrcID : 3 myId: 1
+OgSrcID : 3 myId: 3
+skips this message
 CausalReceived: _1.1:1638021443630,[0,0,0,0]1
-OgSrcID : 1 myId: 1
-skips this message
+OgSrcID : 1 myId: 3
 CausalReceived: _3.2:1638021444067,[0,0,0,1]2
-OgSrcID : 3 myId: 1
-CausalReceived: _2.1:1638021443842,[0,1,0,1]1
-OgSrcID : 2 myId: 1
-CausalReceived: _1.2:1638021444119,[0,1,0,2]2
-OgSrcID : 1 myId: 1
+OgSrcID : 3 myId: 3
 skips this message
+CausalReceived: _2.1:1638021443842,[0,1,0,1]1
+OgSrcID : 2 myId: 3
 CausalReceived: _3.3:1638021444213,[0,1,0,2]3
-OgSrcID : 3 myId: 1
+OgSrcID : 3 myId: 3
+skips this message
+CausalReceived: _1.2:1638021444119,[0,1,0,2]2
+OgSrcID : 1 myId: 3
 CausalReceived: _2.2:1638021444300,[0,1,1,2]2
-OgSrcID : 2 myId: 1
+OgSrcID : 2 myId: 3
 CausalReceived: _3.4:1638021444334,[0,1,1,3]4
-OgSrcID : 3 myId: 1
-CausalReceived: _2.3:1638021444416,[0,2,2,3]3
-OgSrcID : 2 myId: 1
+OgSrcID : 3 myId: 3
+skips this message
 CausalReceived: _3.5:1638021444430,[0,2,1,4]5
-OgSrcID : 3 myId: 1
+OgSrcID : 3 myId: 3
+skips this message
+CausalReceived: _2.3:1638021444416,[0,2,2,3]3
+OgSrcID : 2 myId: 3
 CausalReceived: _1.3:1638021444425,[0,2,2,4]3
-OgSrcID : 1 myId: 1
+OgSrcID : 1 myId: 3
+CausalReceived: _3.6:1638021444635,[0,2,2,5]6
+OgSrcID : 3 myId: 3
 skips this message
 CausalReceived: _2.4:1638021444604,[0,2,3,4]4
-OgSrcID : 2 myId: 1
-CausalReceived: _3.6:1638021444635,[0,2,2,5]6
-OgSrcID : 3 myId: 1
+OgSrcID : 2 myId: 3
 CausalReceived: _2.5:1638021444758,[0,3,4,5]5
-OgSrcID : 2 myId: 1
+OgSrcID : 2 myId: 3
 CausalReceived: _3.7:1638021444827,[0,3,3,6]7
-OgSrcID : 3 myId: 1
+OgSrcID : 3 myId: 3
+skips this message
 CausalReceived: _1.4:1638021444917,[0,3,4,6]4
-OgSrcID : 1 myId: 1
-skips this message
+OgSrcID : 1 myId: 3
 CausalReceived: _2.6:1638021445005,[0,3,5,6]6
-OgSrcID : 2 myId: 1
+OgSrcID : 2 myId: 3
 CausalReceived: _2.7:1638021445210,[0,4,6,7]7
-OgSrcID : 2 myId: 1
+OgSrcID : 2 myId: 3
 CausalReceived: _1.5:1638021445195,[0,4,6,7]5
-OgSrcID : 1 myId: 1
-skips this message
+OgSrcID : 1 myId: 3
 CausalReceived: _2.8:1638021445301,[0,5,7,7]8
-OgSrcID : 2 myId: 1
+OgSrcID : 2 myId: 3
 CausalReceived: _3.8:1638021445307,[0,4,6,7]8
-OgSrcID : 3 myId: 1
+OgSrcID : 3 myId: 3
+skips this message
 CausalReceived: _1.6:1638021445366,[0,5,7,8]6
-OgSrcID : 1 myId: 1
-skips this message
+OgSrcID : 1 myId: 3
 CausalReceived: _2.9:1638021445402,[0,5,8,8]9
-OgSrcID : 2 myId: 1
-CausalReceived: _2.10:1638021445486,[0,6,9,8]10
-OgSrcID : 2 myId: 1
+OgSrcID : 2 myId: 3
 CausalReceived: _1.7:1638021445477,[0,6,9,8]7
-OgSrcID : 1 myId: 1
-skips this message
+OgSrcID : 1 myId: 3
+CausalReceived: _2.10:1638021445486,[0,6,9,8]10
+OgSrcID : 2 myId: 3
 CausalReceived: _3.9:1638021445541,[0,5,9,8]9
-OgSrcID : 3 myId: 1
-CausalReceived: _1.8:1638021445546,[0,7,10,8]8
-OgSrcID : 1 myId: 1
+OgSrcID : 3 myId: 3
 skips this message
-CausalReceived: _3.10:1638021445636,[0,8,10,9]10
-OgSrcID : 3 myId: 1
+CausalReceived: _1.8:1638021445546,[0,7,10,8]8
+OgSrcID : 1 myId: 3
 CausalReceived: _1.9:1638021445629,[0,8,10,9]9
-OgSrcID : 1 myId: 1
+OgSrcID : 1 myId: 3
+CausalReceived: _3.10:1638021445636,[0,8,10,9]10
+OgSrcID : 3 myId: 3
 skips this message
 CausalReceived: _1.10:1638021445662,[0,9,10,10]10
-OgSrcID : 1 myId: 1
-skips this message
+OgSrcID : 1 myId: 3
 Immediately stopping network packet processing.
 Writing output.

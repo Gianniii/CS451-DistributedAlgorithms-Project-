@@ -63,7 +63,7 @@ public class UniformReliableBroadcast extends Broadcast {
         String msgUidAndData = Helper.removeSenderId(rawData);
         if(!forward.contains(msgUidAndData)){ //forward everything only once PB RAW DATA NOW CONTAINS SRC !! 
             forward.add(msgUidAndData);
-            bestEffortBroadcast.broadcast(Helper.getMsgUid(rawData), Helper.getMsg(rawData)); //ONLY PROBLEM IS CANT DO 2 BEB SIMULTANEOUSLY ...
+            bestEffortBroadcast.broadcast(Helper.getMsgUid(rawData), Helper.getMsg(rawData)); 
         }
         deliverIfCan();
         return true;
