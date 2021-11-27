@@ -102,8 +102,9 @@ public class LocalizedCausalBroadcast extends Broadcast{
         return uniformReliableBroadcast.terminate();
     }
     
-    //TODO implement methods for to manipulate vector clock
-    //TODO implement methods to read the new configs
+    //TODO implement methods for to manipulate vector clock => DONE NEED TESTING
+    //TODO implement methods to read the new configs => DONE NEED TESTING
+    //TODO implement classic causal broadcast
     //TODO modify algorithm to be LOCALIZED causal broadcast intstead of classic causal broadcast
         //Probably just means not setting and always leaving at 0 the values VC[pk] for all pk im not dependent on... i.e only using the VC for
         //processes im causaly affected by.
