@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import cs451.Links.StubbornLinkWithAck;
 
 public abstract class Broadcast {
-    abstract public boolean broadcast(String msg_uid, String msg) throws IOException;
+    abstract public boolean broadcast(String msgUid, String msg) throws IOException;
     abstract public boolean deliver(String rawData) throws IOException;
     abstract public ConcurrentLinkedQueue<String> getLogs();
     abstract public StubbornLinkWithAck getStubbornLink();

@@ -1,8 +1,8 @@
-My PID: 24264
+My PID: 24267
 
-From a new terminal type `kill -SIGINT 24264` or `kill -SIGTERM 24264` to stop processing packets
+From a new terminal type `kill -SIGINT 24267` or `kill -SIGTERM 24267` to stop processing packets
 
-My ID: 2
+My ID: 5
 
 List of resolved hosts is:
 ==========================
@@ -45,7 +45,7 @@ Human-readable Port: 11009
 
 Path to output:
 ===============
-/home/dcl/Desktop/CS451_DistributedAlgorithms/example/output/proc02.output
+/home/dcl/Desktop/CS451_DistributedAlgorithms/example/output/proc05.output
 
 Path to config:
 ===============
@@ -53,99 +53,76 @@ Path to config:
 
 Doing some initialization
 
-myCausallyAffectingHosts: [3, 4, 5, 9]
+myCausallyAffectingHosts: [1, 3, 7, 9]
 Broadcasting and delivering messages...
 
 CausalReceived: _9.1:1638027440401,[0,0,0,0,0,0,0,0,0,0]1
-OgSrcID : 9 myId: 2
+OgSrcID : 9 myId: 5
 Goes in deliver for affecting hosts
 Delivers rawData: _9.1:1638027440401,[0,0,0,0,0,0,0,0,0,0]1
 finished Deliver
-CausalReceived: _6.1:1638027440464,[0,0,0,0,0,0,0,0,0,0]1
-OgSrcID : 6 myId: 2
-Delivers rawData: _6.1:1638027440464,[0,0,0,0,0,0,0,0,0,0]1
-finished Deliver
 CausalReceived: _8.1:1638027440276,[0,0,0,0,0,0,0,0,0,0]1
-OgSrcID : 8 myId: 2
+OgSrcID : 8 myId: 5
 Delivers rawData: _8.1:1638027440276,[0,0,0,0,0,0,0,0,0,0]1
 finished Deliver
-CausalReceived: _5.1:1638027440388,[0,0,0,0,0,0,0,0,0,0]1
-OgSrcID : 5 myId: 2
-Goes in deliver for affecting hosts
-Delivers rawData: _5.1:1638027440388,[0,0,0,0,0,0,0,0,0,0]1
-finished Deliver
 CausalReceived: _7.1:1638027440067,[0,0,0,0,0,0,0,0,0,0]1
-OgSrcID : 7 myId: 2
+OgSrcID : 7 myId: 5
+Goes in deliver for affecting hosts
 Delivers rawData: _7.1:1638027440067,[0,0,0,0,0,0,0,0,0,0]1
 finished Deliver
+CausalReceived: _6.1:1638027440464,[0,0,0,0,0,0,0,0,0,0]1
+OgSrcID : 6 myId: 5
+Delivers rawData: _6.1:1638027440464,[0,0,0,0,0,0,0,0,0,0]1
+finished Deliver
 CausalReceived: _4.1:1638027440037,[0,0,0,0,0,0,0,0,0,0]1
-OgSrcID : 4 myId: 2
-Goes in deliver for affecting hosts
+OgSrcID : 4 myId: 5
 Delivers rawData: _4.1:1638027440037,[0,0,0,0,0,0,0,0,0,0]1
 finished Deliver
+CausalReceived: _5.1:1638027440388,[0,0,0,0,0,0,0,0,0,0]1
+OgSrcID : 5 myId: 5
 CausalReceived: _3.1:1638027440340,[0,0,0,0,0,0,0,0,0,0]1
-OgSrcID : 3 myId: 2
+OgSrcID : 3 myId: 5
 Goes in deliver for affecting hosts
 Delivers rawData: _3.1:1638027440340,[0,0,0,0,0,0,0,0,0,0]1
 finished Deliver
 CausalReceived: _2.1:1638027440284,[0,0,0,0,0,0,0,0,0,0]1
-OgSrcID : 2 myId: 2
+OgSrcID : 2 myId: 5
+Delivers rawData: _2.1:1638027440284,[0,0,0,0,0,0,0,0,0,0]1
+finished Deliver
 CausalReceived: _8.2:1638027442941,[0,0,0,0,0,0,0,0,1,0]2
-OgSrcID : 8 myId: 2
+OgSrcID : 8 myId: 5
 Delivers rawData: _8.2:1638027442941,[0,0,0,0,0,0,0,0,1,0]2
 finished Deliver
+CausalReceived: _4.2:1638027443263,[0,0,0,0,1,0,0,0,0,0]2
+OgSrcID : 4 myId: 5
+Delivers rawData: _4.2:1638027443263,[0,0,0,0,1,0,0,0,0,0]2
+finished Deliver
 CausalReceived: _9.2:1638027442906,[0,0,0,0,0,0,0,0,0,1]2
-OgSrcID : 9 myId: 2
+OgSrcID : 9 myId: 5
 Goes in deliver for affecting hosts
 Delivers rawData: _9.2:1638027442906,[0,0,0,0,0,0,0,0,0,1]2
 finished Deliver
 CausalReceived: _7.2:1638027443017,[0,0,0,0,0,0,0,1,0,0]2
-OgSrcID : 7 myId: 2
+OgSrcID : 7 myId: 5
+Goes in deliver for affecting hosts
 Delivers rawData: _7.2:1638027443017,[0,0,0,0,0,0,0,1,0,0]2
 finished Deliver
-CausalReceived: _4.2:1638027443263,[0,0,0,0,1,0,0,0,0,0]2
-OgSrcID : 4 myId: 2
-Goes in deliver for affecting hosts
-Delivers rawData: _4.2:1638027443263,[0,0,0,0,1,0,0,0,0,0]2
-finished Deliver
 CausalReceived: _5.2:1638027443148,[0,0,0,0,0,1,0,0,0,0]2
-OgSrcID : 5 myId: 2
-Goes in deliver for affecting hosts
-Delivers rawData: _5.2:1638027443148,[0,0,0,0,0,1,0,0,0,0]2
-finished Deliver
+OgSrcID : 5 myId: 5
 CausalReceived: _3.2:1638027443301,[0,0,0,1,0,0,0,0,0,0]2
-OgSrcID : 3 myId: 2
+OgSrcID : 3 myId: 5
 Goes in deliver for affecting hosts
 Delivers rawData: _3.2:1638027443301,[0,0,0,1,0,0,0,0,0,0]2
 finished Deliver
 CausalReceived: _1.1:1638027440296,[0,0,0,0,0,0,0,0,0,0]1
-OgSrcID : 1 myId: 2
+OgSrcID : 1 myId: 5
+Goes in deliver for affecting hosts
 Delivers rawData: _1.1:1638027440296,[0,0,0,0,0,0,0,0,0,0]1
 finished Deliver
 CausalReceived: _6.2:1638027443181,[0,0,0,0,0,0,1,0,0,0]2
-OgSrcID : 6 myId: 2
+OgSrcID : 6 myId: 5
 Delivers rawData: _6.2:1638027443181,[0,0,0,0,0,0,1,0,0,0]2
 finished Deliver
-CausalReceived: _4.3:1638027446731,[0,0,1,1,2,1,1,1,1,1]3
-OgSrcID : 4 myId: 2
-Goes in deliver for affecting hosts
-Delivers rawData: _4.3:1638027446731,[0,0,1,1,2,1,1,1,1,1]3
-finished Deliver
-CausalReceived: _9.3:1638027447202,[0,0,0,1,1,1,1,1,1,2]3
-OgSrcID : 9 myId: 2
-Goes in deliver for affecting hosts
-Delivers rawData: _9.3:1638027447202,[0,0,0,1,1,1,1,1,1,2]3
-finished Deliver
-CausalReceived: _7.3:1638027447241,[0,0,1,1,1,1,1,2,1,1]3
-OgSrcID : 7 myId: 2
-Delivers rawData: _7.3:1638027447241,[0,0,1,1,1,1,1,2,1,1]3
-finished Deliver
-CausalReceived: _5.3:1638027447411,[0,0,1,1,1,2,1,1,1,1]3
-OgSrcID : 5 myId: 2
-Goes in deliver for affecting hosts
-Delivers rawData: _5.3:1638027447411,[0,0,1,1,1,2,1,1,1,1]3
-finished Deliver
-CausalReceived: _2.2:1638027445927,[0,0,1,1,1,1,1,1,1,1]2
-OgSrcID : 2 myId: 2
+[14.799s][warning][os,thread] Failed to start thread - pthread_create failed (EAGAIN) for attributes: stacksize: 1024k, guardsize: 0k, detached.
 Immediately stopping network packet processing.
 Writing output.
