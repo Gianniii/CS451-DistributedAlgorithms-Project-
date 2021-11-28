@@ -362,11 +362,11 @@ if __name__ == "__main__":
 
     testConfig = {
         'concurrency' : 1, # How many threads are interferring with the running processes //had 8 here
-        'attempts' : 10, # How many interferring attempts each threads does //had 100 here
+        'attempts' : 1, # How many interferring attempts each threads does //had 100 here
         'attemptsDistribution' : { # Probability with which an interferring thread will
-            'STOP': 0.60,          # select an interferring action (make sure they add up to 1)
+            'STOP': 0.50,          # select an interferring action (make sure they add up to 1)
             'CONT': 0.20,
-            'TERM':0.2
+            'TERM':0.3
         }
     }
 
