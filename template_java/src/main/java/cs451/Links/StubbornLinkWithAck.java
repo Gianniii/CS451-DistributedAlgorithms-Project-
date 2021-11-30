@@ -44,20 +44,23 @@ public class StubbornLinkWithAck extends Link {
         //send until message gets acked
         Random rand = new Random();
         int numProcs = parser.hosts().size();
-        int maxRetransmitTime = getMaxRetransmitTime(numProcs);
+        //int maxRetransmitTime = getMaxRetransmitTime(numProcs);
         String myIdWithMsgUid = Helper.extendWithSenderId(h.getId(), msgUid);
         //System.out.println("Stubborn Send :"+ "waiting for " + myIdWithMsgUid);
+        int maxRetransmitTime = numProcs * 50;
         while(!ackedMuid.contains(myIdWithMsgUid) && !terminated) { 
+            int waitingTime = Math.min(maxRetransmitTime, 20000);
             //System.out.println(Helper.getProcIdFromMessageUid(msg_uid) + "retransmitting" + msg_uid);
             String rawData = Helper.addSenderIdAndMsgUidToMsg(parser.myId(), msgUid, msg);
             byte buf[] = rawData.getBytes();
             //System.out.println("Stubborn sending raw: " + rawData + "to port :" + h.getPort());
             sendUDP(h, buf); //UDP is used as a fair loss link
             try {
-                int sleepTime = rand.nextInt(maxRetransmitTime);
+                int sleepTime = rand.nextInt(waitingTime);
                 Thread.sleep(sleepTime);
             } catch (InterruptedException e) {}
-            
+            maxRetransmitTime*=2;
+            maxRetransmitTime = (maxRetransmitTime > 0)? maxRetransmitTime : -maxRetransmitTime;
         }
         //System.out.println("have received ack for it");
         return true;
@@ -94,7 +97,7 @@ public class StubbornLinkWithAck extends Link {
         String msgUid = Helper.getMsgUid(rawData);
         String msg = Helper.extendWithSenderId(parser.myId(), Helper.appendMsg(msgUid, ACK));
         byte buf[] = msg.getBytes();
-        //System.out.println("sending ack");
+        //System.out.println("sending ack for raw " + rawData);
         sendUDP(host, buf);
         return true;
     }
@@ -118,6 +121,6 @@ public class StubbornLinkWithAck extends Link {
     }
 
     public int getMaxRetransmitTime(int numProcs){
-        return numProcs*7; //in our project the traffic depends solely on the number of processes
+        return numProcs*50; //in our project the traffic depends solely on the number of processes
     }
 }

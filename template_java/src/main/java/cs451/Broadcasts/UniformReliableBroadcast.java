@@ -21,6 +21,7 @@ public class UniformReliableBroadcast extends Broadcast {
     ConcurrentHashMap<String, Set<Integer>> ackedMuid; //(msg_uid, Set processes that acked/retransmit it) 
     Broadcast caller;
     boolean terminated = false;
+    boolean finished = false;
 
 
     public UniformReliableBroadcast(Parser parser, Broadcast caller) {
@@ -42,12 +43,13 @@ public class UniformReliableBroadcast extends Broadcast {
      * @return always returns true
      */
     public boolean broadcast(String msgUid, String msg) throws IOException {
-        
-        forward.add("_" + Helper.appendMsg(msgUid, msg)); //add "_"+ msguid + msg to pending (add leading "_" to reuse Helper methods to unpack content)
+        finished = false;
+        //System.out.println("URB broadcast" + msgUid);
+        forward.add(Helper.addSenderIdAndMsgUidToMsg(parser.myId(), msgUid, msg)); //add "_"+ msguid + msg to pending (add leading "_" to reuse Helper methods to unpack content)
         ackedMuid.put(msgUid,  Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>()));
         deliverIfCan(); 
         bestEffortBroadcast.broadcast(msgUid, msg);  
-        //log.add("b " + Helper.getSeqNumFromMessageUid(msgUid));
+        log.add("b " + Helper.getSeqNumFromMessageUid(msgUid));
         return true;
 
     }
@@ -60,6 +62,7 @@ public class UniformReliableBroadcast extends Broadcast {
      */
     public boolean deliver(String rawData) throws IOException {
         //increment ack count in ackedMuid for Helper.getMsgUid(rawData)
+        //System.out.println("URB receives raw data: " + rawData);
         String msgUid = Helper.getMsgUid(rawData);
         if(ackedMuid.get(msgUid)==null) {
             ackedMuid.put(msgUid, Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>()));
@@ -68,9 +71,9 @@ public class UniformReliableBroadcast extends Broadcast {
         ackedMuid.get(msgUid).add(Integer.parseInt(Helper.getSenderId(rawData))); 
 
         //forward if this message was not forwarded yet (can remove senderID as per the algorithms seen in class)
-        String msgUidAndData = Helper.removeSenderId(rawData);
-        if(!forward.contains(msgUidAndData)){ //forward everything only once PB RAW DATA NOW CONTAINS SRC !! 
-            forward.add(msgUidAndData);
+        //String msgUidAndData = Helper.removeSenderId(rawData);
+        if(!forward.contains(rawData)){ //forward everything only once PB RAW DATA NOW CONTAINS SRC !! 
+            forward.add(rawData);
             bestEffortBroadcast.broadcast(Helper.getMsgUid(rawData), Helper.getMsg(rawData)); 
         }
         deliverIfCan();
@@ -78,7 +81,7 @@ public class UniformReliableBroadcast extends Broadcast {
     }
 
     /**
-     * Delivers message if this message was acked my strictly 
+     * Delivers message if this message was acked by strictly 
      * more then half the processess
      */
     public boolean deliverIfCan() throws IOException {
@@ -89,7 +92,10 @@ public class UniformReliableBroadcast extends Broadcast {
             Set<Integer> acksForMsgUid = ackedMuid.get(msgUid);
             synchronized(this) {
                 if(acksForMsgUid.size() > hosts.size()/2. && !deliveredUid.contains(msgUid)){
-                actuallyDeliver(rawData);
+                    actuallyDeliver(rawData);
+                    if(Integer.valueOf(Helper.getProcIdFromMessageUid(msgUid)) == (parser.myId())){
+                        finished = true;
+                    } 
                 }
             }
         }
@@ -104,9 +110,10 @@ public class UniformReliableBroadcast extends Broadcast {
      */
     public boolean actuallyDeliver(String rawData) throws IOException {
         //add msgUid to delivered messages set 
+        //System.out.println("URB Deliver :" + rawData);
         deliveredUid.add(Helper.getMsgUid(rawData)); 
-        /**log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
-            + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));**/
+        log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
+            + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
         if(caller != null){
             caller.deliver(rawData);
         }
@@ -144,5 +151,9 @@ public class UniformReliableBroadcast extends Broadcast {
     public boolean terminate() {
         terminated = true; 
         return bestEffortBroadcast.terminate();
+    }
+
+    public boolean finished() {
+        return finished;
     }
 }

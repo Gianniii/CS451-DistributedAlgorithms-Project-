@@ -49,8 +49,8 @@ public class LocalizedCausalBroadcast extends Broadcast{
         //Encode my current vector clock into msg content and broadcast it
         String VCm = getEncodedVC();
         String newMsg = Helper.encodeVectorClockInMsg(VCm, msg);
+        System.out.println("Broadcasting :" + msgUid + newMsg);
         uniformReliableBroadcast.broadcast(msgUid, newMsg);
-      
         VC[parser.myId()]++;
 
         return true;
@@ -64,6 +64,7 @@ public class LocalizedCausalBroadcast extends Broadcast{
     public boolean deliver(String rawData) throws IOException {
         //probably wont have to use FIFO deliver is implement correctly with vector clocks
         System.out.println("CausalReceived: " + rawData);
+        System.out.println("MyVectorClock :" + getEncodedVC());
         String originalSrcId = Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData));
         System.out.println("OgSrcID : " + originalSrcId + " myId: " + String.valueOf(parser.myId()));
         //ignore my own broadcasts
@@ -84,6 +85,7 @@ public class LocalizedCausalBroadcast extends Broadcast{
             iterateAgain = false;
             for(String rawData : pending) {
                 if(canDeliverForLocalizedCausalBroadcast(rawData)) {
+                    System.out.println("MyVectorClock :" + getEncodedVC());
                     System.out.println("Delivers rawData: " + rawData);
                     pending.remove(rawData);
                     iterateAgain = true; //can iterate again to check if this deliver allows to deliver any other pending messages
@@ -125,7 +127,8 @@ public class LocalizedCausalBroadcast extends Broadcast{
         String originalSrcId = Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData));
         int originalSrcIdInt = Integer.valueOf(originalSrcId);
         //if i am causally affected by src host then check all the vector clocks
-        if(myCausallyAffectingHosts.contains(originalSrcId)) {
+        
+        if(myCausallyAffectingHosts!= null && myCausallyAffectingHosts.contains(originalSrcId)) {
             System.out.println("Goes in deliver for affecting hosts");
             for(int i = 1; i < hosts.size()+1; i ++){ //(start with i = 1 because index 0 is not used since hostID's start at 1)
                 if(VC[i] < VCmsg[i]) {canDeliver = false;};
@@ -143,8 +146,7 @@ public class LocalizedCausalBroadcast extends Broadcast{
 
     }
     
-
-    //TODO test that reading configs work when causally affected by several other hosts 
+    //TODO ONCE SURE URB IS CORRECT DEBUG THIS IF NECESSARY, ALSO CAN TRY DEBUG FIFO MIGHT HELP...
     //TODO test localizedCausalOrderBroadcast!! try several dependencies and start/stopping to check..
 
 
@@ -219,4 +221,7 @@ public class LocalizedCausalBroadcast extends Broadcast{
         return uniformReliableBroadcast.terminate();
     }
 
+    public boolean finished() {
+        return true;
+    }
 }

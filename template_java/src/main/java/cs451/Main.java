@@ -77,10 +77,11 @@ public class Main {
         //Set broadcast protocol
         LocalizedCausalBroadcast broadcastProtocol = new LocalizedCausalBroadcast(parser);
         //FIFOBroadcast broadcastProtocol = new FIFOBroadcast(parser); 
+        //UniformReliableBroadcast broadcastProtocol = new UniformReliableBroadcast(parser, null); 
         
         //sender and receiver need to be threads, so that we can send and receive in parallel
         DatagramSocket socket= new DatagramSocket(parser.myHost().getPort());
-        Receiver receiver = new Receiver(socket, broadcastProtocol.getStubbornLink());
+        Receiver receiver = new Receiver(socket, broadcastProtocol.getStubbornLink(), parser);
         Sender sender = new Sender(broadcastProtocol, parser);
         receiver.start();
         System.out.println("Broadcasting and delivering messages...\n");

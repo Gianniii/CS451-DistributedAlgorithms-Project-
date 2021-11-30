@@ -49,7 +49,8 @@ public class FIFOBroadcast extends Broadcast{
      * FIFO order
      */
     public boolean deliver(String rawData) throws IOException {
-        pending.add(Helper.getMsgUid(rawData) + Helper.getMsg(rawData));
+        System.out.println("FIFO receives :" + rawData);
+        pending.add(rawData);
         boolean iterateAgain = true;
         
         //TODO use better datastructure for pending, where store rawData by procId so only need to check if i can deliver messages
@@ -57,6 +58,7 @@ public class FIFOBroadcast extends Broadcast{
         while(iterateAgain && !terminated){
         iterateAgain = false;
             for(String rData: pending) {
+                System.out.println("rdata: " + rData);
                 String msgUid = Helper.getMsgUid(rawData);
                 int originalSrcId = Integer.parseInt(Helper.getProcIdFromMessageUid(msgUid));
                 String seqNum = Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData));
@@ -65,8 +67,8 @@ public class FIFOBroadcast extends Broadcast{
                     next[originalSrcId]++;
                     iterateAgain = true; //check if can send another
                     //FIFODeliver
-                    log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
-                    + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
+                    log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rData)) 
+                    + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rData)));
                 }
             }  
         }
@@ -89,5 +91,8 @@ public class FIFOBroadcast extends Broadcast{
         terminated = true; 
         return uniformReliableBroadcast.terminate();
     }
-    
+
+    public boolean finished() {
+        return uniformReliableBroadcast.finished();
+    }
 }

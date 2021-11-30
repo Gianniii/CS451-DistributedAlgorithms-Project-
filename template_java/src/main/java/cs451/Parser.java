@@ -104,6 +104,7 @@ public class Parser {
     //TODO figure out best format to return the processes affecting me.
     public Set<String> getProcessesAffectingMe(){
         String[] splits = {};
+        Set<String> affectingHosts = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
         try(BufferedReader br = new BufferedReader(new FileReader(config()))) {
             int lineNum = 0;
             //for(init something, boolean, increment something)
@@ -117,7 +118,6 @@ public class Parser {
                 splits = line.split(SPACES_REGEX);
                 
                 if(Integer.valueOf(splits[0]) == myId()){
-                    Set<String> affectingHosts = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
                     //skip first entry(as it just my contains my own ID)
                     for(int i = 1; i < splits.length; i++){
                         affectingHosts.add(splits[i]);
@@ -131,7 +131,7 @@ public class Parser {
         }
 
 
-        return null;
+        return affectingHosts;
     }
   
     public Host getHost(int hostId) {

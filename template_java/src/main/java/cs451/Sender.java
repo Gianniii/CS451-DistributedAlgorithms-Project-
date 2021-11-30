@@ -2,9 +2,12 @@ package cs451;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.concurrent.ExecutorService;
 
 import cs451.Broadcasts.*;
 import cs451.Links.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Sender extends Thread {
 
@@ -12,26 +15,52 @@ public class Sender extends Thread {
     Parser parser;
     Broadcast broadcastProtocol;
     boolean terminated = false;
+    ExecutorService executorService;
     public Sender(Broadcast FIFO, Parser parser) {
         this.broadcastProtocol = FIFO;
         this.parser = parser;
+        //executorService = Executors.newFixedThreadPool(1);
     }
 
     @Override
     public void run() {
+
+        //avoid too many broadcast at same time
         for (int i = 1; i < parser.getMessageNumber()+1; i++) {
             if(!terminated) {
+                String msg_uid = Helper.createUniqueMsgUid(Integer.toString(parser.myId()), Integer.toString(i));
                 try {
-                    String msg_uid = Helper.createUniqueMsgUid(Integer.toString(parser.myId()), Integer.toString(i));
-                    broadcastProtocol.broadcast(msg_uid, String.valueOf(i)); 
+                    broadcastProtocol.broadcast(msg_uid, String.valueOf(i));
                 } catch (IOException e) {
+                    // TODO Auto-generated catch block
                     e.printStackTrace();
+                } 
+                System.out.println("sender finished status: " + broadcastProtocol.finished());
+                while(!broadcastProtocol.finished()){ 
+                    try {
+                        int sleepTime = 10;
+                        Thread.sleep(sleepTime);
+                    } catch (InterruptedException e) {}
                 }
+                /**int j = i;
+                Thread t1 = new Thread(new Runnable() {
+                    @Override //Treat received packet in new thread so i can continue listening 
+                    public void run() {
+                        try {
+                            String msg_uid = Helper.createUniqueMsgUid(Integer.toString(parser.myId()), Integer.toString(j));
+                            broadcastProtocol.broadcast(msg_uid, String.valueOf(j)); 
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });    
+                executorService.execute(t1);**/
             }
         }
     }
 
     public boolean close() {
+        //executorService.shutdown();
         terminated = true;
         return true;
     }

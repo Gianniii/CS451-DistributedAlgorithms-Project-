@@ -1,4 +1,0 @@
-Exception in thread "Thread-0" java.lang.OutOfMemoryError: unable to create native thread: possibly out of memory or process/resource limits reached
-	at java.base/java.lang.Thread.start0(Native Method)
-	at java.base/java.lang.Thread.start(Thread.java:803)
-	at cs451.Receiver.run(Receiver.java:41)
