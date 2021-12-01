@@ -21,15 +21,17 @@ public class FIFOBroadcast extends Broadcast{
     int[] next;
     Parser parser;
     boolean terminated = false;
+    boolean keepLogs = false;
     
-    public FIFOBroadcast(Parser parser) {
+    public FIFOBroadcast(Parser parser, boolean keepLogs) {
         this.parser = parser;
         log =  new ConcurrentLinkedQueue<String>();
-        uniformReliableBroadcast = new UniformReliableBroadcast(parser, this);
+        uniformReliableBroadcast = new UniformReliableBroadcast(parser, this, false);
         hosts = parser.hosts();
         deliveredUid = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
         pending = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
         next = new int[parser.hosts().size()+1]; //there is no Host with id 0, so the first elt will not be used
+        this.keepLogs = keepLogs;
     }
 
     /**
@@ -37,7 +39,9 @@ public class FIFOBroadcast extends Broadcast{
      */
     public boolean broadcast(String msg_uid, String msg) throws IOException {
         //System.out.println("FIFO Broadcast: " + msg_uid);
-        log.add("b " + Helper.getSeqNumFromMessageUid(msg_uid));
+        if(keepLogs) {
+            log.add("b " + Helper.getSeqNumFromMessageUid(msg_uid));
+        }
         uniformReliableBroadcast.broadcast(msg_uid, msg);
         return true;
 
@@ -45,7 +49,7 @@ public class FIFOBroadcast extends Broadcast{
     
     /**
      * Receives rawData of the form [msgUid+msg]
-     * adds rawData to pending and if can delivers message in 
+     * adds rawData to pending and check if can delivers message in 
      * FIFO order
      */
     public boolean deliver(String rawData) throws IOException {
@@ -59,16 +63,19 @@ public class FIFOBroadcast extends Broadcast{
         iterateAgain = false;
             for(String rData: pending) {
                 System.out.println("rdata: " + rData);
-                String msgUid = Helper.getMsgUid(rawData);
+                String msgUid = Helper.getMsgUid(rData);
                 int originalSrcId = Integer.parseInt(Helper.getProcIdFromMessageUid(msgUid));
-                String seqNum = Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData));
+                String seqNum = Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rData));
                 if(next[originalSrcId]+1 == Integer.parseInt(seqNum)) {
                     pending.remove(rData);
                     next[originalSrcId]++;
                     iterateAgain = true; //check if can send another
                     //FIFODeliver
-                    log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rData)) 
-                    + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rData)));
+                    if(keepLogs) {
+                        log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rData)) 
+                        + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rData)));
+                    }
+                  
                 }
             }  
         }

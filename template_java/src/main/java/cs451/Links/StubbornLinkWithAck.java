@@ -61,7 +61,6 @@ public class StubbornLinkWithAck extends Link {
     public boolean send(Host h, String msgUid, String msg) throws IOException{
         String rawData = Helper.addSenderIdAndMsgUidToMsg(parser.myId(), msgUid, msg);
         sendingQueue.add(setDestination(String.valueOf(h.getId()), rawData)); //add dst so know where to send it when try to transmit it
-        //sendUDP(h, buf);
         return true;
     }
 
@@ -75,7 +74,7 @@ public class StubbornLinkWithAck extends Link {
                     Host dstHost = getDestination(rawData);
                     String msgUid = Helper.getMsgUid(rawData);
                     String dstIdWithMsgUid = Helper.extendWithSenderId(dstHost.getId(), msgUid);
-                    //if i have not received a msg from dst with the msgUid i send to him, consider it an ACK and remove it form queue
+                    //if have received an ack from dst for a given msguid remove it from queue else (re)transmit
                     if(ackedMuid.contains(dstIdWithMsgUid)) {
                         sendingQueue.remove(rawData);
                     } else {
@@ -87,7 +86,8 @@ public class StubbornLinkWithAck extends Link {
                 }
             }
             try {
-                int sleepTime = rand.nextInt(getMaxRetransmitTime(parser.hosts().size()));
+                int sleepTime = rand.nextInt(getMaxRetransmitTime());
+                //System.out.println("sleep time:" + sleepTime);
                 Thread.sleep(sleepTime);
             } catch (InterruptedException e) {}
         }
@@ -148,8 +148,8 @@ public class StubbornLinkWithAck extends Link {
        return stopReceivingAndSending();
     }
 
-    public int getMaxRetransmitTime(int numProcs){
-        return numProcs*20; //in our project the traffic depends solely on the number of processes
+    public int getMaxRetransmitTime(){
+        return (sendingQueue.size() < 10)? 10 : sendingQueue.size(); //use size of sending queue to estimate traffic
     }
 
     private String setDestination(String dst, String data) {

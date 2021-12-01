@@ -1,6 +1,6 @@
-My PID: 23599
+My PID: 8171
 
-From a new terminal type `kill -SIGINT 23599` or `kill -SIGTERM 23599` to stop processing packets
+From a new terminal type `kill -SIGINT 8171` or `kill -SIGTERM 8171` to stop processing packets
 
 My ID: 4
 
@@ -30,10 +30,22 @@ Human-readable Port: 11005
 Human-readable IP: 127.0.0.1
 Human-readable Port: 11006
 
+7
+Human-readable IP: 127.0.0.1
+Human-readable Port: 11007
+
+8
+Human-readable IP: 127.0.0.1
+Human-readable Port: 11008
+
+9
+Human-readable IP: 127.0.0.1
+Human-readable Port: 11009
+
 
 Path to output:
 ===============
-/home/dcl/Desktop/MostUpToDate/CS451_DistributedAlgorithms/example/output/proc04.output
+/home/dcl/Desktop/Lcausal/CS451_DistributedAlgorithms/example/output/proc04.output
 
 Path to config:
 ===============
@@ -43,115 +55,5 @@ Doing some initialization
 
 Broadcasting and delivering messages...
 
-sender finished status: false
-FIFO receives :5_5.1:1638106234931,1
-rdata: 5_5.1:1638106234931,1
-FIFO receives :3_4.1:1638106234882,1
-rdata: 3_4.1:1638106234882,1
-sender finished status: false
-FIFO receives :3_6.1:1638106235294,1
-rdata: 3_6.1:1638106235294,1
-FIFO receives :1_3.1:1638106235247,1
-rdata: 1_3.1:1638106235247,1
-FIFO receives :5_5.2:1638106235707,2
-rdata: 5_5.2:1638106235707,2
-FIFO receives :4_4.2:1638106235721,2
-rdata: 4_4.2:1638106235721,2
-FIFO receives :3_1.1:1638106235396,1
-rdata: 3_1.1:1638106235396,1
-sender finished status: false
-FIFO receives :6_6.2:1638106235896,2
-rdata: 6_6.2:1638106235896,2
-FIFO receives :6_3.2:1638106235872,2
-rdata: 6_3.2:1638106235872,2
-FIFO receives :3_3.3:1638106236099,3
-rdata: 3_3.3:1638106236099,3
-FIFO receives :4_5.3:1638106236115,3
-rdata: 4_5.3:1638106236115,3
-FIFO receives :3_4.3:1638106236039,3
-rdata: 3_4.3:1638106236039,3
-sender finished status: false
-FIFO receives :3_6.3:1638106236269,3
-rdata: 3_6.3:1638106236269,3
-FIFO receives :6_1.2:1638106236246,2
-rdata: 6_1.2:1638106236246,2
-FIFO receives :3_4.4:1638106236379,4
-rdata: 3_4.4:1638106236379,4
-sender finished status: false
-FIFO receives :5_3.4:1638106236370,4
-rdata: 5_3.4:1638106236370,4
-FIFO receives :4_5.4:1638106236414,4
-rdata: 4_5.4:1638106236414,4
-FIFO receives :4_4.5:1638106236589,5
-rdata: 4_4.5:1638106236589,5
-FIFO receives :3_6.4:1638106236557,4
-rdata: 3_6.4:1638106236557,4
-sender finished status: false
-FIFO receives :3_3.5:1638106236622,5
-rdata: 3_3.5:1638106236622,5
-FIFO receives :3_5.5:1638106236699,5
-rdata: 3_5.5:1638106236699,5
-FIFO receives :3_1.3:1638106236907,3
-rdata: 3_1.3:1638106236907,3
-FIFO receives :4_3.6:1638106236855,6
-rdata: 4_3.6:1638106236855,6
-FIFO receives :6_4.6:1638106236722,6
-rdata: 6_4.6:1638106236722,6
-FIFO receives :6_6.5:1638106236838,5
-rdata: 6_6.5:1638106236838,5
-sender finished status: false
-FIFO receives :6_4.7:1638106237038,7
-rdata: 6_4.7:1638106237038,7
-FIFO receives :4_5.6:1638106236989,6
-rdata: 4_5.6:1638106236989,6
-sender finished status: false
-FIFO receives :6_6.6:1638106237166,6
-rdata: 6_6.6:1638106237166,6
-FIFO receives :5_3.7:1638106237087,7
-rdata: 5_3.7:1638106237087,7
-FIFO receives :6_4.8:1638106237972,8
-rdata: 6_4.8:1638106237972,8
-FIFO receives :1_5.7:1638106239503,7
-rdata: 1_5.7:1638106239503,7
-FIFO receives :6_3.8:1638106239584,8
-rdata: 6_3.8:1638106239584,8
-FIFO receives :1_6.7:1638106239557,7
-rdata: 1_6.7:1638106239557,7
-sender finished status: false
-FIFO receives :3_1.4:1638106239435,4
-rdata: 3_1.4:1638106239435,4
-FIFO receives :3_3.9:1638106239693,9
-rdata: 3_3.9:1638106239693,9
-FIFO receives :3_1.5:1638106240107,5
-rdata: 3_1.5:1638106240107,5
-FIFO receives :5_4.9:1638106240056,9
-rdata: 5_4.9:1638106240056,9
-FIFO receives :4_5.8:1638106239997,8
-rdata: 4_5.8:1638106239997,8
-FIFO receives :6_6.8:1638106240117,8
-rdata: 6_6.8:1638106240117,8
-FIFO receives :6_3.10:1638106240088,10
-rdata: 6_3.10:1638106240088,10
-sender finished status: false
-FIFO receives :3_4.10:1638106240285,10
-rdata: 3_4.10:1638106240285,10
-FIFO receives :5_5.9:1638106240263,9
-rdata: 5_5.9:1638106240263,9
-FIFO receives :5_1.6:1638106240367,6
-rdata: 5_1.6:1638106240367,6
-FIFO receives :6_6.9:1638106240399,9
-rdata: 6_6.9:1638106240399,9
-FIFO receives :6_5.10:1638106240473,10
-rdata: 6_5.10:1638106240473,10
-FIFO receives :3_1.7:1638106240550,7
-rdata: 3_1.7:1638106240550,7
-FIFO receives :5_6.10:1638106240560,10
-rdata: 5_6.10:1638106240560,10
-FIFO receives :5_1.8:1638106240647,8
-rdata: 5_1.8:1638106240647,8
-FIFO receives :4_1.9:1638106240730,9
-rdata: 4_1.9:1638106240730,9
-FIFO receives :3_1.10:1638106240755,10
-rdata: 3_1.10:1638106240755,10
 Immediately stopping network packet processing.
 Writing output.

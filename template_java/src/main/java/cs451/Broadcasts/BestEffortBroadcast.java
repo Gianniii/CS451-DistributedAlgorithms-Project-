@@ -21,17 +21,19 @@ public class BestEffortBroadcast extends Broadcast {
     PerfectLink perfectLink; 
     UniformReliableBroadcast uniformReliableBroadcast;
     boolean terminated;
+    boolean keepLogs;
   
-    public BestEffortBroadcast(Parser parser, UniformReliableBroadcast caller) {
+    public BestEffortBroadcast(Parser parser, UniformReliableBroadcast caller, boolean keepLogs) {
         log =  new ConcurrentLinkedQueue<String>();
         hosts = parser.hosts();
         perfectLink = new PerfectLink(parser, this);
         this.parser = parser;
         uniformReliableBroadcast = caller;
+        this.keepLogs = keepLogs;
     }
 
     public boolean broadcast(String msg_uid, String msg) throws IOException {
-        //log.add("beb b" + Helper.getSeqNumFromMessageUid(msg_uid));
+        if(keepLogs) {log.add("beb b" + Helper.getSeqNumFromMessageUid(msg_uid));};
         for(Host h : hosts) {
             perfectLink.send(h, msg_uid, msg);
         }
@@ -41,8 +43,11 @@ public class BestEffortBroadcast extends Broadcast {
         if(uniformReliableBroadcast != null) {
             uniformReliableBroadcast.deliver(rawData);
         }
-        //log.add("beb d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
-        //         + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
+        if(keepLogs) {
+             log.add("beb d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
+                 + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
+        }
+       
         return true;
     }
 

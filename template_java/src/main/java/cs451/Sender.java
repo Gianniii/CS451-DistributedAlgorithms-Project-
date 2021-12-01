@@ -35,26 +35,14 @@ public class Sender extends Thread {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 } 
-                System.out.println("sender finished status: " + broadcastProtocol.finished());
+
+                /*System.out.println("sender finished status: " + broadcastProtocol.finished());
                 while(!broadcastProtocol.finished()){ 
                     try {
                         int sleepTime = 10;
                         Thread.sleep(sleepTime);
                     } catch (InterruptedException e) {}
-                }
-                /**int j = i;
-                Thread t1 = new Thread(new Runnable() {
-                    @Override //Treat received packet in new thread so i can continue listening 
-                    public void run() {
-                        try {
-                            String msg_uid = Helper.createUniqueMsgUid(Integer.toString(parser.myId()), Integer.toString(j));
-                            broadcastProtocol.broadcast(msg_uid, String.valueOf(j)); 
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });    
-                executorService.execute(t1);**/
+                }*/
             }
         }
     }

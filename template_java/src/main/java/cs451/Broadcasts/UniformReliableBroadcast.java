@@ -22,18 +22,20 @@ public class UniformReliableBroadcast extends Broadcast {
     Broadcast caller;
     boolean terminated = false;
     boolean finished = false;
+    boolean keepLogs;
 
 
-    public UniformReliableBroadcast(Parser parser, Broadcast caller) {
+    public UniformReliableBroadcast(Parser parser, Broadcast caller, boolean keepLogs) {
         //init
         this.caller = caller;
         this.parser = parser;
         log =  new ConcurrentLinkedQueue<String>();
-        bestEffortBroadcast = new BestEffortBroadcast(parser, this);
+        bestEffortBroadcast = new BestEffortBroadcast(parser, this, false);
         hosts = parser.hosts();
         ackedMuid = new ConcurrentHashMap<String, Set<Integer>>(); 
         deliveredUid = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
         forward = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
+        this.keepLogs = keepLogs;
     }
 
     /**
@@ -49,7 +51,7 @@ public class UniformReliableBroadcast extends Broadcast {
         ackedMuid.put(msgUid,  Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>()));
         deliverIfCan(); 
         bestEffortBroadcast.broadcast(msgUid, msg);  
-        log.add("b " + Helper.getSeqNumFromMessageUid(msgUid));
+        if(keepLogs){log.add("b " + Helper.getSeqNumFromMessageUid(msgUid));};
         return true;
 
     }
@@ -112,8 +114,11 @@ public class UniformReliableBroadcast extends Broadcast {
         //add msgUid to delivered messages set 
         //System.out.println("URB Deliver :" + rawData);
         deliveredUid.add(Helper.getMsgUid(rawData)); 
-        log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
+        if(keepLogs) {
+            log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
             + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
+        }
+       
         if(caller != null){
             caller.deliver(rawData);
         }

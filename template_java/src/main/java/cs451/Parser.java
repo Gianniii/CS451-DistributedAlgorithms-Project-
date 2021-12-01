@@ -82,24 +82,10 @@ public class Parser {
         return configParser.getPath();
     }
 
-    public int getMessageNumber() {
-        File configFile = new File(config());
-        int messageNumber = 0;
-        try {
-            Scanner reader = new Scanner(configFile);
-            String data = reader.nextLine().split(" ")[0];
-            messageNumber = Integer.parseInt(data);
-            reader.close();
-        }
-        catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
-        return messageNumber;
-    }
-
     /**
-     * @return a Set where each entry is a Host id of a host i am affected by.
-     * (i.e a string of the form "myId pi pk" ect.. where pi,pk are processes i am affected by there could be 0 or many processes this process is affected by)
+     * Parses config file to get hosts affecting me("this")
+     * @return a Set where each entry is a Host id of a host I am ("this host/process is") affected by.
+     * (i.e a string of the form "pi pk ect.. where pi,pk are processes "this" process is affected by. There could be 0 or many processes this process is affected by)
      */
     //TODO figure out best format to return the processes affecting me.
     public Set<String> getProcessesAffectingMe(){
@@ -127,11 +113,27 @@ public class Parser {
                 lineNum++;
             }
         } catch (IOException e) {
-            System.err.println("Problem with the hosts file!");
+            System.err.println("Incorrect syntax in config file");
         }
 
 
         return affectingHosts;
+    }
+
+
+    public int getMessageNumber() {
+        File configFile = new File(config());
+        int messageNumber = 0;
+        try {
+            Scanner reader = new Scanner(configFile);
+            String data = reader.nextLine().split(" ")[0];
+            messageNumber = Integer.parseInt(data);
+            reader.close();
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+        return messageNumber;
     }
   
     public Host getHost(int hostId) {

@@ -1,8 +1,8 @@
-My PID: 8173
+My PID: 8176
 
-From a new terminal type `kill -SIGINT 8173` or `kill -SIGTERM 8173` to stop processing packets
+From a new terminal type `kill -SIGINT 8176` or `kill -SIGTERM 8176` to stop processing packets
 
-My ID: 6
+My ID: 9
 
 List of resolved hosts is:
 ==========================
@@ -45,7 +45,7 @@ Human-readable Port: 11009
 
 Path to output:
 ===============
-/home/dcl/Desktop/Lcausal/CS451_DistributedAlgorithms/example/output/proc06.output
+/home/dcl/Desktop/Lcausal/CS451_DistributedAlgorithms/example/output/proc09.output
 
 Path to config:
 ===============
