@@ -39,33 +39,6 @@ public class Receiver extends Thread {
                 //System.out.println("received packet: " + received);
                 
                 if(running) {
-                    /*class Task implements Callable<String> {
-                        @Override
-                        public String call() throws Exception {
-                            stubbornLinkWithAck.deliver(received); 
-                            return "Ready!";
-                        }
-                    }
-                    ExecutorService executor = Executors.newSingleThreadExecutor();
-                    Future<String> future = executor.submit(new Task());
-            
-                    try {
-                        System.out.println("Started..");
-                        System.out.println(future.get(10, TimeUnit.SECONDS));
-                        System.out.println("Finished!");
-                    } catch (TimeoutException e) {
-                        System.out.println("TIMEOUT");
-                        future.cancel(true);
-                    } catch (InterruptedException e) {
-                        System.out.println("InterruptedException");
-                        future.cancel(true);
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        future.cancel(true);
-                        e.printStackTrace();
-                    } finally {
-                        executor.shutdownNow();
-                    }*/
                     Thread t1 = new Thread(new Runnable() {
                         @Override //Treat received packet in new thread so i can continue listening 
                         public void run() {
@@ -79,7 +52,7 @@ public class Receiver extends Thread {
                     });
                     t1.start(); 
                 }  //executorService.execute(t1); 
-                } catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

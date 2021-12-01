@@ -12,6 +12,7 @@ import java.util.Set;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Collections;
 import java.util.Random;
 
@@ -22,6 +23,9 @@ public class StubbornLinkWithAck extends Link {
     Set<String> ackedMuid; //contains SenderId + msgUid as key if it was delivered, the value indicates if the msg was acked
     Parser parser;
     Boolean terminated = false;
+    Set<String> sendingQueue;
+    Thread sender;
+
 
     public StubbornLinkWithAck(Link caller, Parser parser) {
         super();
@@ -38,32 +42,56 @@ public class StubbornLinkWithAck extends Link {
             throw new IllegalArgumentException("caller is null");
         }
         ackedMuid = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
+        sendingQueue = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
+
+        sender = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    sendFromSendingQueue();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+        sender.start(); 
     }
 
     public boolean send(Host h, String msgUid, String msg) throws IOException{
+        String rawData = Helper.addSenderIdAndMsgUidToMsg(parser.myId(), msgUid, msg);
+        sendingQueue.add(setDestination(String.valueOf(h.getId()), rawData)); //add dst so know where to send it when try to transmit it
+        //sendUDP(h, buf);
+        return true;
+    }
+
+
+    private void sendFromSendingQueue() throws IOException{
         //send until message gets acked
         Random rand = new Random();
-        int numProcs = parser.hosts().size();
-        //int maxRetransmitTime = getMaxRetransmitTime(numProcs);
-        String myIdWithMsgUid = Helper.extendWithSenderId(h.getId(), msgUid);
-        //System.out.println("Stubborn Send :"+ "waiting for " + myIdWithMsgUid);
-        int maxRetransmitTime = numProcs * 50;
-        while(!ackedMuid.contains(myIdWithMsgUid) && !terminated) { 
-            int waitingTime = Math.min(maxRetransmitTime, 20000);
-            //System.out.println(Helper.getProcIdFromMessageUid(msg_uid) + "retransmitting" + msg_uid);
-            String rawData = Helper.addSenderIdAndMsgUidToMsg(parser.myId(), msgUid, msg);
-            byte buf[] = rawData.getBytes();
-            //System.out.println("Stubborn sending raw: " + rawData + "to port :" + h.getPort());
-            sendUDP(h, buf); //UDP is used as a fair loss link
+        while(true) {
+            if(!sendingQueue.isEmpty() && !terminated) {
+                for(String rawData : sendingQueue) {
+                    Host dstHost = getDestination(rawData);
+                    String msgUid = Helper.getMsgUid(rawData);
+                    String dstIdWithMsgUid = Helper.extendWithSenderId(dstHost.getId(), msgUid);
+                    //if i have not received a msg from dst with the msgUid i send to him, consider it an ACK and remove it form queue
+                    if(ackedMuid.contains(dstIdWithMsgUid)) {
+                        sendingQueue.remove(rawData);
+                    } else {
+                        String rawDataWithoutDst = removeDst(rawData);
+                        byte buf[] = rawDataWithoutDst.getBytes();
+                        sendUDP(dstHost, buf);
+                    }
+                    
+                }
+            }
             try {
-                int sleepTime = rand.nextInt(waitingTime);
+                int sleepTime = rand.nextInt(getMaxRetransmitTime(parser.hosts().size()));
                 Thread.sleep(sleepTime);
             } catch (InterruptedException e) {}
-            maxRetransmitTime*=2;
-            maxRetransmitTime = (maxRetransmitTime > 0)? maxRetransmitTime : -maxRetransmitTime;
         }
-        //System.out.println("have received ack for it");
-        return true;
+
     }
     
     public boolean deliver(String rawData) throws IOException {
@@ -121,6 +149,20 @@ public class StubbornLinkWithAck extends Link {
     }
 
     public int getMaxRetransmitTime(int numProcs){
-        return numProcs*50; //in our project the traffic depends solely on the number of processes
+        return numProcs*20; //in our project the traffic depends solely on the number of processes
+    }
+
+    private String setDestination(String dst, String data) {
+        return dst + "-" + data;
+    }
+
+    private Host getDestination(String rawData){
+        String dstId = rawData.substring(0, rawData.indexOf("-"));
+        return parser.getHost(Integer.valueOf(dstId));
+    }
+
+    private String removeDst(String rawData){
+        int index = rawData.indexOf("-");
+        return rawData.substring(index+1);
     }
 }
