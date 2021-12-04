@@ -11,6 +11,5 @@ public abstract class Broadcast {
     abstract public ConcurrentLinkedQueue<String> getLogs();
     abstract public StubbornLinkWithAck getStubbornLink();
     abstract public boolean terminate(); //stop all packet processing
-    abstract public boolean finished();
 }
 

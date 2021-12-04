@@ -21,7 +21,6 @@ public class UniformReliableBroadcast extends Broadcast {
     ConcurrentHashMap<String, Set<Integer>> ackedMuid; //(msg_uid, Set processes that acked/retransmit it) 
     Broadcast caller;
     boolean terminated = false;
-    boolean finished = false;
     boolean keepLogs;
 
 
@@ -45,7 +44,6 @@ public class UniformReliableBroadcast extends Broadcast {
      * @return always returns true
      */
     public boolean broadcast(String msgUid, String msg) throws IOException {
-        finished = false;
         //System.out.println("URB broadcast" + msgUid);
         forward.add(Helper.addSenderIdAndMsgUidToMsg(parser.myId(), msgUid, msg)); //add "_"+ msguid + msg to pending (add leading "_" to reuse Helper methods to unpack content)
         ackedMuid.put(msgUid,  Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>()));
@@ -91,13 +89,10 @@ public class UniformReliableBroadcast extends Broadcast {
         //and who have not been delivered before
         for(String rawData : forward) {
             String msgUid = Helper.getMsgUid(rawData);
-            Set<Integer> acksForMsgUid = ackedMuid.get(msgUid);
+            Set<Integer> acksForMsgUid = ackedMuid.getOrDefault(msgUid, Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>()));
             synchronized(this) {
                 if(acksForMsgUid.size() > hosts.size()/2. && !deliveredUid.contains(msgUid)){
                     actuallyDeliver(rawData);
-                    if(Integer.valueOf(Helper.getProcIdFromMessageUid(msgUid)) == (parser.myId())){
-                        finished = true;
-                    } 
                 }
             }
         }
@@ -158,7 +153,4 @@ public class UniformReliableBroadcast extends Broadcast {
         return bestEffortBroadcast.terminate();
     }
 
-    public boolean finished() {
-        return finished;
-    }
 }

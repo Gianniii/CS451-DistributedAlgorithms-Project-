@@ -42,17 +42,18 @@ public class LocalizedCausalBroadcast extends Broadcast{
      */
     public boolean broadcast(String msgUid, String msg) throws IOException {
         //System.out.println("FIFO Broadcast: " + msg_uid);
-        log.add("b " + Helper.getSeqNumFromMessageUid(msgUid)); 
-        //Immediatly deliver message
-        log.add("d " + Helper.getProcIdFromMessageUid(msgUid) + " " + Helper.getSeqNumFromMessageUid(msgUid));
+        synchronized(this) {
+            log.add("b " + Helper.getSeqNumFromMessageUid(msgUid)); 
+            //Immediatly deliver message
+            log.add("d " + Helper.getProcIdFromMessageUid(msgUid) + " " + Helper.getSeqNumFromMessageUid(msgUid));
 
-        //Encode my current vector clock into msg content and broadcast it
-        String VCm = getEncodedVC();
-        String newMsg = Helper.encodeVectorClockInMsg(VCm, msg);
-        //System.out.println("Broadcasting :" + msgUid + newMsg);
-        uniformReliableBroadcast.broadcast(msgUid, newMsg);
-        VC[parser.myId()]++;
-
+            //Encode my current vector clock into msg content and broadcast it
+            String VCm = getEncodedVCForDependencies();
+            String newMsg = Helper.encodeVectorClockInMsg(VCm, msg);
+            //System.out.println("Broadcasting :" + msgUid + newMsg);
+            uniformReliableBroadcast.broadcast(msgUid, newMsg);
+            VC[parser.myId()]++;
+        }
         return true;
     }
     
@@ -83,16 +84,18 @@ public class LocalizedCausalBroadcast extends Broadcast{
         while(iterateAgain && !terminated){
             iterateAgain = false;
             for(String rawData : pending) {
-                if(canDeliverForLocalizedCausalBroadcast(rawData)) {
+                if(canDeliverCausalBroadcast(rawData)) {
                     //System.out.println("MyVectorClock :" + getEncodedVC());
                     //System.out.println("Delivers rawData: " + rawData);
                     pending.remove(rawData);
                     iterateAgain = true; //can iterate again to check if this deliver allows to deliver any other pending messages
                     //deliver
-                    log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
-                    + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
-                    String originalSrcId = Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData));
-                    VC[Integer.valueOf(originalSrcId)]++;
+                    synchronized(this) {
+                        log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
+                        + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
+                        String originalSrcId = Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData));
+                        VC[Integer.valueOf(originalSrcId)]++;
+                    }
                 }
             }
         }
@@ -145,6 +148,37 @@ public class LocalizedCausalBroadcast extends Broadcast{
     }
 
 
+
+    /**
+     * Build a string VC, This VC is identical to my own VC for the indexes of 
+     * processes i am affected by, else 0 
+     * 
+     * @return The returned VC represents my VC with 0 at indexes of hosts i am not affected by
+     * and for hosts i am Affected it contains the current value in my VC
+     */
+    private String getEncodedVCForDependencies() {
+        StringBuilder VCBuilder = new StringBuilder();
+        VCBuilder.append("[");
+        //always dependent on myself(this ensure FIFO ordering)
+        for(int i = 0; i < hosts.size(); i++) {
+            if(myCausallyAffectingHosts.contains(String.valueOf(i)) || i == parser.myId()){
+                VCBuilder.append( String.valueOf(VC[i]) + ",");
+            } else {
+                VCBuilder.append("0" + ",");
+            }
+            
+        }
+        int i = hosts.size();
+        if(myCausallyAffectingHosts.contains(String.valueOf(i)) || i == parser.myId()){
+            VCBuilder.append(String.valueOf(VC[i]));
+        } else {
+            VCBuilder.append("0");
+        }
+        VCBuilder.append("]");
+        return VCBuilder.toString();
+    }
+
+
     /**
      * Builds string representing the VC of the form [0, p1,p2,...,pn] with n being the number of hosts
      * @return String for VC of the form  [0, p1,p2,...,pn]
@@ -177,6 +211,7 @@ public class LocalizedCausalBroadcast extends Broadcast{
         }
         return decodedMsgVC;
     }
+
 
     /**
      * Extract msg from rawData
@@ -216,7 +251,4 @@ public class LocalizedCausalBroadcast extends Broadcast{
         return uniformReliableBroadcast.terminate();
     }
 
-    public boolean finished() {
-        return true;
-    }
 }

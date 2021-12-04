@@ -99,7 +99,4 @@ public class FIFOBroadcast extends Broadcast{
         return uniformReliableBroadcast.terminate();
     }
 
-    public boolean finished() {
-        return uniformReliableBroadcast.finished();
-    }
 }
