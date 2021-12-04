@@ -361,12 +361,12 @@ if __name__ == "__main__":
     results = parser.parse_args()
 
     testConfig = {
-        'concurrency' : 1, # How many threads are interferring with the running processes //had 8 here
-        'attempts' : 0, # How many interferring attempts each threads does //had 100 here
+        'concurrency' : 2, # How many threads are interferring with the running processes //had 8 here
+        'attempts' : 500, # How many interferring attempts each threads does //had 100 here
         'attemptsDistribution' : { # Probability with which an interferring thread will
-            'STOP': 0.00,          # select an interferring action (make sure they add up to 1)
-            'CONT': 0.00,
-            'TERM':1.0
+            'STOP': 0.9,          # select an interferring action (make sure they add up to 1)
+            'CONT': 0.1,
+            'TERM':0.0
         }
     }
 
