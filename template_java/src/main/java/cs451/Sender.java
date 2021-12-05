@@ -2,6 +2,7 @@ package cs451;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 
 import cs451.Broadcasts.*;
@@ -24,14 +25,15 @@ public class Sender extends Thread {
 
     @Override
     public void run() {
-
+        //Random rand = new Random();
         //avoid too many broadcast at same time
         for (int i = 1; i < parser.getMessageNumber()+1; i++) {
             if(!terminated) {
                 String msg_uid = Helper.createUniqueMsgUid(Integer.toString(parser.myId()), Integer.toString(i));
                 try {
                     broadcastProtocol.broadcast(msg_uid, String.valueOf(i));
-                } catch (IOException e) {
+                    //Thread.sleep(rand.nextInt(50)); for testing purposes
+                } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 } 

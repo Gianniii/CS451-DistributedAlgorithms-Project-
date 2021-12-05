@@ -52,7 +52,7 @@ public class FIFOBroadcast extends Broadcast{
      * adds rawData to pending and check if can delivers message in 
      * FIFO order
      */
-    public boolean deliver(String rawData) throws IOException {
+    public synchronized boolean deliver(String rawData) throws IOException {
         System.out.println("FIFO receives :" + rawData);
         pending.add(rawData);
         boolean iterateAgain = true;

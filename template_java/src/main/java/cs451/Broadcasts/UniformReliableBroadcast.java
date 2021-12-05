@@ -90,11 +90,15 @@ public class UniformReliableBroadcast extends Broadcast {
         for(String rawData : forward) {
             String msgUid = Helper.getMsgUid(rawData);
             Set<Integer> acksForMsgUid = ackedMuid.getOrDefault(msgUid, Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>()));
+            boolean canDeliver = false;
             synchronized(this) {
                 if(acksForMsgUid.size() > hosts.size()/2. && !deliveredUid.contains(msgUid)){
-                    actuallyDeliver(rawData);
+                    deliveredUid.add(Helper.getMsgUid(rawData)); 
+                    canDeliver = true;
+                    //actuallyDeliver(rawData);
                 }
             }
+            if(canDeliver) { actuallyDeliver(rawData);}
         }
         return true;
     }

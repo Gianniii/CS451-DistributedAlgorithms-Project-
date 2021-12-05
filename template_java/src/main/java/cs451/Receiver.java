@@ -38,7 +38,21 @@ public class Receiver extends Thread {
                 String received = new String(packet.getData(), 0, packet.getLength());
                 //System.out.println("received packet: " + received);
                 
+               
                 if(running) {
+                    Runnable runnableTask = () -> {
+                        try {
+                            stubbornLinkWithAck.deliver(received);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    };
+                    executorService.execute(runnableTask);
+                }
+               
+               
+
+                /**if(running) {
                     Thread t1 = new Thread(new Runnable() {
                         @Override //Treat received packet in new thread so i can continue listening 
                         public void run() {
@@ -51,7 +65,7 @@ public class Receiver extends Thread {
                         }
                     });
                     t1.start(); 
-                }  //executorService.execute(t1); 
+                }  //executorService.execute(t1); **/
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -60,7 +74,7 @@ public class Receiver extends Thread {
     }
 
     public void close() {
-        //executorService.shutdown();
+        executorService.shutdown();
         running = false;
     }
 }

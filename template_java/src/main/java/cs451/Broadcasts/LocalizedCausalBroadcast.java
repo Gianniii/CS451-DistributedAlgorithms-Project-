@@ -42,6 +42,7 @@ public class LocalizedCausalBroadcast extends Broadcast{
      */
     public boolean broadcast(String msgUid, String msg) throws IOException {
         //System.out.println("FIFO Broadcast: " + msg_uid);
+        String newMsg;
         synchronized(this) {
             log.add("b " + Helper.getSeqNumFromMessageUid(msgUid)); 
             //Immediatly deliver message
@@ -49,11 +50,13 @@ public class LocalizedCausalBroadcast extends Broadcast{
 
             //Encode my current vector clock into msg content and broadcast it
             String VCm = getEncodedVCForDependencies();
-            String newMsg = Helper.encodeVectorClockInMsg(VCm, msg);
+            newMsg = Helper.encodeVectorClockInMsg(VCm, msg);
             //System.out.println("Broadcasting :" + msgUid + newMsg);
-            uniformReliableBroadcast.broadcast(msgUid, newMsg);
             VC[parser.myId()]++;
         }
+            uniformReliableBroadcast.broadcast(msgUid, newMsg);
+            
+        
         return true;
     }
     
@@ -71,8 +74,12 @@ public class LocalizedCausalBroadcast extends Broadcast{
         if(originalSrcId.equals(String.valueOf(parser.myId()))) {
             return true;
         };
-        pending.add(rawData);
-        return deliverPending(); 
+
+        synchronized(this) {
+            pending.add(rawData);
+            deliverPending();
+        }
+        return true; 
     }
 
     /**
@@ -90,12 +97,11 @@ public class LocalizedCausalBroadcast extends Broadcast{
                     pending.remove(rawData);
                     iterateAgain = true; //can iterate again to check if this deliver allows to deliver any other pending messages
                     //deliver
-                    synchronized(this) {
-                        log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
-                        + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
-                        String originalSrcId = Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData));
-                        VC[Integer.valueOf(originalSrcId)]++;
-                    }
+                    log.add("d " + Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData)) 
+                    + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
+                    String originalSrcId = Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData));
+                    VC[Integer.valueOf(originalSrcId)]++;
+                    
                 }
             }
         }
