@@ -21,8 +21,9 @@ public class LocalizedCausalBroadcast extends Broadcast{
     Parser parser;
     boolean terminated = false;
     Set<String> myCausallyAffectingHosts;
-    int[] VC; //vector clock (of size hosts.size + 1), since host ID's start at 1. Contains {0, p1, p2,..,pn} 
+    int[] VC; //vector clock (of size hosts.size + 1), since host ID's start at 1. Contains {fifo, p1, p2,..,pn} 
     //where pi is the number of delivered messages from host pi
+    int numberOfBroadcastedMessages;
     Set<String> pending; //msgs i have seen & broadcast but not delivered yet
     
     public LocalizedCausalBroadcast(Parser parser) {
@@ -33,8 +34,10 @@ public class LocalizedCausalBroadcast extends Broadcast{
         pending = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
         myCausallyAffectingHosts = parser.getProcessesAffectingMe();
         //System.out.println("myCausallyAffectingHosts: " + myCausallyAffectingHosts);
-        VC = new int[hosts.size()+1]; //Keeps track of how many msgs i have delivered from each host
-        //(there is no Host with id 0, so the first elt will not be used
+        VC = new int[hosts.size()+1]; //Keeps track of how many msgs i have delivered from every host including myself
+        //(there is no Host with id 0, so the first elt will not be used.) 
+        numberOfBroadcastedMessages = 0; //Keeps track of number of messages i have broadcast, so i can include into the dependencies
+        //of messages that i broadcast 
     }
 
     /**
@@ -46,17 +49,16 @@ public class LocalizedCausalBroadcast extends Broadcast{
         synchronized(this) {
             log.add("b " + Helper.getSeqNumFromMessageUid(msgUid)); 
             //Immediatly deliver message
-            log.add("d " + Helper.getProcIdFromMessageUid(msgUid) + " " + Helper.getSeqNumFromMessageUid(msgUid));
+            //log.add("d " + Helper.getProcIdFromMessageUid(msgUid) + " " + Helper.getSeqNumFromMessageUid(msgUid));
 
             //Encode my current vector clock into msg content and broadcast it
-            String VCm = getEncodedVCForDependencies();
+            String VCm = getEncodedVCForDependencies(); //build a VC representing the dependencies of this message
             newMsg = Helper.encodeVectorClockInMsg(VCm, msg);
+            numberOfBroadcastedMessages +=1;
             //System.out.println("Broadcasting :" + msgUid + newMsg);
-            VC[parser.myId()]++;
         }
             uniformReliableBroadcast.broadcast(msgUid, newMsg);
             
-        
         return true;
     }
     
@@ -68,12 +70,8 @@ public class LocalizedCausalBroadcast extends Broadcast{
         //probably wont have to use FIFO deliver is implement correctly with vector clocks
         //System.out.println("CausalReceived: " + rawData);
         //System.out.println("MyVectorClock :" + getEncodedVC());
-        String originalSrcId = Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData));
         //System.out.println("OgSrcID : " + originalSrcId + " myId: " + String.valueOf(parser.myId()));
         //ignore my own broadcasts
-        if(originalSrcId.equals(String.valueOf(parser.myId()))) {
-            return true;
-        };
 
         synchronized(this) {
             pending.add(rawData);
@@ -101,7 +99,6 @@ public class LocalizedCausalBroadcast extends Broadcast{
                     + " " + Helper.getSeqNumFromMessageUid(Helper.getMsgUid(rawData)));
                     String originalSrcId = Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData));
                     VC[Integer.valueOf(originalSrcId)]++;
-                    
                 }
             }
         }
@@ -110,44 +107,16 @@ public class LocalizedCausalBroadcast extends Broadcast{
     }
 
     /**
-     * Implements deliver criteria for standard causal broadcast
-     * @param rawData
-     * @return
-     */
-    private boolean canDeliverCausalBroadcast(String rawData) {
-        boolean canDeliver = true;
-        int[] VCmsg = decodeVC(rawData);
-
-        for(int i = 1; i < hosts.size()+1; i ++){ //(start with i = 1 because index 0 is not used since hostID's start at 1)
-            if(VC[i] < VCmsg[i]) {canDeliver = false;};
-        }
-
-        return canDeliver;
-    }
-
-    /**
      * Implements deliver criteria for Localized Causal Broadcast
      * @return
      */
-    private boolean canDeliverForLocalizedCausalBroadcast(String rawData){
+    private boolean canDeliverCausalBroadcast(String rawData){
         boolean canDeliver = true;
         int[] VCmsg = decodeVC(rawData);
-        String originalSrcId = Helper.getProcIdFromMessageUid(Helper.getMsgUid(rawData));
-        int originalSrcIdInt = Integer.valueOf(originalSrcId);
-        //if i am causally affected by src host then check all the vector clocks
-  
-        if(myCausallyAffectingHosts!= null && myCausallyAffectingHosts.contains(originalSrcId)) {
-            //System.out.println("im causally affected by this host for raw data " + rawData);
-            for(int i = 1; i < hosts.size()+1; i ++){ //(start with i = 1 because index 0 is not used since hostID's start at 1)
-                if(VC[i] < VCmsg[i]) {canDeliver = false;};
-            }
-        } 
-        //if i am not causally effected by the src host of the msg then only need to check VC[originalSenderId]
-        //to insure FIFO ordering
-        else if(VC[originalSrcIdInt] < VCmsg[originalSrcIdInt]) {
-            canDeliver = false;
+        //Check that i statisfy the messages dependencies
+        for(int i = 1; i < hosts.size()+1; i ++){ //(start with i = 1 because index 0 is not used since hostID's start at 1)
+            if(VC[i] < VCmsg[i]) {canDeliver = false;};
         }
-        
 
         return canDeliver;
 
@@ -167,17 +136,23 @@ public class LocalizedCausalBroadcast extends Broadcast{
         VCBuilder.append("[");
         //always dependent on myself(this ensure FIFO ordering)
         for(int i = 0; i < hosts.size(); i++) {
-            if(myCausallyAffectingHosts.contains(String.valueOf(i)) || i == parser.myId()){
+            if(myCausallyAffectingHosts.contains(String.valueOf(i))){
                 VCBuilder.append( String.valueOf(VC[i]) + ",");
-            } else {
+            } else if(i == parser.myId()) {
+                VCBuilder.append( String.valueOf(numberOfBroadcastedMessages) + ",");
+            }
+            else {
                 VCBuilder.append("0" + ",");
             }
             
         }
         int i = hosts.size();
-        if(myCausallyAffectingHosts.contains(String.valueOf(i)) || i == parser.myId()){
+        if(myCausallyAffectingHosts.contains(String.valueOf(i))){
             VCBuilder.append(String.valueOf(VC[i]));
-        } else {
+        } else if(i == parser.myId()) {
+            VCBuilder.append( String.valueOf(numberOfBroadcastedMessages));
+        }
+        else {
             VCBuilder.append("0");
         }
         VCBuilder.append("]");
