@@ -67,13 +67,11 @@ public class LocalizedCausalBroadcast extends Broadcast{
      * Lcausal deliver
      */
     public boolean deliver(String rawData) throws IOException {
-        //probably wont have to use FIFO deliver is implement correctly with vector clocks
-        //System.out.println("CausalReceived: " + rawData);
-        //System.out.println("MyVectorClock :" + getEncodedVC());
-        //System.out.println("OgSrcID : " + originalSrcId + " myId: " + String.valueOf(parser.myId()));
-        //ignore my own broadcasts
+      
 
         synchronized(this) {
+            //System.out.println("CausalReceived: " + rawData);
+            //System.out.println("MyVectorClock :" + getEncodedVC());
             pending.add(rawData);
             deliverPending();
         }

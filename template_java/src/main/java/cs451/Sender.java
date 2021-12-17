@@ -32,19 +32,11 @@ public class Sender extends Thread {
                 String msg_uid = Helper.createUniqueMsgUid(Integer.toString(parser.myId()), Integer.toString(i));
                 try {
                     broadcastProtocol.broadcast(msg_uid, String.valueOf(i));
-                    //Thread.sleep(rand.nextInt(50)); for testing purposes
+                    //Thread.sleep(rand.nextInt(50)); //for testing purposes
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 } 
-
-                /*System.out.println("sender finished status: " + broadcastProtocol.finished());
-                while(!broadcastProtocol.finished()){ 
-                    try {
-                        int sleepTime = 10;
-                        Thread.sleep(sleepTime);
-                    } catch (InterruptedException e) {}
-                }*/
             }
         }
     }
