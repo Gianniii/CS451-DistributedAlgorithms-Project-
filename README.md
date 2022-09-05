@@ -1,7 +1,23 @@
 # Distributed Algorithms 2021/22 - EPFL
 
+## Description
+In this project we were tasked with implementing some famous distributed algorithms by using udp and simulating a potentially large number of hosts communicating between eachother.
+Below in the `Project Handout` section you will find the provided project description detailing what algorithms we had to implement and how they must behave.
 
-# Overview
+I chose code the algorithms in Java, thus my implementations can be found in the `template_java/src/main/java/cs451/` folder.
+
+## Code structure
+- `template_java/src/main/java/cs451/`: contains all the code implementing the distributed algorithms
+- `tools`: contains some provided to help testing the algorithms
+- `examples`: contains some output examples for given input to help us understand how the algorithms should behave
+- `template_cpp`: contains some provided code for those who decided to do the project in C.
+- `VM.txt`: instructions on how to install the VM we were recomended to use for the project
+
+## 🛠 Skills
+Java, multi-threading, distributed-algorithms, basic socket programming, parallelism.
+
+# Project Handout
+## Overview 
 The goal of this practical project is to implement certain building blocks necessary for a decentralized system. To this end, some underlying abstractions will be used:
 
   - Perfect Links (submission #0),
@@ -14,9 +30,9 @@ Various applications (e.g., a payment system) can be built upon these lower-leve
 
 The implementation must take into account that **messages** exchanged between processes **may be dropped, delayed or reordered by the network**. The execution of processes may be paused for an arbitrary amount of time and resumed later. Processes may also fail by crashing at arbitrary points of their execution.
 
-# Project Requirements
+## Project Requirements
 
-## Basics
+### Basics
 In order to have a fair comparison among implementations, as well as provide support to students, the project must be developed using the following tools:
 
 *Allowed programming language*:
@@ -36,10 +52,10 @@ Inter-process point-to-point messages (at the low level) must be carried exclusi
 
 The application messages (i.e., those broadcast by processes) are numbered sequentially at each process, starting from `1`. Thus, each process broadcasts messages `1` to `m`. By default, the payload carried by an application message is only the sequence number of that message. Though the payload is known in advance, your implementation should not utilize this information. In other words, your implementation should be agnostic to the contents of the payload. For example, your implementation should work correctly if the payload is arbitrary text instead of sequential numbers. In addition, your implementation should not rely on the fact that the total number of messages (to be broadcast) is known in advance, i.e., your implementation should work correctly if the number of messages is infinite.
 
-## Template structure
+### Template structure
 We provide you a template for both C/C++ and Java, which you should use in your project. The template has a certain structure that is explained below:
 
-### For C/C++:
+#### For C/C++:
 ```bash
 .
 ├── bin
@@ -67,7 +83,7 @@ The template already includes some source code under `src`, that will help you w
 
 Finally, **your executable should not create/use directories named "deploy" and/or "logs"** in the current working directory. These directories are reserved for evaluation!
 
-### For Java:
+#### For Java:
 ```sh
 .
 ├── bin
@@ -88,7 +104,7 @@ Finally, **your executable should not create/use directories named "deploy" and/
 ```
 The restrictions for the C/C++ template also apply here. The difference is that you are only allowed to place your source code under `src/main/java/cs451`.
 
-## Interface
+### Interface
 The templates provided come with a command line interface (CLI) that you should use in your deliverables. The implementation for the CLI is given to you for convenience. It is only for guidance, and you should not consider it complete by any means. You are encouraged to make any modifications to it, as long as it complies to the specification. You are also encouraged to test your code with different test cases and to stress test its performance in whatever way suits you.
 
 The supported arguments are:
@@ -129,7 +145,7 @@ A process that receives a `SIGTERM` or `SIGINT` signal must immediately stop its
 
 **Note:** The most straight-forward way of logging the output is to append a line to the output file on every broadcast or delivery event. However, this may harm the performance of the implementation. You might consider more sophisticated logging approaches, such as storing all logs in memory and write them to a file only when the `SIGINT` or `SIGTERM` signal is received. Also note that even a crashed process needs to output the sequence of events that occurred before the crash. You can assume that a process crash will be simulated only by the `SIGINT` or `SIGTERM` signals. Remember that writing to files is the only action we allow a process to do after receiving a `SIGINT` or `SIGTERM` signal.
 
-## Compilation
+### Compilation
 All submitted implementations will be tested using Ubuntu 18.04 running on a 64-bit architecture.
 These are the specific versions of toolchains where you project will be tested upon:
   - gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
@@ -144,10 +160,10 @@ You are **strongly encouraged** to test the compilation of your code in the virt
 
 **Detailed instructions for submitting your project will be released soon.**
 
-## Execution
+### Execution
 We define several details for each algorithms below.
 
-### Perfect Links application
+#### Perfect Links application
   - The `CONFIG` command-line argument for this algorithm consists of a file that contains two integers `m i` in its first line. `m` defines how many messages each process should send. `i` is the index of the process that should receive the messages.
   Note that all processes, apart from `i`, send `m` messages each to process `i`.
   - Even though messages are not being broadcast, processes that send messages log them using the format `b`*`seq_nr`*.
@@ -244,12 +260,12 @@ we set the execution limit at 25 minutes.
 
 Implementations that do not broadcast and do not deliver all messages within 25 minutes are considered incorrect.
 
-## Cooperation
+### Cooperation
 This project is meant to be completed individually. Copying from others is prohibited. You are free (and encouraged) to discuss the projects with others, but the submitted source code must be the exclusive work yours. Multiple copies of the same code will be disregarded without investigating which is the "original" and which is the "copy". Furthermore, please give appropriate credit to pieces of code you found online (e.g. in stackoverflow).
 
 *Note*: code similarity tools will be used to check copying.
 
-## Grading
+### Grading
 This project accounts for 30% of the final grade and comprises three submissions:
   - A runnable application implementing Perfect Links (10%),
   - A runnable application implementing FIFO Broadcast (40%), and
@@ -260,7 +276,7 @@ Note that these submissions are *incremental*. This means that your work towards
 First, if your submission does not compile or invalid, e.g., produces empty output files, it will NOT be graded.
 If your submission passes the initial validation, we will evaluate it based on two criteria: correctness and performance. We prioritize correctness: a correct implementation (i.e., that passes all the test cases) will receive (at least) a score of 4-out-of-6. The rest 2-out-of-6 is given based on the perfomance of your implementation compared to the perfomance of the implemantions submitted by your colleagues. The fastest correct implementation will receive a perfect score (6). Incorrect implementations receive a score below 4, depending on the number of tests they fail to pass.
 
-# FAQ
+## FAQ
 **1. Will I lose points if my code is not modular?**
 
 Yes. We require modular code.
